@@ -1,7 +1,7 @@
 <?php
 
 ob_start();
- 
+ var_dump($session);
 
  
 
@@ -374,12 +374,26 @@ ob_start();
 		    	</div>
 	    </fieldset>
 	  	<!-- champ caché pour passer la valeur du domaine => compta pour validation par compta-->
-	  	<input type="hidden" class="form-control" id="domaine" name="domaine" value="compta"    >  
+	  	<input type="hidden" class="form-control" id="domaine" name="domaine" value="<?php  echo $session;?>"    >  
 	  	<input type="hidden" class="form-control" id="idUpdate" name="idUpdate"  value ="<?php  echo $UnFournisseur["ID"];?>"  >  
 
 	  	
-		 <a href="" onclick="return(confirm('Confirmer la mise à jour'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-3 col-sm-6" value="Valider"/>
+		 <a href="" onclick="<?php 
+		 	if($session=='achats')
+		 {?> 
+		 	return(confirm('Confirmer la mise à jour ?'))
+		 <?php } 
+		 elseif($session=='compta')
+		 {?> 
+		 	return(confirm('Envoyer vers Movex ?')) 
+		 <?php } ?>
+		 
+		 ;">   
+			<INPUT TYPE="submit" class="btn btn-info col-sm-5" value="Valider" name="Valider"/>
+		 </a>
+
+		 <a href="" onclick="return(confirm('Mettre à jour et mettre en attente ?'));">   
+			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="Attente" value="Mettre en attente"/>
 		 </a>
 	   
 	  
