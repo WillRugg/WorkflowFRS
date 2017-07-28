@@ -1,0 +1,28 @@
+/*====================================*/
+/* -----------DEBUT : General --------*/
+/*====================================*/
+ 
+ 
+body table th {
+    font : 10px Verdana, Tahoma, Geneva, sans-serif ; 
+	text-align:center;
+}
+ 
+body table td {
+    font : 9px Verdana, Tahoma, Geneva, sans-serif ; 
+   }
+   
+body option {
+    font : 9px Verdana, Tahoma, Geneva, sans-serif ; 
+   }
+   
+  
+body a{
+  text-decoration:none;
+}
+
+.filtrer{
+    font : 10px Verdana, Tahoma, Geneva, sans-serif ; 
+}
+
+
