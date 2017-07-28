@@ -10,11 +10,12 @@
 	 	
 	 	</div>
 
-	 	<div class="col-sm-4 col-sm-offset-8">
-	 		<a href="http://mataiva/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
-	 			<input type="submit" class="btn btn-success" value="Recherche Fournisseur M3" name="Recherche Fournisseur M3"> 
-	 		</a>
+	 	<div class="col-md-4 col-md-offset-8">
 	 		<a href="<?php echo $this->link('Connecte','');?>"><input type="submit" class="btn btn-info " value="Espace Validateurs" name="Espace Validateurs"></a>
+	 		<a href="http://mataiva/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
+	 			<input type="submit" class="btn btn-warning" value="Recherche Fournisseur M3" name="Recherche Fournisseur M3"> 
+	 		</a>
+	 		
 	 	</div> 
 	</div>
 </div>
