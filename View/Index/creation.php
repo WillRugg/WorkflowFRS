@@ -241,33 +241,34 @@ ob_start();
     	<fieldset class="col-sm-12 control-label thumbnail">
 	 	<div class="col-sm-12">
 	   		<legend class="scheduler-border">Type de produits</legend>	
-	   	   	<div class="col-sm-4">
+	   	   	<div class="col-sm-offset-4 col-sm-4">
 	     		<select name="typeProduit"  class="form-control " id="typeProduit" > 
-			   		<option value = "">Sélectionner une valeur</option>
+			   		<option value = "">Biens ? Services ? Sans TVA ?</option>
 			   		<option value = "Bien"> Biens</option>
 			   		<option value = "Serv"> Service  </option>
 			   		<option value = "Stva"> Sans TVA (ex: auto entrepreneur) </option>
  		   	   	</select>  		
-
 	     	</div>
+	     	<div class="col-sm-12">&nbsp;</div>
 			<div class="col-sm-12">
-		   		<div class="form-group  col-sm-4">
+		   		<div class="form-group  col-sm-4" style="text-align: center;">
 		   			<label for="formGroupExampleInput2"> Règles Groupe standard </label>	
 				</div>
-				<div class=" col-sm-4">
+				<div class="form-group col-sm-offset-4 col-sm-4" style="text-align: center;">
 		     	 	<label for="form-group formGroupExampleInput2" >  Hors Règles Groupe </label>	
 	    		</div>
 	    	</div>
-	    		<div class="col-sm-offset-2 col-sm-8" >
+	    		<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
 	    			<label for="formGroupExampleInput2" >Mode règlement  </label>
 	    		</div>
+	    		<div class="col-sm-12">&nbsp;</div>
 	    		<div class="col-sm-12">
 	        		<div class="form-group col-sm-4">     
 		    		    <input type="text"  class="form-control" id="reglementGroupe"  name="reglementGroupe"  value='BOR'  readonly> 
 		    		</div>  
-		    		  <div class="col-sm-6"> 
+		    		  <div class="col-sm-offset-4 col-sm-4"> 
 				   		<select name="modeReglementHG"  class="form-control " id="modeReglementHG" > 
-				   		<option value = "">Sélectionner une valeur</option>
+				   		<option value = "">Sélectionner un mode de règlement</option>
 						<?php
 						foreach ($modeReglement as $unModeReglement) {
 						?>
@@ -279,16 +280,18 @@ ob_start();
 		   		    	</select>
 		   		    </div>
 				</div>	 
-				<div class="col-sm-offset-2 col-sm-8" >
+				<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
 					<label for="formGroupExampleInput2" >Délai de règlement  </label> 
 				</div>
+				<p class="col-sm-12" style="text-align: right;"><i> * Accord nécéssaire du DAF si mode de règlement non standard(Traite à 45JFDM) </i></p>
+			
 				<div class="col-sm-12">
 					<div class="form-group col-sm-4"> 
 		   		   		<input type="text"  class="form-control" id="conditionReglementG" value="45F"  name="conditionReglementG" placeholder="45 Jour Fin de Mois" readonly> 
 		   		   	</div>  
-		    	     <div class="col-sm-6"> 
+		    	     <div class="col-sm-offset-4 col-sm-4"> 
 				   		<select name="conditionReglementHG"  class="form-control " id="conditionReglementHG" > 
-				   		<option value="">Sélectionner une valeur</option>
+				   		<option value="">Sélectionner une condition de règlement</option>
 						<?php
 						foreach ($conditionReglement as $uneConditionReglement) {
 						?>
@@ -300,22 +303,23 @@ ob_start();
 		   		    	</select>
 		   		    </div>
 		   		</div>
-		   		<div class="col-sm-offset-2 col-sm-8" >
+		   		<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
 		   			<label for="formGroupExampleInput2" >Devise</label>	
 		   		</div>
+		   		<div class="col-sm-12">&nbsp;</div>
 		   		<div class="col-sm-12">	 
 			   		 <div class="col-sm-4">
 		   		 		<select name="devise"  class="form-control " id="devise" > 
-		   		 			<option value="">Sélectionner une valeur</option>
+		   		 			<option value="">Sélectionner une devise</option>
 							<option value="EUR"> EUR - EURO</option>
 							<option value="GBP"> GBP - LIVRE </option>
 							<option value="USD"> USD - DOLLARD </option>
 						</select>
 				 	</div>
-				 	<div class="form-group col-sm-8">
-					 	<div class="col-sm-6">
+				 	<div class="form-group col-sm-offset-4 col-sm-4">
+					 	<div class="">
 					 		<select name="deviseHG"  class="form-control " id="deviseHG" > 
-					 		<option value="">Sélectionner une valeur</option>
+					 		<option value="">Sélectionner une devise hors groupe</option>
 							<?php
 							 
 							foreach ($devise as $uneDevise) {
@@ -328,8 +332,8 @@ ob_start();
 			   		     </div>
 	    	 		 </div>
 		    		<div class="form-group col-sm-12">	
-		    		   	<p class="col-sm-4"> * Joindre un RIB pour les fornisseurs étrangers  </p>	
-		    		    <p class="col-sm-8"> * Accord nécéssaire du DAF si mode de règlement non standard(Traite à 45JFDM) </p>	
+		    		   	<p class="col-sm-4"><i> * Joindre un RIB pour les fornisseurs étrangers  </i></p>	
+		    		   	
 		    		</div>	
 		   		</div>
 		     	 
@@ -346,7 +350,7 @@ ob_start();
 			    </div>	
 		   		<div class="form-group col-sm-4">
 		   			<select name="iso"  class="form-control " id="iso" > 
-		   		 			<option value ="">Sélectionner une valeur</option>
+		   		 			<option value ="">ISO ?</option>
 							<option value="oui"> ISO </option>
 							<option value="non"> Pas ISO </option>
 						</select>		     		   
@@ -354,18 +358,18 @@ ob_start();
 		     	</div>   
 		  	 	<div class="form-group  col-sm-12">
 			  	 	<div class="col-sm-12">	
-				   		<div class="form-group col-sm-6">
+				   		<div class="form-group col-sm-4" style="text-align: center;">
 				   			<label for="formGroupExampleInput2"> Joindre Bilan </label>	
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
 				     	 	<label for="formGroupExampleInput2" >  Joindre Kbis </label>	
 				    	</div>
 	    			</div>
 	    			<div class="col-sm-12">	
-				  	 	<div class="form-group col-sm-6">
+				  	 	<div class="form-group col-sm-4">
 			  	 	   		<input class="form-control" type="file" id="bilan" name='bilan'    >  
 				  	 	</div>
-				  	 	<div class="form-group col-sm-6">
+				  	 	<div class="form-group col-sm-offset-4 col-sm-4">
 				  	 		<input class="form-control" type="file" id="kbis" name='kbis'    >  
 						</div>
 					</div>

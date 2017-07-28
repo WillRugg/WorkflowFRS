@@ -272,9 +272,20 @@ public function createFiche($post,$files) {
 
 	public function updateFiche($post,$files,$get) {
 
-		var_dump($post);
-		$erreurs = array();
 
+		$erreurs = array();
+		$domaineSuivant = null;
+
+		if(isset($post['Valider'])){
+					if($post['domaine']=='achats')
+					{$domaineSuivant = 'compta';}
+					elseif ($post['domaine']=='compta') {
+						$domaineSuivant = 'Movex';
+					}
+				}
+				elseif (isset($post['Attente'])) {
+					$domaineSuivant = $post['domaine'] ;
+				}
 		// nom obligatoire
 		
 
@@ -348,7 +359,7 @@ public function createFiche($post,$files) {
 								$post['ca'],
 								$post['nbreEmployes'],
 								$post['iso'],
-								$post['domaine'],
+								$domaineSuivant,
 								$get['id']));
 	
 

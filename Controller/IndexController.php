@@ -79,11 +79,13 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
 		$session = $_SESSION['ident'];
+		
+
 		// liste déroulante catégorie
 		require_once('Model/SqlModel.php');
 
 		require_once('Model/Db2Model.php');
-
+	
 		$SqlModel = new SqlModel();
 		
 		$UnFournisseur = $SqlModel->getInfos($this->get['id']);
@@ -129,11 +131,18 @@ class IndexController extends Controller {
 		 	
 			if($this->post) {
 				$post = $this->post;
-				$files =$this->files;	
+				$files =$this->files;
+
+				
+					
 							
 				
 				$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->updateFiche($post,$files,$get);
+
+				
+
+				
 
 				 if (is_array($result)) {
 					$erreurs = $result;
