@@ -358,21 +358,14 @@ ob_start();
 		     	</div>   
 		  	 	<div class="form-group  col-sm-12">
 			  	 	<div class="col-sm-12">	
-				   		<div class="form-group col-sm-4" style="text-align: center;">
-				   			<label for="formGroupExampleInput2"> Joindre Bilan </label>	
+				   		<div class="form-group col-sm-4">
+							<label class="control-label"> Joindre Bilan </label>
+							<input id="bilan" name="bilan" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>
-						<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
-				     	 	<label for="formGroupExampleInput2" >  Joindre Kbis </label>	
-				    	</div>
-	    			</div>
-	    			<div class="col-sm-12">	
-				  	 	<div class="form-group col-sm-4">
-			  	 	   		<input class="form-control" type="file" id="bilan" name='bilan'    >  
-				  	 	</div>
-				  	 	<div class="form-group col-sm-offset-4 col-sm-4">
-				  	 		<input class="form-control" type="file" id="kbis" name='kbis'    >  
+						<div class="form-group col-sm-4 col-sm-offset-4">
+							<label class="control-label"> Joindre kbis </label>
+							<input id="kbis" name="bis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>
-					</div>
 		    	</div>
 	    </fieldset>
 	  	<!-- champ caché pour passer la valeur du domaine => achats pour validation par achats-->

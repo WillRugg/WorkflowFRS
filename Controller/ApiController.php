@@ -1,10 +1,10 @@
 <?php
 require_once('Controller/Controller.php') ;
 
-class IndexController extends Controller {
+class ApiController extends Controller {
 	
 	public function indexAction() {
-		$app_title="Article par Emplacement " ;
+		$app_title="Fournisseur TEST  " ;
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
 		
@@ -12,9 +12,9 @@ class IndexController extends Controller {
 		require_once('Model/ApiM3Model.php');
 		$apiModel = new ApiM3Model();
 				
-		$articles = $apiModel->listerArticle();
+		$frsM3 = $apiModel->testFournisseurM3();
 		 
-		require('View/Index/index.php') ; 
+		require('View/Index/testApi.php') ; 
 	}
 
 		
