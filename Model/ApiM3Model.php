@@ -3,10 +3,8 @@ require_once('Model/ApiModel.php') ;
 
 class ApiM3Model extends ApiModel {
 
-
-	public fucntio
 	
-	public function creeFournisseurM3 {
+	public function testFournisseurM3 () {
 
 		// on indique le serveur et le port	 6800:prod 26800:test
 		//$m3Api = new ApiModel('10.20.21.105',6800);
@@ -16,12 +14,32 @@ class ApiM3Model extends ApiModel {
 			// chmaps en entrée
 			$this->setField('CONO','100');
 
-			//transaction de CRS620MI à appeler (dispo MRS001)
-			if ($this->mvxAccess('List')) {	
+			//appeler la transaction de CRS620MI (dispo MRS001) par mvAccess de ApiModel
+			if ($this->mvxAccess('LstSuppliers')) {	
+				$frsM3 = array();
 
+				$i = 1;
+				while ($this->mvxMore() && $i < 10) {
+					//if ($this->getField('ALQT') > 0){ 
+					$frsM3[$i] =
+						array (	'CONO'=>$this->getField('CONO'),
+				 				'SUNO'=>$this->getField('SUNO'), 
+								'SUNM'=>$this->getField('SUNM'));
+					 $i++;
+				 
+					$this->mvxAccess();
+				} // while
 			
-			}
+					// var_dump($lart);
+				return $frsM3;
+			}	// if ($oMvx->mvxAccess
+			$this->close();
 
+		} // si open échoué
+		else 
+		{
+			echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
+	  	}
 
 	}
 
