@@ -28,9 +28,12 @@
 	 	if(isset($_SESSION['ident']))
 { ?>
 		<div style="margin-top: 1%;">
-		<a href="<?php echo $this->link($session,'accueil');?>"> <input type="submit" class="btn btn-success" value="En attente" name="Attente"> </a>
+			<a href="<?php echo $this->link($session,'accueil');?>"> <input type="submit" class="btn btn-success" value="En attente" name="Attente"> </a>
 
-	 	<a href="<?php echo $this->link('Connecte','seDeconnecte');?>"> <input type="submit" class="btn btn-danger" value="Se déconnecter" name="Deconnexion"> </a>
+		 	<a href="<?php echo $this->link('Connecte','seDeconnecte');?>"> <input type="submit" class="btn btn-danger" value="Se déconnecter" name="Deconnexion"> </a>
+	 		<a href="http://mataiva/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
+	 			<input type="submit" class="btn btn-success" value="Recherche Fournisseur M3" name="Recherche Fournisseur M3"> 
+	 		</a>
  		</div>
 
 <?php } ?>

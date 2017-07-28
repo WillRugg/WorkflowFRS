@@ -12,7 +12,7 @@ class IndexController extends Controller {
 		require_once('Model/ApiM3Model.php');
 		$apiModel = new ApiM3Model();
 				
-		$articles = $apiModel->listerArticle();
+		$articles = $apiModel->listerfrs();
 		 
 		require('View/Index/index.php') ; 
 	}
