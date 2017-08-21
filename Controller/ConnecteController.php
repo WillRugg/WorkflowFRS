@@ -31,8 +31,6 @@ class ConnecteController extends Controller {
 			if ($boolConf['idConnecte']) {
 				$this->authModule->seConnecte($this->post["ident"]); 
 				if($this->post["ident"]=='achats'){
-					$_SESSION['login'] = 'Dupond';
-					 $_SESSION['appel_auth']['environnement'] = 'tata';
 					 $_SESSION['pass']  = $this->post["password"];
 					 $_SESSION['ident'] = $this->post["ident"];
 					 

@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<title><?php echo  $app_title?> - Comeca </title>
-		<meta charset="utf-8" />
+		<meta charset="utf-8 " />
 		<!-- pour etre trouvé sur google -->
 		<meta name="descriptif" content="comeca" <?php echo  $app_desc?> />
 		<meta name="Author" content="nadine noyer">

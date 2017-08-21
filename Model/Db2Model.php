@@ -3,6 +3,13 @@ require_once('Model/Model.php') ;
 
 class Db2Model extends Model{
 
+	public function AfficheFournisseursExistants(){
+	$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN M3EDBPROD.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
+	$stmt = $this->pdo->query($query);
+				 
+	return $stmt->fetchAll();
+
+	}
 
 	public function listerEntite() {
 			

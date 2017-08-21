@@ -3,6 +3,16 @@ require_once('Model/Model.php') ;
 
 class SqlModel extends Model{
 
+public function recupChamps(){
+	
+	$query = "SELECT * FROM `champs`";
+    $stmt = $this->pdoSql->query($query);
+
+    return $stmt->fetchAll();
+	
+}
+
+
 public function connecter($post) {
        $erreurs = array();
        // identifiant obligatoire

@@ -32,7 +32,6 @@ define('PDOS_PASSWORD','');
 
 // démarrer la Session pour se connecter
 
-
 // on récupere la valeur de --$_GET[''] et $_POST[]--
 $request_files = $_FILES;
 $request_get = $_GET;

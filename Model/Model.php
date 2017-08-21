@@ -23,6 +23,8 @@ Class Model {
 			echo 'la Connexion à ODBC de SQL a échouée : ' . $e->getMessage();
 		}
 		//$this->pdo->exec('SET NAMES "utf8"');
+
+		
 	}
 	 
 } 

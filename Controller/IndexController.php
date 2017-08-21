@@ -185,6 +185,73 @@ class IndexController extends Controller {
 	echo json_encode($json);			 
 	}
 	
+
+	public function creeFournisseursbisAction() {
+		$app_title="Créer Fournisseurs " ;
+		$app_desc="Comeca" ;
+		$app_body="body_Index" ;
+		 
+		
+		// require_once('Model/Db2Model.php');
+		require('Model/SqlModel.php');
+
+		$initChamps = new SqlModel();
+		$listeDesChamps = $initChamps->recupChamps();
+
+
+
+		 // $listeModel = new Db2Model($this->getBiblio());
+		 // $ListeFournisseurs = $listeModel->AfficheFournisseursExistants();
+
+
+		// 	// lister divi
+		// 	$entiteModel = new Db2Model($this->getBiblio()); 
+		// 	$entite = $entiteModel->listerEntite();
+
+		// 	$today = date("Ymd");
+			
+		// 	// lister groupeFournisseur
+		 
+		// 	$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
+		// 	$groupeFournisseur = $groupeFournisseurModel->listerSUCL();
+			
+		// 	// lister Conditions livraisons Groupe
+			 
+		// 	$conditionsLivraisonsHorsGroupeModel = new Db2Model($this->getBiblio()); 
+		// 	$condition = $conditionsLivraisonsHorsGroupeModel->listerTEDL();
+			
+		// 	// lister Mode de règlement
+		// 	$modeReglementModel = new Db2Model($this->getBiblio()); 
+		// 	$modeReglement = $modeReglementModel->listerPYME();
+
+		// 	// lister Conditions de règlement
+		// 	$conditionReglementModel = new Db2Model($this->getBiblio()); 
+		// 	$conditionReglement = $conditionReglementModel->listerTEPY();
+		 
+
+		// 	// lister devise
+		// 	$deviseModel = new Db2Model($this->getBiblio()); 
+		// 	$devise = $deviseModel->listerCUCD();
+
+		// 	// lister devise
+		// 	$paysModel = new Db2Model($this->getBiblio()); 
+		// 	$pays = $paysModel->listerCSCD();
+		 	
+		//  	// gestion des erreurs
+		// 	$erreurs = array();
+		 
+		// if($this->post) {
+			
+		// 	$post = $this->post;
+		// 	$files =$this->files;			
+			
+		// 	$FicheFournisseurModel = new SqlModel(); 
+		// 	$result = $FicheFournisseurModel->createFiche($post,$files);
+		// }
+
+		require('View/Index/creationbis.php') ; 
+	}
+
 	
 	
 }
