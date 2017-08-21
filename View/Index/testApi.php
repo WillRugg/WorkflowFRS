@@ -18,10 +18,8 @@ ob_start();
 			<table id="mesFournisseursM3"  class="tablesorter table table-striped table-bordered " >
 				<thead> 
 					<tr  class=".noExl"> 
-						<th>   </th>
-						<th colspan="2" style="text-align:center"> L I S T E  </th>
-						<th colspan="6" style="text-align:center"> F O U R N I S S E U R </th>
-						<th colspan="3"  style="text-align:center"> M 3 par A P I </th>
+						 
+						<th colspan="3" style="text-align:center"> L I S T E  :   F o u r n i s s e u r s   M 3  par  A P I  </th>
 				 	</tr>	
 					
 					<tr >	
