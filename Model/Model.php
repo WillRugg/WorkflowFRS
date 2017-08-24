@@ -4,6 +4,7 @@
 Class Model {
 	// proteced : accessible classe et enfants si extends
 	protected $pdo;
+	protected $pdoSql;
 	
 	protected $biblio;
 
@@ -12,8 +13,8 @@ Class Model {
 		$this->biblio = $biblio;
 		// connexion à maiao
 		try {
-			$this->pdo = new PDO(PDO_DSN,PDO_USERNAME,PDO_PASSWORD,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
-				$this->pdo->exec('SET NAMES "utf8"');
+			$this->pdo = new PDO(PDO_DSN,PDO_USERNAME,PDO_PASSWORD,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'ISO-8859-1\''));
+
 		} catch (PDOException $e) {
 			echo 'la Connexion à ODBC de DB2 a échouée : ' . $e->getMessage();
 		}
@@ -24,7 +25,7 @@ Class Model {
 			echo 'la Connexion à ODBC de SQL a échouée : ' . $e->getMessage();
 		}
 		
-
+		$this->pdo->exec('SET NAMES "utf8"');
 		
 	}
 	 

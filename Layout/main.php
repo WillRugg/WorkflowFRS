@@ -1,15 +1,18 @@
 <?php
 	$admin = false;
+
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<title><?php echo  $app_title?> - Comeca </title>
-		<meta charset="utf-8 " />
+		
 		<!-- pour etre trouvé sur google -->
 		<meta name="descriptif" content="comeca" <?php echo  $app_desc?> />
 		<meta name="Author" content="nadine noyer">
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+		
 		<!-- pour bootstrap -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">

@@ -7,7 +7,6 @@ ob_start();
 
 ?>
 <div id="container">
-	
 
 	<form method='post' enctype="multipart/form-data"> 
 
