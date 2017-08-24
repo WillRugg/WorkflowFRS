@@ -61,6 +61,7 @@ class IndexController extends Controller {
 			$erreurs = array();
 		 
 		if($this->post) {
+
 			
 			$post = $this->post;
 			$files =$this->files;			
@@ -92,67 +93,115 @@ class IndexController extends Controller {
 
 
 		// lister divi
-			$entiteModel = new Db2Model($this->getBiblio()); 
-			$entite = $entiteModel->listerEntite();
+		$entiteModel = new Db2Model($this->getBiblio()); 
+		$entite = $entiteModel->listerEntite();
 
-			$today = date("Ymd");
+		$today = date("Ymd");
 			
-			// lister groupeFournisseur
-		 
-			$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
-			$groupeFournisseur = $groupeFournisseurModel->listerSUCL();
+		// lister groupeFournisseur
+		$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
+		$groupeFournisseur = $groupeFournisseurModel->listerSUCL();
 			
-			// lister Conditions livraisons Groupe
-			 
-			$conditionsLivraisonModel = new Db2Model($this->getBiblio()); 
-			$conditionLivraison = $conditionsLivraisonModel->listerTEDL();
-			
-			// lister Mode de règlement
-			$modeReglementModel = new Db2Model($this->getBiblio()); 
-			$modeReglement = $modeReglementModel->listerPYME();
+		// lister Conditions livraisons Groupe
+		$conditionsLivraisonModel = new Db2Model($this->getBiblio()); 
+		$conditionLivraison = $conditionsLivraisonModel->listerTEDL();
+		
+		// lister Mode de règlement
+		$modeReglementModel = new Db2Model($this->getBiblio()); 
+		$modeReglement = $modeReglementModel->listerPYME();
 
-			// lister Conditions de règlement
-			$conditionReglementModel = new Db2Model($this->getBiblio()); 
-			$conditionReglement = $conditionReglementModel->listerTEPY();
-		 
+		// lister Conditions de règlement
+		$conditionReglementModel = new Db2Model($this->getBiblio()); 
+		$conditionReglement = $conditionReglementModel->listerTEPY();
+	 
 
-			// lister devise
-			$deviseModel = new Db2Model($this->getBiblio()); 
-			$devise = $deviseModel->listerCUCD();
+		// lister devise
+		$deviseModel = new Db2Model($this->getBiblio()); 
+		$devise = $deviseModel->listerCUCD();
 
-			// lister pays
-			$paysModel = new Db2Model($this->getBiblio()); 
-			$pays = $paysModel->listerCSCD();
+		// lister pays
+		$paysModel = new Db2Model($this->getBiblio()); 
+		$pays = $paysModel->listerCSCD();
 
-
-			if($this->get) {
-				$get = $this->get;	
-			}
+		if($this->get) 
+		{
+			$get = $this->get;	
+		}
 		 	
-			if($this->post) {
-				$post = $this->post;
-				$files =$this->files;
+	 	if($this->post) 
+	 	{
+		
+			$post = $this->post;
+			$files =$this->files;
 
-				
-					
-							
-				
-				$FicheFournisseurModel = new SqlModel(); 
-				$result = $FicheFournisseurModel->updateFiche($post,$files,$get);
+			$FicheFournisseurModel = new SqlModel(); 
 
-				
+			// test du niveau
+		 	$domaineSuivant = null;
 
-				
+			// si on valide
+			if(isset($post['Valider']))
+			{
+				if($post['domaine']=='achats')	
+				{
+					$domaineSuivant = 'compta';
+				}
+				elseif ($post['domaine']=='compta' ) 
+				{
+					$domaineSuivant = 'compta';
+					$testPourDomaine = 'Movex';			
 
-				 if (is_array($result)) {
-					$erreurs = $result;
-				} else {
+					if ($testPourDomaine = 'Movex') {
+
+					var_dump( 'post' , $post) ;
+					// rechercher le dernier Numéro et + 1 
+					require_once('Model/SqlModel.php');
+					$SqlModel = new SqlModel();
 					 
-				 
-					$this->redirect($session,'accueil',null);
-						 
-				 
-				}  
+					//$numero = $apiModel->rechercheDernierfrsM3($this->post,$numero);
+
+					//$numero = $dernierNumero + 1;
+
+					$numero = '08886';
+					// liste des clients 
+					require_once('Model/ApiM3Model.php');
+					$apiModel = new ApiM3Model();
+					
+					// return 
+					$resultM3 = $apiModel->creerfrsM3($this->post,$numero);
+						var_dump($resultM3) ;
+						if(isset($resultM3['succes']))
+						{
+							$domaineSuivant = 'Movex';
+
+						}
+
+
+					
+					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
+				}
+
+				}
+			}
+			elseif (isset($post['Attente'])) 
+			{
+				$domaineSuivant = $post['domaine'] ;
+			}
+
+			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant);
+
+			// Lance lors de Valider la création dans Movex 
+
+
+       		if (is_array($result)) 
+       		{
+				$erreurs = $result;
+				var_dump($resultM3); 
+			} 
+			else 
+			{
+				$this->redirect($session,'accueil',$resultM3);
+			}  
 		 
 		}
 
@@ -162,7 +211,7 @@ class IndexController extends Controller {
 	
 	
 	
-	
+	/*
 	public function updateAjaxAction () {
  
 	require_once('Model/SqlModel.php');
@@ -183,7 +232,7 @@ class IndexController extends Controller {
 		}
 		// retourne en JS 
 	echo json_encode($json);			 
-	}
+	} */
 	
 
 	public function creeFournisseursbisAction() {

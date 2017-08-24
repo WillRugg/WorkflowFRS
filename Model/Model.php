@@ -13,6 +13,7 @@ Class Model {
 		// connexion à maiao
 		try {
 			$this->pdo = new PDO(PDO_DSN,PDO_USERNAME,PDO_PASSWORD,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+				$this->pdo->exec('SET NAMES "utf8"');
 		} catch (PDOException $e) {
 			echo 'la Connexion à ODBC de DB2 a échouée : ' . $e->getMessage();
 		}
@@ -22,7 +23,7 @@ Class Model {
 		} catch (PDOException $e) {
 			echo 'la Connexion à ODBC de SQL a échouée : ' . $e->getMessage();
 		}
-		//$this->pdo->exec('SET NAMES "utf8"');
+		
 
 		
 	}

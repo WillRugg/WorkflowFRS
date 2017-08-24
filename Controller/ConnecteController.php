@@ -16,45 +16,47 @@ class ConnecteController extends Controller {
 	 
 		if($auth){
 
-		
 		// si le post est renseigné
-		} elseif ($this->post) {
+		} 
+		elseif ($this->post) 
+		{
 			// si pas connecté => créer la connexion : connecter($this->post)
 			require_once('Model/SqlModel.php');
 			$userModel = new SqlModel();
 			// retourne le resultat de la connection
 			 
 			$boolConf = $userModel->connecter($this->post) ;
+
 			// si connecté  / on passe l'identifiant
-		//	var_dump($boolConf['idConnecte']);
-			//var_dump($boolConf) ;
-			if ($boolConf['idConnecte']) {
+		  	if ($boolConf['idConnecte']) 
+		  	{
 				$this->authModule->seConnecte($this->post["ident"]); 
-				if($this->post["ident"]=='achats'){
-					 $_SESSION['pass']  = $this->post["password"];
-					 $_SESSION['ident'] = $this->post["ident"];
-					 
-									
-				$this->redirect('achats','accueil');
+				if($this->post["ident"]=='achats')
+				{
+					$_SESSION['pass']  = $this->post["password"];
+					$_SESSION['ident'] = $this->post["ident"];
+													
+					$this->redirect('achats','accueil');
 				}
-				elseif ($this->post["ident"]=='compta') {
+				elseif ($this->post["ident"]=='compta') 
+				{
 				
-				 $_SESSION['pass'] = $this->post["password"];
-				 $_SESSION['ident'] = $this->post["ident"];
-				 $this->redirect('compta','accueil');
+				 	$_SESSION['pass'] = $this->post["password"];
+					$_SESSION['ident'] = $this->post["ident"];
+					$this->redirect('compta','accueil');
 				}
 				else
 				{
-				$_SESSION['pass'] = $this->post["password"];
-				$_SESSION['ident'] = $this->post["ident"];
-				$this->redirect('admin','accueil');
+					$_SESSION['pass'] = $this->post["password"];
+					$_SESSION['ident'] = $this->post["ident"];
+					$this->redirect('admin','accueil');
 				}
 			}
 		}
 		require('View/Connecte/index.php') ;
 	}
 	
-public function seDeconnecteAction() {
+	public function seDeconnecteAction() {
 		if(!$this->authModule->estConnecte()) {
 			  $this->redirect("","creeFournisseurs");
 			  $this->authModule->seDeconnecter();

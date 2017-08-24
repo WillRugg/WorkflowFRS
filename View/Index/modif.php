@@ -13,23 +13,22 @@ https://www.w3schools.com/php/php_ajax_livesearch.asp-->
 <!-- <script type="text/javascript" src="Ressources/recupFournisseurs.js"></script> -->
 <?php 
 
-        	$bla=null;
+        $bla=null;
 
-
-			foreach ($ListeFournisseurs as $uneList) {	
+		foreach ($ListeFournisseurs as $uneList) {	
 		 	//echo '"'.$uneList['IDSUNM'].'",';
-				$bla .= '"'.$uneList['IDSUNM'].'-'.$uneList['SAADR3'].'",';
+			$bla .= '"'.$uneList['IDSUNM'].'-'.$uneList['SAADR3'].'",';
 
-			}
+		}
 		?> 
 
 <script type="text/javascript">
-$(function() {
-    var availableTags = 
-    [  <?php echo $bla ; ?> ];
-    $( "#tags" ).autocomplete({source: availableTags,minLength:2}).bind('focus', function(){ $(this).autocomplete("search"); } );
-    $('#tags').trigger("focus"); 
-});
+	$(function() {
+	    var availableTags = 
+	    [  <?php echo $bla ; ?> ];
+	    $( "#tags" ).autocomplete({source: availableTags,minLength:2}).bind('focus', function(){ $(this).autocomplete("search"); } );
+	    $('#tags').trigger("focus"); 
+	});
 </script>
   
 

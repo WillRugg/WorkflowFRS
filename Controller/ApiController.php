@@ -11,7 +11,7 @@ class ApiController extends Controller {
 		// liste des clients 
 		require_once('Model/ApiM3Model.php');
 		$apiModel = new ApiM3Model();
-				
+
 		$frsM3 = $apiModel->testFournisseurM3();
 		 
 		require('View/Index/testApi.php') ; 

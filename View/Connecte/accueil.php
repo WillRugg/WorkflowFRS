@@ -24,9 +24,31 @@ if(!isset($_SESSION['ident']))
 else
 {
 
-
 	
+
 ?>
+
+<h4> <?php  
+
+	if  (isset($this->get['succes'])) 
+		{ echo "bravo"; 
+
+
+		}
+		elseif (isset($this->get['transa'])) {
+				echo $this->get['transa'] ;				
+		}
+		else {
+			echo "echec connexion"; 
+		} 
+		
+		?>
+		
+
+
+	</h4>
+
+
 <div class='bootstrap-table' style="margin-top: 3%;" id="">
 	<div class="fixed-table-container">
 		<form method="get"> 
@@ -40,8 +62,8 @@ else
 							<th> Fonction </th>
 							<th> Date Demande </th>
 							<th> Raison Sociale </th>
-							<th> Pays </th>
-							<th> Prendre en validation </th>
+							<th> Ville</th>
+							<!--<th> Prendre en validation </th> -->
 							<?php if($_SESSION['ident']=='admin'){ ?> <th> Stade : </th> <?php } ?>
 						</tr>
 				 </thead> 
@@ -55,9 +77,9 @@ else
 				 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
 				 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
 				 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
-				 	<td class="text-center raisonSociale"><?php echo $uneListe['raisonSociale'];?></td> 
-				 	<td class="text-center Pays"><?php echo $uneListe['pays'];?></td> 
-				 	<td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td>
+				 	<td class="text-center raisonSociale"><a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>"><?php echo $uneListe['raisonSociale'];?></a></td> 
+				 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
+				 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
 				 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
 	 			 </tbody>
 
@@ -74,4 +96,8 @@ else
 
 
 }
+
+
+
+
 ?>
