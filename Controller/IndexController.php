@@ -153,7 +153,7 @@ class IndexController extends Controller {
 
 					if ($testPourDomaine = 'Movex') {
 
-					var_dump( 'post' , $post) ;
+					//var_dump( 'post' , $post) ;
 					// rechercher le dernier Numéro et + 1 
 					require_once('Model/SqlModel.php');
 					$SqlModel = new SqlModel();

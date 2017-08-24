@@ -36,7 +36,7 @@ else
 
 		}
 		elseif (isset($this->get['transa'])) {
-				echo $this->get['transa'] ;				
+				echo utf8_encode ( $this->get['transa']) ;				
 		}
 		else {
 			echo "echec connexion"; 
