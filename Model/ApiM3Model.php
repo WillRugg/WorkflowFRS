@@ -75,7 +75,7 @@ class ApiM3Model extends ApiModel {
 			$atpr =	'2';
 			$phno =	$post['telephone'];
 			$tfno =	$post['fax'];
-			$corg =	$post['siret';		  ];
+			$corg =	$post['siret'];
 			$cor2 =	$post['complement'];
 			$vrno =	$post['tvaIntra'];
 			$suty =	'0';
