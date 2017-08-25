@@ -67,6 +67,8 @@ class IndexController extends Controller {
 		 	
 
 			$etapeSuivante=null;
+			$timeUnique=null;
+			$time=null;
 			
 
 			if($this->post) {
@@ -78,20 +80,109 @@ class IndexController extends Controller {
 			 }
 			 elseif (isset($post['EnvoiFour'])) {
 			 	$etapeSuivante='fournisseur';
+			 	$time=time();
+			 	$timeUnique=md5($time);
 			 }
 			 
 				
 			
 
 			$FicheFournisseurModel = new SqlModel(); 
-			$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante);
+			$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
 			
 		}
 
 		require('View/Index/creation.php') ; 
 	}
 		
+	public function updateByFournisseurAction() {
+		$app_title="Modification Fiche";
+		$app_desc="Comeca" ;
+		$app_body="body_Index" ;
+		$session ='fournisseur';
+
+		require_once('Model/SqlModel.php');
+
+		require_once('Model/Db2Model.php');
 	
+		$SqlModel = new SqlModel();
+		
+		$UnFournisseur = $SqlModel->getInfosForFournisseur($this->get['id']);
+
+
+		// lister divi
+		$entiteModel = new Db2Model($this->getBiblio()); 
+		$entite = $entiteModel->listerEntite();
+
+		// lister groupeFournisseur
+		$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
+		$groupeFournisseur = $groupeFournisseurModel->listerSUCL();
+			
+		// lister Conditions livraisons Groupe
+		$conditionsLivraisonModel = new Db2Model($this->getBiblio()); 
+		$conditionLivraison = $conditionsLivraisonModel->listerTEDL();
+		
+		// lister Mode de règlement
+		$modeReglementModel = new Db2Model($this->getBiblio()); 
+		$modeReglement = $modeReglementModel->listerPYME();
+
+		// lister Conditions de règlement
+		$conditionReglementModel = new Db2Model($this->getBiblio()); 
+		$conditionReglement = $conditionReglementModel->listerTEPY();
+	 
+
+		// lister devise
+		$deviseModel = new Db2Model($this->getBiblio()); 
+		$devise = $deviseModel->listerCUCD();
+
+		// lister pays
+		$paysModel = new Db2Model($this->getBiblio()); 
+		$pays = $paysModel->listerCSCD();
+
+		if($this->get) 
+		{
+			$get = $this->get;	
+		}
+		 	
+	 	if($this->post) 
+	 	{
+			var_dump($this->post);
+			$post = $this->post;
+			$files =$this->files;
+
+			$FicheFournisseurModel = new SqlModel(); 
+
+			// test du niveau
+		 	
+
+			// si on valide
+			if(isset($post['Valider']))
+			{
+				$domaineSuivant = 'achats';
+			}
+
+			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+
+			// Lance lors de Valider la création dans Movex 
+
+
+       		if (is_array($result)) 
+       		{
+				$erreurs = $result;
+				
+			} 
+			else 
+			{
+				//$this->redirect($session,'accueil',$resultM3);
+			}  
+		 
+		} // if $this->post
+
+		require('View/Index/update.php') ; 
+
+
+	}
+
 	public function updateAction() {
 
 		$app_title="Modification Fiche";
