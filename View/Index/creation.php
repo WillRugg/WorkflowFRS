@@ -151,7 +151,7 @@ ob_start();
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysPaiement"  class="form-control " id="paysPaiement"  > 
-						<option value ="FR" > FR ou Sélection autre pays </option>
+						<option value ="FR" > FR par défaut ou Sélection autre pays </option>
 							<?php
 							foreach ($pays as $unPays) {
 							?>
@@ -161,20 +161,20 @@ ob_start();
 							?>
                     </select> 
                 </div>
-		 		<div class="col-sm-4">
+		 		<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
 							<option value ="" >Sélectionner une valeur</option>
 							<?php
-							foreach ($groupeFournisseur as $unGroupe) {
+							foreach ($groupeAppartenance as $unGroupeAppartenance) {
 							?>
-								<option value=<?php  echo $unGroupe["CODE"];?>><?php echo $unGroupe["CODE"].'- '.$unGroupe["TXT40"];?></option> 
+								<option value=<?php  echo $unGroupeAppartenance["CODE"];?>><?php echo $unGroupeAppartenance["CODE"].'- '.$unGroupeAppartenance["NOM"];?></option> 
 							<?php 
 							}
 							?>
                     	</select> 
 		    	</div>
-		    	<div class="col-sm-4">
+		    	<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Si autre préciser</label>
 			    	<input type="text" class="form-control" id="autreGroupeFournisseur" name="autreGroupeFournisseur"  size="20" maxlength="20" placeholder=" à préciser">
 			   	</div>
@@ -182,10 +182,23 @@ ob_start();
 		  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
 			    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
 			    			<option value ="">Sélectionner une valeur</option>
-			    			<option value ="PRODUCTION">Achats de Production</option>
-			    			<option value ="FRAISGEN">Achat de frais généraux</option>
+			    			<option value ="100">Achats de Production</option>
+			    			<option value ="200">Achat sur projet</option>
+			    			<option value ="300">Achat de frais généraux</option>
 						</select>		    	
- 
+			   	</div>
+			    <div class="col-sm-6">
+		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
+			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
+								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
+								<?php
+								foreach ($groupeFournisseur as $unGroupe) {
+								?>
+									<option value=<?php  echo $unGroupe["CODE"];?>><?php echo $unGroupe["CODE"].'- '.$unGroupe["TXT40"];?></option> 
+								<?php 
+								}
+							?>
+                    	</select>		    	
 			   	</div>
  		 </div>
 
@@ -369,7 +382,7 @@ ob_start();
 						</div>
 						<div class="form-group col-sm-4 col-sm-offset-4">
 							<label class="control-label"> Joindre kbis </label>
-							<input id="kbis" name="bis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+							<input id="kbis" name="kbis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>
 		    	</div>
 	    </fieldset>

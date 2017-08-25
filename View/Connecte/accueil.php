@@ -27,26 +27,26 @@ else
 	
 
 ?>
-
-<h4> <?php  
+	<!-- afficher les erreurs -->
+ <?php  
 
 	if  (isset($this->get['succes'])) 
-		{ echo "bravo"; 
+	{ 
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['success'].'\', \'Information !\');</SCRIPT>' ;			
+	}
 
-
-		}
-		elseif (isset($this->get['transa'])) {
-				echo $this->get['transa'] ;				
-		}
-		else {
-			echo "echec connexion"; 
-		} 
+	elseif (isset($this->get['transa'])) 
+	{
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['transa'].'\', \'Information !\');</SCRIPT>' ;				
+	}
+	elseif (isset($this->get['connexion']))
+	{
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['connexion'].'\', \'Information !\');</SCRIPT>' ;		
+	} 
 		
-		?>
+?>
 		
-
-
-	</h4>
+	
 
 
 <div class='bootstrap-table' style="margin-top: 3%;" id="">
@@ -83,7 +83,7 @@ else
 				 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
 	 			 </tbody>
 
-	<?php } ?>
+	<?php } ;?>
 				 </table>
 			 </form>
 		</div>

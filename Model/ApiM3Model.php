@@ -51,43 +51,58 @@ class ApiM3Model extends ApiModel {
 			$erreur = array();
 	  		
 			// alimenter champ en dur 
-			$cono = 100;
+			$cono = $post['entiteDemandeur'];
 			$suno = $numero;
-			$sunm = 'TEST FRS 6 WORKFLOW par API';
-			$alsu = 'FRS 6';
-			$cscd =	'FR ';
+			$sunm = $post['rsCommande'];
+			$alsu = $post['rsCommande'];
+			$cscd =	$post['paysCommande'];
 			$lncd =	'FR';
 			$dtfm =	'DMY';
 			$mepf =	41;
 			$stat =	'10';
-			$sucl =	 'S30';
+			$sucl =	$post['groupeFournisseur'];
 			$orty =	'100';
-			$tedl =	'10';
-			$modl =	'300';	
+			$edit = '/';
+			$tedl =	$post['incotermGroupe'];
+			$modl =	 '&D ';
 			$teaf =	'1';
-			$dt4d =	'1';	
+			$dt4d =	'1';
 			$dtcd =	'1';
-			$cucd =	'EUR';
+			$cucd =	$post['deviseHG'];
 			$crtp=	1;
-			$tepy =	'45F';
-			$pyme =	'BOR';			
+			$tepy =	$post['conditionReglementHG'];
+			$pyme =	$post['modeReglement'];
 			$atpr =	'2';
-			$phno =	 '06 71 78 17 56';	
-			$tfno =	 '04 75 64 86 60';	
-			$corg =	'123456789';		  
-			$cor2 =	'12345';	
-			$vrno =	'FR12346567';
+			$phno =	$post['telephone'];
+			$tfno =	$post['fax'];
+			$corg =	$post['siret';		  ];
+			$cor2 =	$post['complement'];
+			$vrno =	$post['tvaIntra'];
 			$suty =	'0';
 			$acrf =	'HG';	
 			$vtcd =	'01';
 			$txap =	'1';
-				/*
-				$ =	'ECAR','');
-				$ =	'QUCL','');
-				$ =	'TEPA','');	
-				*/
+			$hafe =	'&D';
+			$cfi1 =	'&D';
+			$cfi3 =	'&D';
+			$cfi5 =	'&';
+			$tepa ='&D';
+			$absk = '1';
+			$absm = 1;	
+			$buye = 'MOVEX';
+			$shst = 0;
+			$atpr = '2';
+			$sust = 1;
+			$susy = 2;
+			$shac = 2;
+			$tame = 1;
+			$iatp = 2;
+			$iapc = 1;
+			$iape = 1;
+			$iapf = 3;
+			
 
-				// alimenter les champs obligatoires de l'api
+			// alimenter les champs obligatoires de l'api
 			$this->setField('CONO',$cono);
 			$this->setField('SUNO',$suno);
 			$this->setField('SUNM',$sunm);
@@ -118,14 +133,24 @@ class ApiM3Model extends ApiModel {
 			$this->setField('ACRF',$acrf);	// a tester suivant pays frs
 			$this->setField('VTCD',$vtcd);  // a tester suivant pays frs
 			$this->setField('TXAP',$txap);	// a tester suivant pays frs
-				/*
-				
-				$this->setField('ECAR','');				
-				$this->setField('QUCL','');
-				$this->setField('TEPA','');	
-				
-				*/
-				
+			$this->setField('HAFE',$hafe);
+			$this->setField('CFI1',$cfi1);
+			$this->setField('CFI3',$cfi3);
+			$this->setField('CFI5',$cfi5);
+			$this->setField('TEPA',$tepa);
+			$this->setField('ABSK',$absk);	
+			$this->setField('ABSM',$absm);	
+			$this->setField('BUYE',$buye);	
+			$this->setField('SHST',$shst);	
+			$this->setField('ATPR',$atpr);	
+			$this->setField('SUST',$sust);	
+			$this->setField('SUSY',$susy);	
+			$this->setField('SHAC',$shac);	
+			$this->setField('IATP',$iatp);	
+			$this->setField('IAPC',$iapc);	
+			$this->setField('IAPE',$iape);	
+			$this->setField('IAPF',$iapf);	
+			 				 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddSupplier')) 
 			{

@@ -30,6 +30,11 @@ class IndexController extends Controller {
 
 			$today = date("Ymd");
 			
+
+			// lister groupe appartenace Fournisseur suty = 3 de cidmas
+			$groupeAppartenanceModel = new Db2Model($this->getBiblio()); 
+			$groupeAppartenance = $groupeAppartenanceModel->listerGrpAppartenance();
+			
 			// lister groupeFournisseur
 		 
 			$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
@@ -130,7 +135,7 @@ class IndexController extends Controller {
 		 	
 	 	if($this->post) 
 	 	{
-		
+			var_dump($this->post);
 			$post = $this->post;
 			$files =$this->files;
 
@@ -153,31 +158,27 @@ class IndexController extends Controller {
 
 					if ($testPourDomaine = 'Movex') {
 
-					var_dump( 'post' , $post) ;
 					// rechercher le dernier Numéro et + 1 
-					require_once('Model/SqlModel.php');
-					$SqlModel = new SqlModel();
-					 
-					//$numero = $apiModel->rechercheDernierfrsM3($this->post,$numero);
+					require_once('Model/Db2Model.php');
+					$db2Model = new Db2Model();					 
+					$numero = $db2Model->rechercheDernierFrsM3();
+					var_dump($numero);
 
-					//$numero = $dernierNumero + 1;
+					$numero++;
 
-					$numero = '08886';
 					// liste des clients 
 					require_once('Model/ApiM3Model.php');
 					$apiModel = new ApiM3Model();
 					
 					// return 
 					$resultM3 = $apiModel->creerfrsM3($this->post,$numero);
-						var_dump($resultM3) ;
+						
 						if(isset($resultM3['succes']))
 						{
 							$domaineSuivant = 'Movex';
 
 						}
-
-
-					
+				
 					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 				}
 
@@ -196,14 +197,14 @@ class IndexController extends Controller {
        		if (is_array($result)) 
        		{
 				$erreurs = $result;
-				var_dump($resultM3); 
+				
 			} 
 			else 
 			{
-				$this->redirect($session,'accueil',$resultM3);
+				//$this->redirect($session,'accueil',$resultM3);
 			}  
 		 
-		}
+		} // if $this->post
 
 		require('View/Index/update.php') ; 
 			 

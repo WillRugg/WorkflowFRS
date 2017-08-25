@@ -4,21 +4,31 @@ require_once('Model/Model.php') ;
 class Db2Model extends Model{
 
 	public function AfficheFournisseursExistants(){
-	$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN M3EDBPROD.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
-	$stmt = $this->pdo->query($query);
-				 
-	return $stmt->fetchAll();
+		$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN M3EDBPROD.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
+		$stmt = $this->pdo->query($query);
+					 
+		return $stmt->fetchAll();
 
 	}
 
+	public function rechercheDernierFrsM3() {
+	// attention changer Bib pour mise en prod 
+	$query = "SELECT max(idsuno) FROM m3edbtest.CIDMAS where idsuno between '00000' and '99999' "  ;
+		$stmt = $this->pdo->query($query);
+					 
+		return $stmt->fetchAll();
+	}
+
+	
+
 	public function listerEntite() {
 			
-	$query = "SELECT * FROM ".$this->biblio.".CMNDIV as princ
-				join   COMEDBPROD.CZNDIV as sec on princ.cccono = sec.cccono and princ.ccdivi = sec.ccdivi
-				where princ.CCCONO = '100'   order by princ.CCDIVI,princ.CCCONM";
-	$stmt = $this->pdo->query($query);
-				 
-	return $stmt->fetchAll();
+		$query = "SELECT * FROM ".$this->biblio.".CMNDIV as princ
+					join   COMEDBPROD.CZNDIV as sec on princ.cccono = sec.cccono and princ.ccdivi = sec.ccdivi
+					where princ.CCCONO = '100'   order by princ.CCDIVI,princ.CCCONM";
+		$stmt = $this->pdo->query($query);
+					 
+		return $stmt->fetchAll();
 	} 
 
 	public function listerSUCL() {
@@ -51,7 +61,7 @@ class Db2Model extends Model{
 		$stmt = $this->pdo->query($query);
 		 			 
 		return $stmt->fetchAll();
-		}
+	}
 
 	
 	public function listerCUCD() {
@@ -60,18 +70,25 @@ class Db2Model extends Model{
 		$stmt = $this->pdo->query($query);
 		 			 
 		return $stmt->fetchAll();
-		}
+	}
 
-		public function listerCSCD() {
+	public function listerCSCD() {
 	 
 		$query 	= "SELECT trim(CTSTKY) AS CODE,trim(CTTX40) AS TXT40,trim(CTTX15) AS TXT15 FROM ".$this->biblio.".CSYTAB where ctcono =100 and ctstco ='CSCD'   order by	CTTX40 "	;
 		$stmt = $this->pdo->query($query);
 		 			 
 		return $stmt->fetchAll();
-		}
-	
-	
 	}
+	
+	public function listerGrpAppartenance() {
+	 
+		$query 	= "SELECT trim(IDSUNO) AS CODE,trim(IDSUNM) AS NOM  FROM ".$this->biblio.".CIDMAS where idcono =100 and IDSUTY = 3 order by	IDSUNM "	;
+		$stmt = $this->pdo->query($query);
+		 			 
+		return $stmt->fetchAll();
+	}
+	
+}
 
 		 /*
 	
