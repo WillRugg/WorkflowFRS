@@ -109,10 +109,7 @@ ob_start();
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysCommande"  class="form-control " id="paysCommande"  > 
 						<?php
-
 						foreach ($pays as $unPays) {
-
-							
 							?>
 								<option value=<?php  echo $unPays["CODE"];?>
 									<?php if($UnFournisseur['pays']==$unPays["CODE"]) { ?> selected="selected" <?php } ?> > 
@@ -168,9 +165,9 @@ ob_start();
 				    	<?php
 							foreach ($pays as $unPays) {
 						?>
-								<option value=<?php  echo $unPays["CODE"];?>
-											<?php if($UnFournisseur['paysPaiement']==$unPays["CODE"]) { ?> selected="selected" <?php } ?> > 
-											<?php echo $unPays["CODE"].'- '.$unPays["TXT15"];?></option> 
+							<option value=<?php  echo $unPays["CODE"];?>
+								<?php if($UnFournisseur['paysPaiement']==$unPays["CODE"]) { ?> selected="selected" <?php } ?> > 
+								<?php echo $unPays["CODE"].'- '.$unPays["TXT15"];?></option> 
 						<?php 
 						}
 						?>
@@ -178,6 +175,34 @@ ob_start();
                 </div>
 		 		<div class="col-sm-4">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
+			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
+							<option value ="" >Sélectionner une valeur</option>
+							<?php
+							foreach ($groupeAppartenance as $unGroupeAppartenance) {
+							?>
+								<option value=<?php  echo $unGroupeAppartenance["CODE"];?>
+								<?php if($UnFournisseur['groupeAppartenance'] == $unGroupeAppartenance['CODE'] ) { ?> selected="selected"	<?php } ?>	>
+								<?php echo $unGroupeAppartenance["CODE"].'- '.$unGroupeAppartenance["NOM"];?></option> 
+							<?php 
+							}
+							?>
+                    	</select> 
+		    	</div>  
+		    	<div class="col-sm-4">
+		  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
+			    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
+			    			<option value=" " 
+			    				<?php  if ($UnFournisseur['natureFournisseur'] == " " ) { ?> selected="selected" <?php } ?> >Sélectionner une Nature</option>
+			    			<option value="100" 
+			    				<?php  if ($UnFournisseur['natureFournisseur'] == "100" ) { ?> selected="selected" <?php } ?> > Achats de Production </option>
+			    			<option value ="200"
+			    		 		<?php  if ($UnFournisseur['natureFournisseur'] == "200" ) { ?> selected="selected" <?php } ?> > Achat sur projet </option>
+			    		 	<option value ="300"
+			    		 		<?php  if ($UnFournisseur['natureFournisseur'] == "300" ) { ?> selected="selected" <?php } ?> >Achat de frais généraux</option>
+						</select>		    	
+		   		</div>
+		   		<div class="col-sm-4">
+			    	<label for="formGroupExampleInput2">Groupe Fournisseur</label>
 			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
 							<option value ="" >Sélectionner une valeur</option>
 							<?php
@@ -190,18 +215,7 @@ ob_start();
 							}
 							?>
                     	</select> 
-		    	</div>  
-		    	<div class="col-sm-6">
-		  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
-			    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
-			    			<option value=" " 
-			    				<?php  if ($UnFournisseur['natureFournisseur'] == " " ) { ?> selected="selected" <?php } ?> >Sélectionner une Nature</option>
-			    			<option value="PRODUCTION" 
-			    				<?php  if ($UnFournisseur['natureFournisseur'] == "PRODUCTION" ) { ?> selected="selected" <?php } ?> >Production</option>
-			    		 	<option value ="FRAISGEN"
-			    		 	<?php  if ($UnFournisseur['natureFournisseur'] == "FRAISGEN" ) { ?> selected="selected" <?php } ?> >Achat de frais généraux</option>
-						</select>		    	
-		   	</div>
+		    	</div> 
  		 </div>
 
  		</fieldset>
