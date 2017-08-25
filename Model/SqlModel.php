@@ -118,9 +118,18 @@ class SqlModel extends Model{
        
 	}  
 
+		public function getInfosForFournisseur($id) {
+     
+	    $query = "SELECT * FROM `tablefrs` where ID='".$id."' and domaineValidation='fournisseur'";
+    	$stmt = $this->pdoSql->query($query);
+
+     	return $stmt->fetch();
+       
+	}  
+
 
 	// insert du poste dans BDD
-	public function createFiche($post,$files,$etapeSuivante) {
+	public function createFiche($post,$files,$etapeSuivante,$timeUnique) {
 
 		// connexion à sqlserver
 		$updateCrea=1;
@@ -233,7 +242,8 @@ class SqlModel extends Model{
 						    iso  ,
 						    bilan ,
 						    kbis,
-						    domaineValidation
+						    domaineValidation,
+						    idEnvoi
 						 ) 
 						    VALUES (
 						    :entite,
@@ -272,7 +282,8 @@ class SqlModel extends Model{
 						    :iso  ,
 						    :bilan  ,
 						    :kbis,
-						    :domaineValidation
+						    :domaineValidation,
+						    :idEnvoi
 						    )'
 						    );
 		// ion execute le prépare
@@ -314,7 +325,8 @@ class SqlModel extends Model{
 		    'iso'=>$post['iso']  ,
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName,
-		    'domaineValidation'=>$etapeSuivante
+		    'domaineValidation'=>$etapeSuivante,
+		    'idEnvoi'=>$timeUnique
 		 	));
 			$lastID= $this->pdoSql->lastInsertId();
 
