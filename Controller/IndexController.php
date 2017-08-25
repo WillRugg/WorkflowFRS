@@ -19,7 +19,7 @@ class IndexController extends Controller {
 		$app_title="Créer Fournisseurs " ;
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
-		 
+		
 		
 		require_once('Model/Db2Model.php');
 		require('Model/SqlModel.php');
@@ -59,15 +59,27 @@ class IndexController extends Controller {
 		 	
 		 	// gestion des erreurs
 			$erreurs = array();
-		 
-		if($this->post) {
+		 	
 
+			$etapeSuivante=null;
 			
+
+			if($this->post) {
 			$post = $this->post;
 			$files =$this->files;			
 			
+			 if (isset($post['Valider'])) {
+			 	$etapeSuivante='achats';
+			 }
+			 elseif (isset($post['EnvoiFour'])) {
+			 	$etapeSuivante='fournisseur';
+			 }
+			 
+				
+			
+
 			$FicheFournisseurModel = new SqlModel(); 
-			$result = $FicheFournisseurModel->createFiche($post,$files);
+			$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante);
 			
 		}
 

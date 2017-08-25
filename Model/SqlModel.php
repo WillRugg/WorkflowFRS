@@ -120,10 +120,12 @@ class SqlModel extends Model{
 
 
 	// insert du poste dans BDD
-	public function createFiche($post,$files) {
+	public function createFiche($post,$files,$etapeSuivante) {
 
 		// connexion à sqlserver
 		$updateCrea=1;
+		//$domaineSuivant='nonRenseigne';
+
 		// 2 champs du poste pour groupe appartenance : si autre est renseigné on prend valeur de autre
 		if ($post['autreGroupeFournisseur'] != "" )
 		{
@@ -309,9 +311,8 @@ class SqlModel extends Model{
 		    'nbEmployes'=>$post['nbreEmployes']  ,
 		    'iso'=>$post['iso']  ,
 		    'bilan'=>$bilanName  ,
-		    'kbis'=>$kbisName  ,
-		    'domaineValidation'=>$post['domaine']
-
+		    'kbis'=>$kbisName,
+		    'domaineValidation'=>$etapeSuivante
 		 	));
 			$lastID= $this->pdoSql->lastInsertId();
 
@@ -320,7 +321,7 @@ class SqlModel extends Model{
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
 	
 		
-
+		
 		// on prépare l insert avec pdo (bindparam ne fonctionne pas)
 		$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
 							statut,
@@ -361,7 +362,7 @@ class SqlModel extends Model{
 						    iso  ,
 						    bilan ,
 						    kbis,
-						    domaineValidation,
+						    domaineValidation
 						 ) 
 						    VALUES (
 						    :statut,
@@ -403,8 +404,7 @@ class SqlModel extends Model{
 						    :bilan  ,
 						    :kbis,
 						    :domaineValidation
-						    )'
-						    );
+						    )');
 		// ion execute le prépare
 		$stmt->execute(array(
 			'statut'=>$updateCrea,
@@ -445,14 +445,11 @@ class SqlModel extends Model{
 		    'iso'=>$post['iso']  ,
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName  ,
-		    'domaineValidation'=>$post['domaine']
-
-		 	));
+		    'domaineValidation'=>$etapeSuivante));
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
-	
 	}
 
 	// modifier fiche

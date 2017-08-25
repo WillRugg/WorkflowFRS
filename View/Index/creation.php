@@ -374,10 +374,14 @@ ob_start();
 		    	</div>
 	    </fieldset>
 	  	<!-- champ caché pour passer la valeur du domaine => achats pour validation par achats-->
-	  	<input type="hidden" class="form-control" id="domaine" name="domaine" value="achats" placeholder="Domaine"  >  
+	  	<!-- <input type="hidden" class="form-control" id="domaine" name="domaine" value="achats" placeholder="Domaine"> -->
 
 	  	 <a href="" onclick="return(confirm('Confirmer la création de la fiche fournisseur'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-3 col-sm-6" value="Valider"/>
+			<INPUT TYPE="submit" class="btn btn-info col-sm-4" name="Valider" value="Envoyer en validation - Achats"/>
+		 </a>
+
+		 <a href="" onclick="return(confirm('Envoyer au fournisseur pout complétion'));">   
+			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-4 col-sm-4" name="EnvoiFour" value="Demander informations au fournisseur"/>
 		 </a>
 	   
 	  
