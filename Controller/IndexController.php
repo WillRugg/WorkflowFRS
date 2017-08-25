@@ -68,6 +68,7 @@ class IndexController extends Controller {
 			
 			$FicheFournisseurModel = new SqlModel(); 
 			$result = $FicheFournisseurModel->createFiche($post,$files);
+			
 		}
 
 		require('View/Index/creation.php') ; 
@@ -188,7 +189,7 @@ class IndexController extends Controller {
 				$domaineSuivant = $post['domaine'] ;
 			}
 
-			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant);
+			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
 
 			// Lance lors de Valider la création dans Movex 
 

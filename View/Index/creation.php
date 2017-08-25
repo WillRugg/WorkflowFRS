@@ -369,7 +369,7 @@ ob_start();
 						</div>
 						<div class="form-group col-sm-4 col-sm-offset-4">
 							<label class="control-label"> Joindre kbis </label>
-							<input id="kbis" name="bis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+							<input id="kbis" name="kbis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>
 		    	</div>
 	    </fieldset>
