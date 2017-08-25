@@ -262,9 +262,11 @@ ob_start();
 	   	   	<div class="col-sm-offset-4 col-sm-4">
 	     		<select name="typeProduit"  class="form-control " id="typeProduit" > 
 			   		<option value = "">Biens ? Services ? Sans TVA ?</option>
-			   		<option value = "Bien"> Biens</option>
+			   		<option value = "01"> Biens   </option>
+			   		<option value = "07"> Frais Généraux  </option>
+			   		<option value = "08"> Frais Généraux Européen  </option>
 			   		<option value = "Serv"> Service  </option>
-			   		<option value = "Stva"> Sans TVA (ex: auto entrepreneur) </option>
+			   		<option value = "00"> Sans TVA (ex: auto entrepreneur) : 00</option>
  		   	   	</select>  		
 	     	</div>
 	     	<div class="col-sm-12">&nbsp;</div>
