@@ -120,10 +120,12 @@ class SqlModel extends Model{
 
 
 	// insert du poste dans BDD
-	public function createFiche($post,$files) {
+	public function createFiche($post,$files,$etapeSuivante) {
 
 		// connexion à sqlserver
-		
+		$updateCrea=1;
+		//$domaineSuivant='nonRenseigne';
+
 		// 2 champs du poste pour groupe appartenance : si autre est renseigné on prend valeur de autre
 		if ($post['autreGroupeFournisseur'] != "" )
 		{
@@ -309,41 +311,154 @@ class SqlModel extends Model{
 		    'nbEmployes'=>$post['nbreEmployes']  ,
 		    'iso'=>$post['iso']  ,
 		    'bilan'=>$bilanName  ,
-		    'kbis'=>$kbisName  ,
-		    'domaineValidation'=>$post['domaine']
-
+		    'kbis'=>$kbisName,
+		    'domaineValidation'=>$etapeSuivante
 		 	));
+			$lastID= $this->pdoSql->lastInsertId();
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
 	
-		}
+		
+		
+		// on prépare l insert avec pdo (bindparam ne fonctionne pas)
+		$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
+							statut,
+							ID,
+		 					entite ,
+							nomDemandeur ,
+							fonction ,
+							dateDemande ,
+							raisonDemande,
+							siret ,
+							complementSiret ,
+							tva ,
+							raisonSociale, 
+    						voieRue ,
+    						codePostal , 
+    						ville ,
+    			 			pays , 
+    			 			telephone , 
+    						fax ,
+    						siteInternet,
+    						raisonSocialePaiement ,
+    						voieRuePaiement ,
+    						codePostalPaiement ,
+						    villePaiement   ,
+						    paysPaiement ,
+						    groupeAppartenance  ,
+						    natureFournisseur  ,
+						    incoterm  ,
+						    lieuVilleRegleGroupe  , 
+						    francoDePortRegleGroupe  ,
+						    motifDerogationHorsGroupe  , 
+						    BSSTypeProduit ,
+						    devise ,
+						    modeReglement,
+						    conditionReglement,
+  						    ca  ,
+						    nbEmployes  ,
+						    iso  ,
+						    bilan ,
+						    kbis,
+						    domaineValidation
+						 ) 
+						    VALUES (
+						    :statut,
+						    :lastID,
+						    :entite,
+						    :nomDemandeur ,
+							:fonction ,
+							:dateDemande ,
+							:raisonDemande,
+							:siret ,
+							:complementSiret ,
+							:tva ,
+							:raisonSociale ,
+    				 		:voieRue ,
+    				 		:codePostal ,
+    						:ville ,
+    						:pays , 
+    						:telephone , 
+    						:fax ,  
+    						:siteInternet,
+    						:raisonSocialePaiement ,
+    						:voieRuePaiement ,
+    						:codePostalPaiement ,
+						    :villePaiement   ,
+						    :paysPaiement ,
+						    :groupeAppartenance  ,
+						    :natureFournisseur  ,
+						    :incoterm  ,
+						    :lieuVilleRegleGroupe  ,
+						    :francoDePortRegleGroupe  ,
+						    :motifDerogationHorsGroupe  ,
+						    :BSSTypeProduit ,
+						    :devise ,
+						    :modeReglement,
+						    :conditionReglement,
+  					 	    :ca,
+						    :nbEmployes  ,
+						    :iso  ,
+						    :bilan  ,
+						    :kbis,
+						    :domaineValidation
+						    )');
+		// ion execute le prépare
+		$stmt->execute(array(
+			'statut'=>$updateCrea,
+			'lastID'=>$lastID,
+		 	'entite'=>$post['entiteDemandeur'],
+		 	'nomDemandeur'=>$post['nomDemandeur'],
+		  	'fonction'=>$post['fonctionDemandeur'],
+		  	'dateDemande'=>$post['dateJour'],
+		  	'raisonDemande'=>$post['raisonDemande'],
+		  	'siret'=>$post['siret'],
+		  	'complementSiret'=>$post['complement'],
+		  	'tva'=>$post['tvaIntra'],
+			'raisonSociale'=>$post['rsCommande'] ,
+			'voieRue'=>$post['rueCommande'], 
+			'codePostal'=>$post['codePostal'],
+			'ville'=>$post['villeCommande'] ,
+			'pays'=>$post['paysCommande'] , 
+			'telephone'=>$post['telephone'] , 
+			'fax'=>$post['fax'] ,  
+			'siteInternet'=>$post['site'],
+			'raisonSocialePaiement'=>$post['rsPaiement'] ,
+			'voieRuePaiement'=>$post['ruePaiement'] ,
+			'codePostalPaiement'=>$post['cpPaiement'] ,
+		    'villePaiement'=>$post['villePaiement']   ,
+		    'paysPaiement'=>$post['paysPaiement'] ,
+		    'groupeAppartenance'=>$groupeAppartenance  ,
+		    'natureFournisseur'=>$post['natureFournisseur']  ,
+		    'incoterm'=>$incoterm  ,
+		    'lieuVilleRegleGroupe'=>$post['lieu'] ,
+		    'francoDePortRegleGroupe'=>$post['montant']  ,
+		    'motifDerogationHorsGroupe'=>$post['motifDero'] ,
+		    'BSSTypeProduit'=>$post['typeProduit'] ,
+		    'devise'=>$devise ,
+		    'modeReglement'=>$modeReglement,
+		    'conditionReglement'=>$conditionReglement,
+			'ca'=>$post['ca'],
+		    'nbEmployes'=>$post['nbreEmployes']  ,
+		    'iso'=>$post['iso']  ,
+		    'bilan'=>$bilanName  ,
+		    'kbis'=>$kbisName  ,
+		    'domaineValidation'=>$etapeSuivante));
+
+		// on charge les files
+		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
+		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
+	}
 
 	// modifier fiche
-	public function updateFiche($post,$files,$get,$domaineSuivant) {
+	public function updateFiche($post,$files,$get,$domaineSuivant,$session) {
+		
 
 
+		$updateCrea=2;
 		$erreurs = array();
-		//$domaineSuivant = null;
-
-		// si on valide
-		/*
-		if(isset($post['Valider']))
-		{
-			if($post['domaine']=='achats')	
-			{
-				$domaineSuivant = 'compta';
-			}
-			elseif ($post['domaine']=='compta') {
-				$domaineSuivant = 'Movex';
-			}
-		}
-		elseif (isset($post['Attente'])) 
-		{
-			$domaineSuivant = $post['domaine'] ;
-		}
-		*/
 		$query = "UPDATE `tablefrs`
 							SET entite= ?,
 								nomDemandeur  = ?,
@@ -378,7 +493,7 @@ class SqlModel extends Model{
   						    	ca  = ?, 
 						    	nbEmployes  = ?, 
 						    	iso  = ?, 
-							    domaineValidation = ? 
+							    domaineValidation = ?
 								WHERE `ID`= ? "; 
 		$stmt =  $this->pdoSql->prepare($query);
 		$stmt->execute(array(	$post['entiteDemandeur'],
@@ -417,6 +532,134 @@ class SqlModel extends Model{
 								$domaineSuivant,
 								$get['id']));
 	
+
+			$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
+							statut,
+							ID,
+		 					entite,
+							nomDemandeur ,
+							fonction ,
+							dateDemande ,
+							raisonDemande,
+							siret ,
+							complementSiret ,
+							tva ,
+							raisonSociale, 
+    						voieRue ,
+    						codePostal , 
+    						ville ,
+    			 			pays , 
+    			 			telephone , 
+    						fax ,
+    						siteInternet,
+    						raisonSocialePaiement ,
+    						voieRuePaiement ,
+    						codePostalPaiement ,
+						    villePaiement   ,
+						    paysPaiement ,
+						    groupeAppartenance  ,
+						    natureFournisseur  ,
+						    incoterm  ,
+						    lieuVilleRegleGroupe  , 
+						    francoDePortRegleGroupe  ,
+						    motifDerogationHorsGroupe  , 
+						    BSSTypeProduit ,
+						    devise ,
+						    modeReglement,
+						    conditionReglement,
+  						    ca  ,
+						    nbEmployes  ,
+						    iso  ,
+						    domaineValidation,
+						    domaineInitial
+						 ) 
+						    VALUES (
+						    :statut,
+						    :ID,
+						    :entite,
+						    :nomDemandeur ,
+							:fonction ,
+							:dateDemande ,
+							:raisonDemande,
+							:siret ,
+							:complementSiret ,
+							:tva ,
+							:raisonSociale ,
+    				 		:voieRue ,
+    				 		:codePostal ,
+    						:ville ,
+    						:pays , 
+    						:telephone , 
+    						:fax ,  
+    						:siteInternet,
+    						:raisonSocialePaiement ,
+    						:voieRuePaiement ,
+    						:codePostalPaiement ,
+						    :villePaiement   ,
+						    :paysPaiement ,
+						    :groupeAppartenance  ,
+						    :natureFournisseur  ,
+						    :incoterm  ,
+						    :lieuVilleRegleGroupe  ,
+						    :francoDePortRegleGroupe  ,
+						    :motifDerogationHorsGroupe  ,
+						    :BSSTypeProduit ,
+						    :devise ,
+						    :modeReglement,
+						    :conditionReglement,
+  					 	    :ca,
+						    :nbEmployes  ,
+						    :iso  ,
+						    :domaineValidation,
+						    :domaineInitial
+						    )'
+						    );
+		// ion execute le prépare
+		$stmt->execute(array(
+			'statut'=>$updateCrea,
+			'ID'=>$get['id'],
+		 	'entite'=>$post['entiteDemandeur'],
+		 	'nomDemandeur'=>$post['nomDemandeur'],
+		  	'fonction'=>$post['fonctionDemandeur'],
+		  	'dateDemande'=>$post['dateJour'],
+		  	'raisonDemande'=>$post['raisonDemande'],
+		  	'siret'=>$post['siret'],
+		  	'complementSiret'=>$post['complement'],
+		  	'tva'=>$post['tvaIntra'],
+			'raisonSociale'=>$post['rsCommande'] ,
+			'voieRue'=>$post['rueCommande'], 
+			'codePostal'=>$post['codePostal'],
+			'ville'=>$post['villeCommande'] ,
+			'pays'=>$post['paysCommande'] , 
+			'telephone'=>$post['telephone'] , 
+			'fax'=>$post['fax'] ,  
+			'siteInternet'=>$post['site'],
+			'raisonSocialePaiement'=>$post['rsPaiement'] ,
+			'voieRuePaiement'=>$post['ruePaiement'] ,
+			'codePostalPaiement'=>$post['cpPaiement'] ,
+		    'villePaiement'=>$post['villePaiement']   ,
+		    'paysPaiement'=>$post['paysPaiement'] ,
+		    'groupeAppartenance'=> $post['groupeFournisseur'], 
+		    'natureFournisseur'=>$post['natureFournisseur']  ,
+		    'incoterm'=>$post['incotermGroupe']  ,
+		    'lieuVilleRegleGroupe'=>$post['lieu'] ,
+		    'francoDePortRegleGroupe'=>$post['montant']  ,
+		    'motifDerogationHorsGroupe'=>$post['motifDero'] ,
+		    'BSSTypeProduit'=>$post['typeProduit'] ,
+		    'devise'=> $post['deviseHG'],
+		    'modeReglement'=>$post['modeReglement'],
+		    'conditionReglement'=>$post['conditionReglementHG'],
+			'ca'=>$post['ca'],
+		    'nbEmployes'=>$post['nbreEmployes']  ,
+		    'iso'=>$post['iso']  ,
+		    'domaineValidation'=>$domaineSuivant,
+		    'domaineInitial'=>$session
+
+		 	));
+
+	
+
+
 
 	/*	$result= $stmt->rowCount();
 				} else {

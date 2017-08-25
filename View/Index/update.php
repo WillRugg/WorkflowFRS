@@ -222,10 +222,10 @@ ob_start();
 				   			
 						<?php
 						foreach ($conditionLivraison as $uneConditionLivraison) {
-						?>
+						?> 
 							<option value=<?php  echo $uneConditionLivraison['CODE'] ;?>
 							<?php  if ($uneConditionLivraison['CODE'] == $UnFournisseur['incoterm'] ) {?> selected="selected" <?php } ?> >
-							<?php echo $uneConditionLivraison["CODE"].'- '.$uneConditionLivraison["TXT15"];?>
+							<?php echo utf8_encode($uneConditionLivraison["CODE"]).'- '.utf8_encode($uneConditionLivraison["TXT15"]);?>
 							</option> 
 						<?php 
 						}
@@ -302,7 +302,7 @@ ob_start();
 						?>
 							<option value=<?php  echo $uneConditionReglement["CODE"];?>
 								<?php if($UnFournisseur['conditionReglement'] == $uneConditionReglement['CODE'] ) { ?> selected="selected"	<?php } ?>	>
-								<?php echo $uneConditionReglement["CODE"].'- '.$uneConditionReglement["TXT15"];?>
+								<?php echo utf8_encode($uneConditionReglement["CODE"]).'- '.utf8_encode($uneConditionReglement["TXT15"]);?>
 							</option> 
 						<?php 
 						}

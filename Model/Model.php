@@ -21,6 +21,7 @@ Class Model {
 		// connexion à sqlserver
 		try {
 			$this->pdoSql = new PDO(PDOS_DSN,PDOS_USERNAME,PDOS_PASSWORD);
+			 $this->pdoSql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo 'la Connexion à ODBC de SQL a échouée : ' . $e->getMessage();
 		}

@@ -43,6 +43,7 @@ else
 	{
 		echo '<SCRIPT language="Javascript">alert(\''.$this->get['connexion'].'\', \'Information !\');</SCRIPT>' ;		
 	} 
+
 		
 ?>
 		
@@ -52,10 +53,11 @@ else
 <div class='bootstrap-table' style="margin-top: 3%;" id="">
 	<div class="fixed-table-container">
 		<form method="get"> 
-			<table id="monGrandLivre"  class="tablesorter table table-striped table-bordered " >
+			<table id="monGrandLivre"  class=" table table-bordered table-hover" >
 				<thead> 
 					
-						<tr>
+						 <tr>
+							
 							<th> Id </th>	
 							<th> Entité</th>
 							<th> Nom du demandeur </th>
@@ -71,17 +73,29 @@ else
 				 	<?php 
 				 		 foreach ($ListeAttente as $uneListe) {	
 				 ?> 
-				 <tbody>
-				 	<td class="text-center Id"><?php echo $uneListe['ID'];?></td>
-				 	<td class="text-center Entite"><?php echo $uneListe['entite'];?></td> 
-				 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
-				 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
-				 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
-				 	<td class="text-center raisonSociale"><a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>"><?php echo $uneListe['raisonSociale'];?></a></td> 
-				 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
-				 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
-				 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
-	 			 </tbody>
+			<tbody>
+			<?php 
+			// array('id'=> )
+			$idMd5=$uneListe['ID']; ?>
+
+			<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('id'=>$idMd5));?>'>
+			 		<td class="text-center Id"><?php echo $uneListe['ID'];?></td>
+			 	<td class="text-center Entite"><?php echo $uneListe['entite'];?></td> 
+			 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
+			 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
+			 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
+			 	<td class="text-center raisonSociale"><?php echo $uneListe['raisonSociale'];?></td> 
+			 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
+			 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
+			 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
+			 </tr>
+
+				<script type="text/javascript">jQuery(document).ready(function($) {
+  				$(".clickable-row").click(function() {
+        		window.location = $(this).data("href");
+				});
+				});</script>
+ 			 </tbody>
 
 	<?php } ;?>
 				 </table>
