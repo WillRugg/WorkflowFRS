@@ -1,5 +1,5 @@
 <?php
-	
+	$session=null;
 ?>
 
 <!DOCTYPE html>

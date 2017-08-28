@@ -7,6 +7,7 @@ class ConnecteController extends Controller {
 
  	// action=index => affiche le formulaire de connexion et permettre la connexion
 	public function indexAction () {
+		$session=null;
 		$app_title="Connexion " ;
 		$app_body="Body_Connecte" ;
 		$app_desc="Comeca" ;

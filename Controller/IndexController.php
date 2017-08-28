@@ -11,9 +11,7 @@ class IndexController extends Controller {
 		
 
 		$this->redirect('','creeFournisseurs');
-
 	}
-
 
 	public function creeFournisseursAction() {
 		$app_title="Créer Fournisseurs " ;
@@ -77,29 +75,49 @@ class IndexController extends Controller {
 			
 			 if (isset($post['Valider'])) {
 			 	$etapeSuivante='achats';
+			 	$timeUnique='NA';
+			 	$FicheFournisseurModel = new SqlModel(); 
+				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
 			 }
 			 elseif (isset($post['EnvoiFour'])) {
 			 	$etapeSuivante='fournisseur';
 			 	$time=time();
 			 	$timeUnique=md5($time);
+			 	$FicheFournisseurModel = new SqlModel(); 
+				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
+				var_dump($timeUnique);
+				$resultRetrouveID = $FicheFournisseurModel->getID($timeUnique);
+				$this->redirect('','fenetreConfirmation',array('idEnvoi'=>$timeUnique,'ID'=>$resultRetrouveID['ID']));		
 			 }
 			 
 				
+			 	
 			
 
-			$FicheFournisseurModel = new SqlModel(); 
-			$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
+			// $FicheFournisseurModel = new SqlModel(); 
+			// $result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
 			
 		}
 
 		require('View/Index/creation.php') ; 
 	}
 		
+	public function fenetreConfirmationAction() {
+		$app_title="Modification Fiche";
+		$app_desc="Comeca" ;
+		$app_body="body_Index" ;
+
+		require_once('Model/Db2Model.php');
+		require('Model/SqlModel.php');
+
+		require('View/Index/demandeFournisseur.php') ; 
+	}
+
 	public function updateByFournisseurAction() {
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
-		$session ='fournisseur';
+		$session ="fournisseur";
 
 		require_once('Model/SqlModel.php');
 
@@ -107,7 +125,7 @@ class IndexController extends Controller {
 	
 		$SqlModel = new SqlModel();
 		
-		$UnFournisseur = $SqlModel->getInfosForFournisseur($this->get['id']);
+		$UnFournisseur = $SqlModel->getInfosForFournisseur($this->get['idEnvoi'],$this->get['ID']);
 
 
 		// lister divi
@@ -162,6 +180,8 @@ class IndexController extends Controller {
 			}
 
 			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+			
+			$this->redirect('','remerciements');
 
 			// Lance lors de Valider la création dans Movex 
 
@@ -179,8 +199,15 @@ class IndexController extends Controller {
 		} // if $this->post
 
 		require('View/Index/update.php') ; 
+	}
 
+	public function remerciementsAction() {
+		$app_title="Modification Fiche";
+		$app_desc="Comeca" ;
+		$app_body="body_Index" ;
+		$session = null;
 
+		require('View/Index/thanks.php') ; 
 	}
 
 	public function updateAction() {
@@ -198,7 +225,7 @@ class IndexController extends Controller {
 	
 		$SqlModel = new SqlModel();
 		
-		$UnFournisseur = $SqlModel->getInfos($this->get['id']);
+		$UnFournisseur = $SqlModel->getInfos($this->get['ID']);
 
 
 		// lister divi
@@ -291,6 +318,7 @@ class IndexController extends Controller {
 			elseif (isset($post['Attente'])) 
 			{
 				$domaineSuivant = $post['domaine'] ;
+				//$this->redirect($session,'accueil');
 			}
 
 			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
@@ -310,35 +338,8 @@ class IndexController extends Controller {
 		 
 		} // if $this->post
 
-		require('View/Index/update.php') ; 
-			 
+		require('View/Index/update.php') ; 		 
 	}
-	
-	
-	
-	/*
-	public function updateAjaxAction () {
- 
-	require_once('Model/SqlModel.php');
-
-	require_once('Model/Db2Model.php');
-
-	$frsModel = new SqlModel;
-
-		$data = array('id'=> $this->get['id']);
-		// var_dump($data);
-		// passer un array idem le formulaire 
-		$result = $frsModel->update($data);
-		// var_dump($result);
-		if($result){
-			$json = array('result'=>true);
-		}else{
-			$json = array('result'=>false);
-		}
-		// retourne en JS 
-	echo json_encode($json);			 
-	} */
-	
 
 	public function creeFournisseursbisAction() {
 		$app_title="Créer Fournisseurs " ;

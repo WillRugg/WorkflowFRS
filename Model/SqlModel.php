@@ -78,6 +78,14 @@ class SqlModel extends Model{
 
 	// fonction qui ajoute le paramètre de config avec le POST en paramètre
 	// passage du $post pour vérifier la connection
+	public function getID($timeUnique) {
+			$query = "SELECT ID FROM `tablefrs` where idEnvoi='".$timeUnique."'";
+			$stmt = $this->pdoSql->query($query);
+      		return $stmt->fetch();
+    	}
+	
+
+
 	public function AfficheEnAttente() {
 
       	if(isset($_SESSION['ident']))
@@ -118,9 +126,9 @@ class SqlModel extends Model{
        
 	}  
 
-		public function getInfosForFournisseur($id) {
+		public function getInfosForFournisseur($idEnvoi,$ID) {
      
-	    $query = "SELECT * FROM `tablefrs` where ID='".$id."' and domaineValidation='fournisseur'";
+	    $query = "SELECT * FROM `tablefrs` where idEnvoi='".$idEnvoi."' and  ID='".$ID."' and domaineValidation='fournisseur'";
     	$stmt = $this->pdoSql->query($query);
 
      	return $stmt->fetch();
@@ -269,6 +277,7 @@ class SqlModel extends Model{
 						    :paysPaiement ,
 						    :groupeAppartenance  ,
 						    :natureFournisseur  ,
+						    :groupeFournisseur  ,
 						    :incoterm  ,
 						    :lieuVilleRegleGroupe  ,
 						    :francoDePortRegleGroupe  ,
@@ -405,6 +414,7 @@ class SqlModel extends Model{
 						    :paysPaiement ,
 						    :groupeAppartenance  ,
 						    :natureFournisseur  ,
+						    :groupeFournisseur  ,
 						    :incoterm  ,
 						    :lieuVilleRegleGroupe  ,
 						    :francoDePortRegleGroupe  ,
@@ -548,7 +558,8 @@ class SqlModel extends Model{
 								$post['nbreEmployes'],
 								$post['iso'],
 								$domaineSuivant,
-								$get['id']));
+								$get['ID'],
+								));
 	
 
 			$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
@@ -637,7 +648,7 @@ class SqlModel extends Model{
 		// ion execute le prépare
 		$stmt->execute(array(
 			'statut'=>$updateCrea,
-			'ID'=>$get['id'],
+			'ID'=>$get['ID'],
 		 	'entite'=>$post['entiteDemandeur'],
 		 	'nomDemandeur'=>$post['nomDemandeur'],
 		  	'fonction'=>$post['fonctionDemandeur'],
