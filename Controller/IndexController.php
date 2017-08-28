@@ -270,7 +270,7 @@ class IndexController extends Controller {
 		 	
 	 	if($this->post) 
 	 	{
-			var_dump($this->post);
+			//var_dump($this->post);
 
 			$post = $this->post;
 			$files =$this->files;
@@ -297,26 +297,48 @@ class IndexController extends Controller {
 					// rechercher le dernier Numéro et + 1 
 					require_once('Model/Db2Model.php');
 					$db2Model = new Db2Model();					 
-					$numero = $db2Model->rechercheDernierFrsM3();
+					$derNumero = $db2Model->rechercheDernierFrsM3();
+
 					 
 
-					$numero++;
+					$numero= intval($derNumero[0])+1;
+			  		$numeroString = '0'.$numero;
+			  		var_dump($numeroString);
 
+
+			  		/*
 					// liste des clients 
 					require_once('Model/ApiM3Model.php');
 					$apiModel = new ApiM3Model();
 					
 					// return 
-					$resultM3 = $apiModel->creerfrsM3($this->post,$numero);
+					$resultM3 = $apiModel->creerfrsM3($this->post,$numeroString);
+					//$resultM3 = $apiModel->creerAdresseM3($this->post,$numero);
 						
-						if(isset($resultM3['succes']))
-						{
-							$domaineSuivant = 'Movex';
-
-						}
-				
+					if(isset($resultM3['succes']))
+					{
+						$domaineSuivant = 'Movex';
+					}
+					var_dump($resultM3);
 					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
-				}
+					} */
+					
+					// liste des clients 
+					require_once('Model/Db2Model.php');
+					$db2Model = new Db2Model();					
+					// return 
+					$resultM3 = $db2Model->creerfrsM3($this->post,$numeroString);
+					//$resultM3 = $apiModel->creerAdresseM3($this->post,$numero);
+						
+					if(isset($resultM3['succes']))
+					{
+						$domaineSuivant = 'Movex';
+
+					}
+				
+					var_dump($resultM3);
+					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
+				} 
 
 				}
 			}
@@ -338,7 +360,7 @@ class IndexController extends Controller {
 			} 
 			else 
 			{
-				$this->redirect($session,'accueil',$resultM3,$post);
+				//$this->redirect($session,'accueil',$resultM3,$post);
 			}  
 		 
 		} // if $this->post

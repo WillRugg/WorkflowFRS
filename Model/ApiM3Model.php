@@ -42,22 +42,24 @@ class ApiM3Model extends ApiModel {
 	}
 
 	
-	public function creerfrsM3($post,$numero) {
+	public function creerfrsM3($post,$numeroString) {
 
 	 	// connexion réussi	
-		if ($this->open('API','API',"CRS620MI")) {
+		if ($this->open('DSINADNOY','M92e93j94',"CRS620MI")) {
 	
+			//var_dump($numero);
+			
 			
 			$erreur = array();
 	  		
 			// alimenter champ en dur ===> ne fonctionne pas avec le poste
-	/*		$suty =	0;
-			$cono = 100;
-			$suno = $numero;
+ 			$suty = $this->writeInt(0);
+ 		//	$cono = 100;
+			$suno = $numeroString;
 			$sunm = $post['rsCommande'];
 			$alsu = $post['rsCommande'];
 			$cscd =	$post['paysCommande'];
-			$lncd =	'FR';
+			$lncd =	'FR ';
 			$dtfm =	'DMY';
 			$mepf =	41;
 			$stat =	'10';
@@ -69,7 +71,7 @@ class ApiM3Model extends ApiModel {
 			$modl =	 '&D ';
 			$teaf =	'1';
 			$dt4d =	'1';
-			$dtcd =	'1';
+			$dtcd =	'1';  
 			$cucd =	$post['deviseHG'];
 			$crtp=	1;
 			$tepy =	$post['conditionReglementHG'];
@@ -83,15 +85,15 @@ class ApiM3Model extends ApiModel {
 			$acrf =	'HG';	
 			$vtcd =	'01';
 			$txap =	'1';
-			$hafe =	'&D';
-			$cfi1 =	'&D';
-			$cfi3 =	'&D';
-			$cfi5 =	'&';
-			$tepa ='&D';
+		 	$hafe =	'&D ';
+			$cfi1 =	'&D ';
+			$cfi3 =	'&D ';
+			$cfi5 =	'& ';
+			$tepa ='&D ';
 			$absk = '1';
-			$absm = 1;	
+			$absm = 1;
 			$buye = 'MOVEX';
-			$shst = 0;
+			$shst =	0;
 			$atpr = '2';
 			$sust = 1;
 			$susy = 2;
@@ -100,70 +102,72 @@ class ApiM3Model extends ApiModel {
 			$iatp = 2;
 			$iapc = 1;
 			$iape = 1;
-			$iapf = 3; */
+			$iapf = 3; 
+			$qucl = '';
+			$ecar = '';
+			$iapf = '';
 
-			$suty =	0;
-			$cono = 100;
-			$suno = 08900;
-			$sunm = $post['rsCommande'];
-			$alsu = $post['rsCommande'];
-			$cscd =	$post['paysCommande'];
-			$lncd =	'FR';
-			$dtfm =	'DMY';
-			$mepf =	41;
-			$stat =	'10';
+
+
+
+			
+		 
 			 
 			
-
+			//var_dump($this->setField('SUTY',$suty));
 			// alimenter les champs obligatoires de l'api
-			$this->setField('SUTY',$suty);	
-			$this->setField('CONO',$cono);
+		
+			//$this->setField('CONO',$cono);
 			$this->setField('SUNO',$suno);
 			$this->setField('SUNM',$sunm);
+			$this->setField('SUTY',$suty);	
 			$this->setField('ALSU',$alsu);
 			$this->setField('CSCD',$cscd);
+			$this->setField('ECAR',$ecar);
 		    $this->setField('LNCD',$lncd);
 			$this->setField('DTFM',$dtfm);
 			$this->setField('MEPF',$mepf);
-			$this->setField('STAT',$stat);
-		/*	$this->setField('SUCL',$sucl);
+			$this->setField('SUCL',$sucl);
+			$this->setField('QUCL',$qucl);
 			$this->setField('ORTY',$orty);
-			$this->setField('COBY',$cobi);
 			$this->setField('TEDL',$tedl);					
 			$this->setField('MODL',$modl);				
 			$this->setField('TEAF',$teaf);
+			$this->setField('TEPA',$tepa);
 			$this->setField('DT4T',$dt4d);
-			$this->setField('DTCD',$dtcd);	
+			$this->setField('DTCD',$dtcd);
+			$this->setField('VTCD',$vtcd);  // a tester suivant pays frs
+			$this->setField('TXAP',$txap);	// a tester suivant pays frs	
 			$this->setField('CUCD',$cucd);
 			$this->setField('CRTP',$crtp);
 			$this->setField('TEPY',$tepy);
 			$this->setField('PYME',$pyme);
 			$this->setField('ATPR',$atpr);	
+			$this->setField('ACRF',$acrf);	// a tester suivant pays frs
 			$this->setField('PHNO',$phno);	
 			$this->setField('TFNO',$tfno);	
 			$this->setField('CORG',$corg);		  
 			$this->setField('COR2',$cor2);	
 			$this->setField('VRNO',$vrno);
-			$this->setField('ACRF',$acrf);	// a tester suivant pays frs
-			$this->setField('VTCD',$vtcd);  // a tester suivant pays frs
-			$this->setField('TXAP',$txap);	// a tester suivant pays frs
-			$this->setField('HAFE',$hafe);
-			$this->setField('CFI1',$cfi1);
-			$this->setField('CFI3',$cfi3);
-			$this->setField('CFI5',$cfi5);
-			$this->setField('TEPA',$tepa);
+			$this->setField('BUYE',$buye);
 			$this->setField('ABSK',$absk);	
 			$this->setField('ABSM',$absm);	
-			$this->setField('BUYE',$buye);	
+			$this->setField('COBI',$cobi);
+		 	$this->setField('HAFE',$hafe);
+			$this->setField('TEPA',$tepa);
 			$this->setField('SHST',$shst);	
-			$this->setField('ATPR',$atpr);	
 			$this->setField('SUST',$sust);	
 			$this->setField('SUSY',$susy);	
 			$this->setField('SHAC',$shac);	
 			$this->setField('IATP',$iatp);	
 			$this->setField('IAPC',$iapc);	
 			$this->setField('IAPE',$iape);	
-			$this->setField('IAPF',$iapf);	 */
+			$this->setField('IAPF',$iapf);	 
+	  		$this->setField('CFI1',$cfi1);
+			$this->setField('CFI3',$cfi3);
+			$this->setField('CFI5',$cfi5);  
+			$this->setField('STAT',$stat); 
+			
 			 				 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddSupplier')) 
@@ -184,10 +188,56 @@ class ApiM3Model extends ApiModel {
 		    //echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 		}
 		$this->close();
-	
+
+
 		return ($erreur) ;	  	
 	} 
 
+
+	public function creerAdresseM3($post,$numero) {
+
+	 	// connexion réussi	
+		if ($this->open('API','API',"CRS620MI")) {
+
+			$suno = '08890';
+			$adte = '01';
+			$adid =	'AC' ;
+			$pria = 0;
+
+			$this->setField('SUNO',$suno);	
+			$this->setField('ADTE',$adte);	
+			$this->setField('ADID',$adid);	
+			$this->setField('SUNM',$post['rsCommande']);	 
+	  		$this->setField('ADR2',$post['rueCommande']);
+			$this->setField('PONO',$post['codePostal']);
+			$this->setField('TOWN',$post['villeCommande']);
+		  	$this->setField('CSCD',$post['paysCommande']);  
+			$this->setField('PRIA',$pria);  
+ 
+
+			//transaction à appeler
+			if(!$this->mvxAccess('AddAdress')) 
+			{
+				$erreur['transa'] = $this->transaction;
+				//echo "<script type='text/javascript'>alert('$this->transaction');<script>";
+			} 
+			else
+			{
+				$erreur['succes'] = 'Le fournisseur '.$numero. ' a bien été créé dans M3';
+				//echo "<script type='text/javascript'>alert('le founisseur a bien été créé dans M3');</script>";
+			}
+
+		}	// / si open échoué
+		else 
+		{
+		    $erreur['connexion'] = 'La connexion api a échoué';	
+		    //echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
+		}
+		$this->close();
+
+
+		return ($erreur) ;	  	
+	} 
 
 }
 ?>

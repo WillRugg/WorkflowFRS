@@ -16,7 +16,7 @@ class Db2Model extends Model{
 	$query = "SELECT max(idsuno) FROM m3edbtest.CIDMAS where idsuno between '00000' and '99999' "  ;
 		$stmt = $this->pdo->query($query);
 					 
-		return $stmt->fetchAll();
+		return $stmt->fetch();
 	}
 
 	
@@ -87,7 +87,147 @@ class Db2Model extends Model{
 		 			 
 		return $stmt->fetchAll();
 	}
-	
+
+
+	public function creerfrsM3($post,$numeroString) {
+
+
+		$erreur = array();
+  		
+		// alimenter champ en dur ===> ne fonctionne pas avec le poste CIDMAS
+		$suty = 0;
+		$cono = 100;
+		$suno = $numeroString;
+		$sunm = $post['rsCommande'];
+		$alsu = $post['rsCommande'];
+		$cscd =	$post['paysCommande'];
+		$lncd =	'FR ';
+		$dtfm =	'DMY';
+		$mepf =	41;
+		$stat =	'10';
+		$phno =	$post['telephone'];
+		$tfno =	$post['fax'];
+		$corg =	$post['siret'];
+		$cor2 =	$post['complement'];
+		$vrno =	$post['tvaIntra'];
+	 	$hafe =	'&D ';
+		$cfi1 =	'&D ';
+		$cfi3 =	'&D ';
+		$cfi5 =	'& ';
+
+ 		$stmt=$this->pdo-> prepare('INSERT INTO ".$this->biblio.".cidmas(
+						IDCONO,
+						IDSUNO,
+	 					IDSUTY ,
+						IDSUNM ,
+						IDALSU,
+						IDCORG,
+						IDCOR2,
+						IDLNCD,
+						IDPHNO,
+						IDTFNO,
+						IDCSCD,
+						IDDTFM,
+						IDEDIT,
+						IDVRNO,
+						IDMEPF,
+						IDCFI1,
+						IDCFI3,
+						IDCFI5 	 
+					 ) 
+					    VALUES (
+					    :cono,
+					    :suno,
+					    :suty,
+					    :sunm,
+					    :alsu,
+					    :corg,
+					    :cor2,
+					    :lncd,
+					    :phno,
+					    :tfno,
+					    :cscd,
+					    :dtfm,
+					    :edit,
+					    :vrno,
+					    :mepf,
+					    :cfi1,
+					    :cfi3,
+					    :cfi5)');
+
+		 
+		$stmt->execute(array(
+				'cono'=>$cono,
+				'suno'=>$suno,
+				'suty'=>$suty,
+				'sunm'=>$sunm,
+				'alsu'=>$alsu,
+				'corg'=>$corg,
+				'cor2'=>$cor2,
+				'lncd'=>$lncd,
+				'phno'=>$phno,
+				'tfno'=>$tfno,
+				'cscd'=>$cscd,
+				'dtfm'=>$dtfm,
+				'edit'=>$edit,
+				'vrno'=>$vrno,
+				'mepf'=>$mepf,
+				'cfi1'=>$cfi1,
+				'cfi2'=>$cfi2,
+				'cfi3'=>$cfi3 	  ));
+			 
+			$result = $stmt->rowCount();
+			 
+			if ($result == 0) {
+				$erreurs["CRS620"] = "Fournisseur non inséré";
+			}
+			else {
+				$erreurs["SUCCES"]['CIDMAS'] = "Fournisseur en CRS620";
+			}
+		/*} else {
+			$erreurs["form"] = "Veuillez vérifier les données fournies !" ;
+		} */
+			
+
+
+			// cidven
+			$cobi =	$post['groupeAppartenance'];
+			$orty =	$post['natureFournisseur'];
+			$sucl =	$post['groupeFournisseur'];
+			$edit = '/';
+			$tedl =	$post['incotermGroupe'];
+			$modl =	 '&D ';
+			$teaf =	'1';
+			$dt4d =	'1';
+			$dtcd =	'1'; 
+			$cucd =	$post['deviseHG'];
+			$crtp=	1;
+			$tepy =	$post['conditionReglementHG'];
+			$pyme =	$post['modeReglement'];
+			$atpr =	'2';
+			$acrf =	'HG';	
+			$vtcd =	'01';
+			$txap =	'1';
+			$tepa = '&D ';
+			$absk = '1';
+			$absm = 1;
+			$buye = 'MOVEX';
+			$shst =	0;
+			$sust = 1;
+			$susy = 2;
+			$shac = 2;
+			$tame = 1;
+			$iatp = 2;
+			$iapc = 1;
+			$iape = 1;
+			$iapf = 3;
+			$qucl = '';
+			$ecar = '';
+			$iapf = '';
+
+		return ($erreur) ;
+
+	}	
 }
 
 		 /*
