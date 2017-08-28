@@ -29,7 +29,7 @@ else
 ?>
 	<!-- afficher les erreurs -->
  <?php  
-
+  
 	if  (isset($this->get['succes'])) 
 	{ 
 		echo '<SCRIPT language="Javascript">alert(\''.$this->get['success'].'\', \'Information !\');</SCRIPT>' ;			

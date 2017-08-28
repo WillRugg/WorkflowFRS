@@ -175,7 +175,7 @@ ob_start();
                 </div>
 		 		<div class="col-sm-4">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
-			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
+			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"  > 
 							<option value ="" >Sélectionner une valeur</option>
 							<?php
 							foreach ($groupeAppartenance as $unGroupeAppartenance) {
@@ -209,7 +209,7 @@ ob_start();
 							foreach ($groupeFournisseur as $unGroupe) {
 							?>
 								<option value=<?php  echo $unGroupe["CODE"];?>
-								<?php if($UnFournisseur['groupeAppartenance'] == $unGroupe['CODE'] ) { ?> selected="selected"	<?php } ?>	>
+								<?php if($UnFournisseur['groupeFournisseur'] == $unGroupe['CODE'] ) { ?> selected="selected"	<?php } ?>	>
 								<?php echo $unGroupe["CODE"].'- '.$unGroupe["TXT40"];?></option> 
 							<?php 
 							}
@@ -285,22 +285,20 @@ ob_start();
 
     		<div class="col-sm-12">
         	
-	    		  <div class="col-sm-6"> 
-			
-			   		
-	  					<select name="modeReglement"  class="form-control " id="modeReglement"  > 
-					<?php
-					foreach ($modeReglement as $unModeReglement) {
-					?>
-						<option value=<?php  echo $unModeReglement["CODE"];?>
-						<?php if($UnFournisseur['modeReglement'] == $unModeReglement['CODE'] ) { ?> selected="selected"	<?php } ?>	>
-							<?php echo $unModeReglement["CODE"].'- '.$unModeReglement["TXT15"];?>
-						</option> 
-					<?php 
-					}
-					?>
-	   		    	</select>
-	   		    </div>
+	    		<div class="col-sm-6"> 
+					<select name="modeReglement"  class="form-control " id="modeReglement"  > 
+						<?php
+						foreach ($modeReglement as $unModeReglement) {
+						?>
+							<option value=<?php  echo $unModeReglement["CODE"];?>
+							<?php if($UnFournisseur['modeReglement'] == $unModeReglement['CODE'] ) { ?> selected="selected"	<?php } ?>	>
+								<?php echo $unModeReglement["CODE"].'- '.$unModeReglement["TXT15"];?>
+							</option> 
+						<?php 
+						}
+						?>
+		   		   	</select>
+		   		</div>
 			</div>	
 
 			<div class="col-sm-offset-2 col-sm-8" >

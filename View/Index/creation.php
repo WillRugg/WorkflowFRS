@@ -331,7 +331,7 @@ ob_start();
 			   		 <div class="col-sm-4">
 		   		 		<select name="devise"  class="form-control " id="devise" > 
 		   		 			<option value="">Sélectionner une devise</option>
-							<option value="EUR"> EUR - EURO</option>
+							<option value="EUR" selected="selected" > EUR - EURO</option>
 							<option value="GBP"> GBP - LIVRE </option>
 							<option value="USD"> USD - DOLLARD </option>
 						</select>

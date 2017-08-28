@@ -47,11 +47,12 @@ class ApiM3Model extends ApiModel {
 	 	// connexion réussi	
 		if ($this->open('API','API',"CRS620MI")) {
 	
-			//var_dump($this->transaction);
+			
 			$erreur = array();
 	  		
-			// alimenter champ en dur 
-			$cono = $post['entiteDemandeur'];
+			// alimenter champ en dur ===> ne fonctionne pas avec le poste
+	/*		$suty =	0;
+			$cono = 100;
 			$suno = $numero;
 			$sunm = $post['rsCommande'];
 			$alsu = $post['rsCommande'];
@@ -60,8 +61,9 @@ class ApiM3Model extends ApiModel {
 			$dtfm =	'DMY';
 			$mepf =	41;
 			$stat =	'10';
+			$cobi =	$post['groupeAppartenance'];
+			$orty =	$post['natureFournisseur'];
 			$sucl =	$post['groupeFournisseur'];
-			$orty =	'100';
 			$edit = '/';
 			$tedl =	$post['incotermGroupe'];
 			$modl =	 '&D ';
@@ -78,7 +80,6 @@ class ApiM3Model extends ApiModel {
 			$corg =	$post['siret'];
 			$cor2 =	$post['complement'];
 			$vrno =	$post['tvaIntra'];
-			$suty =	'0';
 			$acrf =	'HG';	
 			$vtcd =	'01';
 			$txap =	'1';
@@ -99,21 +100,35 @@ class ApiM3Model extends ApiModel {
 			$iatp = 2;
 			$iapc = 1;
 			$iape = 1;
-			$iapf = 3;
+			$iapf = 3; */
+
+			$suty =	0;
+			$cono = 100;
+			$suno = 08900;
+			$sunm = $post['rsCommande'];
+			$alsu = $post['rsCommande'];
+			$cscd =	$post['paysCommande'];
+			$lncd =	'FR';
+			$dtfm =	'DMY';
+			$mepf =	41;
+			$stat =	'10';
+			 
 			
 
 			// alimenter les champs obligatoires de l'api
+			$this->setField('SUTY',$suty);	
 			$this->setField('CONO',$cono);
 			$this->setField('SUNO',$suno);
 			$this->setField('SUNM',$sunm);
 			$this->setField('ALSU',$alsu);
 			$this->setField('CSCD',$cscd);
-			$this->setField('LNCD',$lncd);
+		    $this->setField('LNCD',$lncd);
 			$this->setField('DTFM',$dtfm);
 			$this->setField('MEPF',$mepf);
 			$this->setField('STAT',$stat);
-			$this->setField('SUCL',$sucl);
+		/*	$this->setField('SUCL',$sucl);
 			$this->setField('ORTY',$orty);
+			$this->setField('COBY',$cobi);
 			$this->setField('TEDL',$tedl);					
 			$this->setField('MODL',$modl);				
 			$this->setField('TEAF',$teaf);
@@ -129,7 +144,6 @@ class ApiM3Model extends ApiModel {
 			$this->setField('CORG',$corg);		  
 			$this->setField('COR2',$cor2);	
 			$this->setField('VRNO',$vrno);
-			$this->setField('SUTY',$suty);	
 			$this->setField('ACRF',$acrf);	// a tester suivant pays frs
 			$this->setField('VTCD',$vtcd);  // a tester suivant pays frs
 			$this->setField('TXAP',$txap);	// a tester suivant pays frs
@@ -149,7 +163,7 @@ class ApiM3Model extends ApiModel {
 			$this->setField('IATP',$iatp);	
 			$this->setField('IAPC',$iapc);	
 			$this->setField('IAPE',$iape);	
-			$this->setField('IAPF',$iapf);	
+			$this->setField('IAPF',$iapf);	 */
 			 				 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddSupplier')) 
@@ -167,7 +181,7 @@ class ApiM3Model extends ApiModel {
 		else 
 		{
 		    $erreur['connexion'] = 'La connexion api a échoué';	
-		    echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
+		    //echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 		}
 		$this->close();
 	

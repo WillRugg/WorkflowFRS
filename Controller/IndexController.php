@@ -201,6 +201,10 @@ class IndexController extends Controller {
 		$UnFournisseur = $SqlModel->getInfos($this->get['id']);
 
 
+		// lister groupe appartenace Fournisseur suty = 3 de cidmas
+		$groupeAppartenanceModel = new Db2Model($this->getBiblio()); 
+		$groupeAppartenance = $groupeAppartenanceModel->listerGrpAppartenance();
+
 		// lister divi
 		$entiteModel = new Db2Model($this->getBiblio()); 
 		$entite = $entiteModel->listerEntite();
@@ -240,6 +244,7 @@ class IndexController extends Controller {
 	 	if($this->post) 
 	 	{
 			var_dump($this->post);
+
 			$post = $this->post;
 			$files =$this->files;
 
@@ -266,7 +271,7 @@ class IndexController extends Controller {
 					require_once('Model/Db2Model.php');
 					$db2Model = new Db2Model();					 
 					$numero = $db2Model->rechercheDernierFrsM3();
-					var_dump($numero);
+					 
 
 					$numero++;
 
@@ -305,7 +310,7 @@ class IndexController extends Controller {
 			} 
 			else 
 			{
-				//$this->redirect($session,'accueil',$resultM3);
+				$this->redirect($session,'accueil',$resultM3,$post);
 			}  
 		 
 		} // if $this->post

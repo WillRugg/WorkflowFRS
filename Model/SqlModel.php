@@ -142,7 +142,7 @@ class SqlModel extends Model{
 		} 
 		else 
 		{
-			$groupeAppartenance=$post['groupeFournisseur'];
+			$groupeAppartenance=$post['groupeAppartenance'];
 		}
 
 		// 2 champs du poste pour incoterm : si autre est renseigné on prend valeur de autre
@@ -269,6 +269,7 @@ class SqlModel extends Model{
 						    :paysPaiement ,
 						    :groupeAppartenance  ,
 						    :natureFournisseur  ,
+						    :groupeFournisseur ,
 						    :incoterm  ,
 						    :lieuVilleRegleGroupe  ,
 						    :francoDePortRegleGroupe  ,
@@ -405,6 +406,7 @@ class SqlModel extends Model{
 						    :paysPaiement ,
 						    :groupeAppartenance  ,
 						    :natureFournisseur  ,
+						    :groupeFournisseur  ,
 						    :incoterm  ,
 						    :lieuVilleRegleGroupe  ,
 						    :francoDePortRegleGroupe  ,
@@ -533,7 +535,7 @@ class SqlModel extends Model{
 								$post['cpPaiement'],
 								$post['villePaiement'],
 								$post['paysPaiement'],
-								$post['groupeFournisseur'],
+								$post['groupeAppartenance'],
 								$post['natureFournisseur'],
 								$post['groupeFournisseur'],
 								$post['incotermGroupe'],
@@ -659,7 +661,7 @@ class SqlModel extends Model{
 			'codePostalPaiement'=>$post['cpPaiement'] ,
 		    'villePaiement'=>$post['villePaiement']   ,
 		    'paysPaiement'=>$post['paysPaiement'] ,
-		    'groupeAppartenance'=> $post['groupeFournisseur'], 
+		    'groupeAppartenance'=> $post['groupeAppartenance'], 
 		    'natureFournisseur'=>$post['natureFournisseur']  ,
 		    'groupeFournisseur'=>$post['groupeFournisseur']  ,
 		    'incoterm'=>$post['incotermGroupe']  ,
