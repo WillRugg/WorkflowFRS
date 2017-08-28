@@ -78,7 +78,7 @@ else
 			// array('id'=> )
 			$idMd5=$uneListe['ID']; ?>
 
-			<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('id'=>$idMd5));?>'>
+			<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('ID'=>$idMd5));?>'>
 			 		<td class="text-center Id"><?php echo $uneListe['ID'];?></td>
 			 	<td class="text-center Entite"><?php echo $uneListe['entite'];?></td> 
 			 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 

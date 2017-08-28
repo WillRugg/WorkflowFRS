@@ -34,7 +34,7 @@
 		<div class="col-md-12" style="margin-top: 1%; margin-bottom: 1% ">
 			<div class="col-md-12" >
 				<div class="col-md-3 " >
-					<a href="<?php echo $this->link($session,'accueil');?>"> <input type="submit" class="btn btn-success" value="En attente" name="Attente"> </a>
+					<a href="<?php echo $this->link($_SESSION['ident'],'accueil');?>"> <input type="submit" class="btn btn-success" value="En attente" name="Attente"> </a>
 
 				 	<a href="<?php echo $this->link('Connecte','seDeconnecte');?>"> <input type="submit" class="btn btn-danger" value="Se déconnecter" name="Deconnexion"> </a>
 				</div>

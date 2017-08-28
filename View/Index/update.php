@@ -3,7 +3,12 @@
 ob_start();
  //var_dump($session);
 
- 
+// if ($session='fournisseur' && isset($_SESSION['ident'])) {
+//  	$session=null;
+//  	var_dump($session);
+//  } 
+
+
 
 ?>
 <div id="container">
@@ -13,10 +18,10 @@ ob_start();
 <!--<input type="hidden" name="controller" value="index" /> 
  		<input type="hidden" name="action" value="creeFournisseurs" />	 -->
 		<legend class="scheduler-border">
-       		<h2><span class="glyphicon glyphicon-pencil"></span> &nbsp;&nbsp; Fiche fournisseur à compléter</h2>
+       		<h2><span class="glyphicon glyphicon-pencil"></span> <?php if($session=='fournisseur'){ ?> Bonjour, veuillez remplir les informations relatives à <?php echo $UnFournisseur['raisonSociale'];?> <?php }else{?> &nbsp;&nbsp; Fiche fournisseur à compléter <?php	}?> </h2>
 		</legend>	 
 	
-		<fieldset class =  "thumbnail">
+		<fieldset class = "thumbnail" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 			<div class="col-sm-12 ">
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Entité</label>
@@ -173,7 +178,7 @@ ob_start();
 						?>
                     </select> 
                 </div>
-		 		<div class="col-sm-4">
+		 		<div <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-4">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"  > 
 							<option value ="" >Sélectionner une valeur</option>
@@ -188,7 +193,7 @@ ob_start();
 							?>
                     	</select> 
 		    	</div>  
-		    	<div class="col-sm-4">
+		    	<div <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-4">
 		  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
 			    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
 			    			<option value=" " 
@@ -201,7 +206,7 @@ ob_start();
 			    		 		<?php  if ($UnFournisseur['natureFournisseur'] == "300" ) { ?> selected="selected" <?php } ?> >Achat de frais généraux</option>
 						</select>		    	
 		   		</div>
-		   		<div class="col-sm-4">
+		   		<div class="col-sm-4" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 			    	<label for="formGroupExampleInput2">Groupe Fournisseur</label>
 			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
 							<option value ="" >Sélectionner une valeur</option>
@@ -220,7 +225,7 @@ ob_start();
 
  		</fieldset>
 
- 		<fieldset class="col-sm-12 control-label thumbnail">
+ 		<fieldset <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-12 control-label thumbnail">
  			<div class="col-sm-12">		 
 		   		<legend class="scheduler-border">Conditions Logistiques</legend>
 		   		<div class="col-sm-12">	
@@ -265,7 +270,7 @@ ob_start();
     	 	</div>
     	</fieldset>
 
-    	<fieldset class="col-sm-12 control-label thumbnail">
+    	<fieldset class="col-sm-12 control-label thumbnail" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 	 	<div class="col-sm-12">
 
 	   		<legend class="scheduler-border">Type de produits</legend>	
@@ -353,7 +358,7 @@ ob_start();
 		     	 
     	</div>
     	</fieldset>
-    	<fieldset class="col-sm-12 control-label thumbnail">
+    	<fieldset class="col-sm-12 control-label thumbnail" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 	 		<div class="form-group col-sm-12">
 		   		<legend class="scheduler-border">Informations Suplémentaires</legend>
 		   		<div class="form-group col-sm-4">
@@ -400,11 +405,12 @@ ob_start();
 		 	{?> 
 		 		return(confirm('Envoyer vers M3 ?')) 
 		 	<?php } ?> 		 ;">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-5" value="Valider" name="Valider"/>
+			<INPUT TYPE="submit" 
+			class="btn btn-info <?php if($session=='fournisseur'){?> col-sm-offset-4 col-sm-4  <?php }else{?>  col-sm-5 <?php	}?>" value="Valider" name="Valider"/>
 		</a>
 
 		<a href="" onclick="return(confirm('Mettre à jour et mettre en attente ?'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="Attente" value="Mettre en attente"/>
+			<INPUT <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="Attente" value="Mettre en attente"/>
 		</a>
 	   
 	</form>
