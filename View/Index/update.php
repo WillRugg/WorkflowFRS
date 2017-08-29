@@ -8,7 +8,20 @@ ob_start();
 //  	var_dump($session);
 //  } 
 
+if  (isset($this->get['succes'])) 
+	{ 
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['succes'].'\', \'Information !\');</SCRIPT>' ;			
+	}
 
+	elseif (isset($this->get['transa'])) 
+	{
+		echo $this->get['transa'];
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['transa'].'\', \'Information !\');</SCRIPT>' ;				
+	}
+	elseif (isset($this->get['connexion']))
+	{
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['connexion'].'\', \'Information !\');</SCRIPT>' ;		
+	} 
 
 ?>
 <div id="container">

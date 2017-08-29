@@ -294,50 +294,28 @@ class IndexController extends Controller {
 
 					if ($testPourDomaine = 'Movex') {
 
-					// rechercher le dernier Numéro et + 1 
-					require_once('Model/Db2Model.php');
-					$db2Model = new Db2Model();					 
-					$derNumero = $db2Model->rechercheDernierFrsM3();
+						// rechercher le dernier Numéro et + 1 
+						require_once('Model/Db2Model.php');
+						$db2Model = new Db2Model();					 
+						$derNumero = $db2Model->rechercheDernierFrsM3();
 
-					 
+						 
 
-					$numero= intval($derNumero[0])+1;
-			  		$numeroString = '0'.$numero;
-			  		var_dump($numeroString);
-
-
-			  		/*
-					// liste des clients 
-					require_once('Model/ApiM3Model.php');
-					$apiModel = new ApiM3Model();
-					
-					// return 
-					$resultM3 = $apiModel->creerfrsM3($this->post,$numeroString);
-					//$resultM3 = $apiModel->creerAdresseM3($this->post,$numero);
+						$numero= intval($derNumero[0])+1;
+				  		$numeroString = '0'.$numero;	  	 
+						// liste des clients 
+						require_once('Model/ApiM3Model.php');
+						$apiModel = new ApiM3Model();
 						
-					if(isset($resultM3['succes']))
-					{
-						$domaineSuivant = 'Movex';
-					}
-					var_dump($resultM3);
-					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
-					} */
-					
-					// liste des clients 
-					require_once('Model/Db2Model.php');
-					$db2Model = new Db2Model();					
-					// return 
-					$resultM3 = $db2Model->creerfrsM3($this->post,$numeroString);
-					//$resultM3 = $apiModel->creerAdresseM3($this->post,$numero);
-						
-					if(isset($resultM3['succes']))
-					{
-						$domaineSuivant = 'Movex';
+						// return 
+						$resultM3 = $apiModel->creerfrsM3($this->post,$numeroString);
+						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
+							
+						if(isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
+						{
+							$domaineSuivant = 'Movex';
+						}
 
-					}
-				
-					var_dump($resultM3);
-					// echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 				} 
 
 				}
@@ -345,7 +323,7 @@ class IndexController extends Controller {
 			elseif (isset($post['Attente'])) 
 			{
 				$domaineSuivant = $post['domaine'] ;
-				//$this->redirect($session,'accueil');
+				$this->redirect($session,'accueil');
 			}
 
 			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
@@ -358,80 +336,21 @@ class IndexController extends Controller {
 				$erreurs = $result;
 				
 			} 
-			else 
-			{
-				//$this->redirect($session,'accueil',$resultM3,$post);
-			}  
+			elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) ) {
+				$this->redirect($session,'accueil',$resultM3,$post);
+			}
+			elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) {
+				var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
+				$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
+
+			
+
+			}
+	
 		 
 		} // if $this->post
 
 		require('View/Index/update.php') ; 		 
-	}
-
-	public function creeFournisseursbisAction() {
-		$app_title="Créer Fournisseurs " ;
-		$app_desc="Comeca" ;
-		$app_body="body_Index" ;
-		 
-		
-		// require_once('Model/Db2Model.php');
-		require('Model/SqlModel.php');
-
-		$initChamps = new SqlModel();
-		$listeDesChamps = $initChamps->recupChamps();
-
-
-
-		 // $listeModel = new Db2Model($this->getBiblio());
-		 // $ListeFournisseurs = $listeModel->AfficheFournisseursExistants();
-
-
-		// 	// lister divi
-		// 	$entiteModel = new Db2Model($this->getBiblio()); 
-		// 	$entite = $entiteModel->listerEntite();
-
-		// 	$today = date("Ymd");
-			
-		// 	// lister groupeFournisseur
-		 
-		// 	$groupeFournisseurModel = new Db2Model($this->getBiblio()); 
-		// 	$groupeFournisseur = $groupeFournisseurModel->listerSUCL();
-			
-		// 	// lister Conditions livraisons Groupe
-			 
-		// 	$conditionsLivraisonsHorsGroupeModel = new Db2Model($this->getBiblio()); 
-		// 	$condition = $conditionsLivraisonsHorsGroupeModel->listerTEDL();
-			
-		// 	// lister Mode de règlement
-		// 	$modeReglementModel = new Db2Model($this->getBiblio()); 
-		// 	$modeReglement = $modeReglementModel->listerPYME();
-
-		// 	// lister Conditions de règlement
-		// 	$conditionReglementModel = new Db2Model($this->getBiblio()); 
-		// 	$conditionReglement = $conditionReglementModel->listerTEPY();
-		 
-
-		// 	// lister devise
-		// 	$deviseModel = new Db2Model($this->getBiblio()); 
-		// 	$devise = $deviseModel->listerCUCD();
-
-		// 	// lister devise
-		// 	$paysModel = new Db2Model($this->getBiblio()); 
-		// 	$pays = $paysModel->listerCSCD();
-		 	
-		//  	// gestion des erreurs
-		// 	$erreurs = array();
-		 
-		// if($this->post) {
-			
-		// 	$post = $this->post;
-		// 	$files =$this->files;			
-			
-		// 	$FicheFournisseurModel = new SqlModel(); 
-		// 	$result = $FicheFournisseurModel->createFiche($post,$files);
-		// }
-
-		require('View/Index/creationbis.php') ; 
 	}
 
 	

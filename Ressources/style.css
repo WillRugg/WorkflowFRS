@@ -2,3 +2,13 @@
 /* -----------DEBUT : General --------*/
 /*====================================*/
  
+/* DEBUT Gestion des erreurs des formulaires en JS */
+input.errorJs, textarea.errorJs, select.errorJs{
+  border:2px red solid;
+}
+
+.msgJs{
+  margin : 10px;
+  text-align : center;
+  color : #000;
+}

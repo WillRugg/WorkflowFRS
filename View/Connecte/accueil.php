@@ -32,7 +32,7 @@ else
   
 	if  (isset($this->get['succes'])) 
 	{ 
-		echo '<SCRIPT language="Javascript">alert(\''.$this->get['success'].'\', \'Information !\');</SCRIPT>' ;			
+		echo '<SCRIPT language="Javascript">alert(\''.$this->get['succes'].'\', \'Information !\');</SCRIPT>' ;			
 	}
 
 	elseif (isset($this->get['transa'])) 

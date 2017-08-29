@@ -13,7 +13,7 @@ ob_start();
 	</div>
 	
 
-	<form action = "" method='post' enctype="multipart/form-data">
+	<form action = "" class='formCreate' method='post' enctype="multipart/form-data">
 
 		<!--<input type="hidden" name="controller" value="index" /> 
  		<input type="hidden" name="action" value="creeFournisseurs" />	 -->
@@ -26,7 +26,9 @@ ob_start();
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Entité</label>
 
-			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur"  placeholder="Votre entité"> 
+			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur"  placeholder="Votre entité" > 
+						
+						<option value ="" > Sélection une entité </option>
 						<?php
 						foreach ($entite as $uneEntite) {
 							/* value permet de récupérer la valeur pour le name  => on y met la divi*/
@@ -40,7 +42,7 @@ ob_start();
 				</div>
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput">Nom du demandeur </label>
-				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36" required>
+				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36">
 				</div>
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Fonction</label>
@@ -87,12 +89,12 @@ ob_start();
 
 		   		<div class="form-group col-sm-10">
 			    	<label for="formGroupExampleInput2">Voie/Rue</label>
-			    	<input type="text" class="form-control" id="rueCommande" name="rueCommande" size="36" maxlength="36" placeholder="Voie rue">
+			    	<input type="text" class="form-control" id="rueCommande" name="rueCommande" size="36" maxlength="36" placeholder="Voie rue" required>
 		    	</div>
 	    	
 		        <div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Code Postal</label>
-			    	<input type="text" class="form-control" id="codePostal" name="codePostal" size="5" maxlength="5" placeholder="Code Postal">
+			    	<input type="text" class="form-control" id="codePostal" name="codePostal" size="5" maxlength="5" placeholder="Code Postal" required>
 		    	</div>
 		    	<div class="form-group col-sm-6">
 			    	<label for="formGroupExampleInput2">Ville</label>
@@ -101,7 +103,7 @@ ob_start();
 		    			    
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
-			    	<select name="paysCommande"  class="form-control " id="paysCommande"  > 
+			    	<select name="paysCommande"  class="form-control " id="paysCommande"  required> 
 						<option value ="FR" > FR ou Sélection autre pays </option>
 							<?php
 							foreach ($pays as $unPays) {
@@ -151,7 +153,7 @@ ob_start();
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysPaiement"  class="form-control " id="paysPaiement"  > 
-						<option value ="FR" > FR par défaut ou Sélection autre pays </option>
+						<option  > FR par défaut ou Sélection autre pays </option>
 							<?php
 							foreach ($pays as $unPays) {
 							?>
@@ -163,7 +165,7 @@ ob_start();
                 </div>
 		 		<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
-			    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
+			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance" required > 
 							<option value ="" >Sélectionner une valeur</option>
 							<?php
 							foreach ($groupeAppartenance as $unGroupeAppartenance) {
@@ -392,10 +394,10 @@ ob_start();
 	  	<!-- <input type="hidden" class="form-control" id="domaine" name="domaine" value="achats" placeholder="Domaine"> -->
 
 	  	 <a href="" onclick="return(confirm('Confirmer la création de la fiche fournisseur'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-4" name="Valider" value="Envoyer en validation - Achats"/>
+			<INPUT TYPE="submit" class="btn btn-info col-sm-4 validateCreate" name="Valider" value="Envoyer en validation - Achats"/>
 		 </a>
 
-		 <a href="" onclick="return(confirm('Envoyer au fournisseur pout complétion'));">   
+		 <a href="" onclick="return(confirm('Envoyer au fournisseur pour complétion'));">   
 			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-4 col-sm-4" name="EnvoiFour" value="Demander informations au fournisseur"/>
 		 </a>
 	   

@@ -95,101 +95,44 @@ class Db2Model extends Model{
 		$erreur = array();
   		
 		// alimenter champ en dur ===> ne fonctionne pas avec le poste CIDMAS
-		$suty = 0;
-		$cono = 100;
+		 
 		$suno = $numeroString;
 		$sunm = $post['rsCommande'];
 		$alsu = $post['rsCommande'];
 		$cscd =	$post['paysCommande'];
-		$lncd =	'FR ';
-		$dtfm =	'DMY';
-		$mepf =	41;
-		$stat =	'10';
 		$phno =	$post['telephone'];
 		$tfno =	$post['fax'];
 		$corg =	$post['siret'];
 		$cor2 =	$post['complement'];
 		$vrno =	$post['tvaIntra'];
-	 	$hafe =	'&D ';
-		$cfi1 =	'&D ';
-		$cfi3 =	'&D ';
-		$cfi5 =	'& ';
+	 	 
 
- 		$stmt=$this->pdo-> prepare('INSERT INTO ".$this->biblio.".cidmas(
-						IDCONO,
-						IDSUNO,
-	 					IDSUTY ,
-						IDSUNM ,
-						IDALSU,
-						IDCORG,
-						IDCOR2,
-						IDLNCD,
-						IDPHNO,
-						IDTFNO,
-						IDCSCD,
-						IDDTFM,
-						IDEDIT,
-						IDVRNO,
-						IDMEPF,
-						IDCFI1,
-						IDCFI3,
-						IDCFI5 	 
-					 ) 
-					    VALUES (
-					    :cono,
-					    :suno,
-					    :suty,
-					    :sunm,
-					    :alsu,
-					    :corg,
-					    :cor2,
-					    :lncd,
-					    :phno,
-					    :tfno,
-					    :cscd,
-					    :dtfm,
-					    :edit,
-					    :vrno,
-					    :mepf,
-					    :cfi1,
-					    :cfi3,
-					    :cfi5)');
+ 		$query = "INSERT INTO " .$this->biblio.".cidmas(
+					IDCONO,IDSUNO,IDSUTY,IDSUNM,IDALSU,IDCORG,IDCOR2,IDLNCD,IDPHNO,IDTFNO,IDCSCD,IDDTFM,IDEDIT,IDVRNO,IDMEPF,IDCFI1,IDCFI3,IDCFI5,IDSTAT ) 
+			VALUES (100,:suno,0,:sunm,:alsu,:corg,:cor2,'FR',:phno,:tfno,:cscd,'DMY','\',:vrno, 41,'&D ','&D ','& ',  10)";
 
+ 		$stmt=$this->pdo-> prepare($query);
+		$stmt->bindParam(':suno',$suno,PDO::PARAM_STR);
+		$stmt->bindParam(':sunm',$sunm,PDO::PARAM_STR);
+		$stmt->bindParam(':alsu',$alsu,PDO::PARAM_STR);
+		$stmt->bindParam(':corg',$corg,PDO::PARAM_STR);
+		$stmt->bindParam(':cor2',$cor2,PDO::PARAM_STR);
+		$stmt->bindParam(':phno',$phno,PDO::PARAM_STR);
+		$stmt->bindParam(':tfno',$tfno,PDO::PARAM_STR);
+		$stmt->bindParam(':cscd',$cscd,PDO::PARAM_STR);
+		$stmt->bindParam(':vrno',$vrno,PDO::PARAM_STR);
+
+		$stmt->execute();
+					 
+		$result = $stmt->rowCount();
 		 
-		$stmt->execute(array(
-				'cono'=>$cono,
-				'suno'=>$suno,
-				'suty'=>$suty,
-				'sunm'=>$sunm,
-				'alsu'=>$alsu,
-				'corg'=>$corg,
-				'cor2'=>$cor2,
-				'lncd'=>$lncd,
-				'phno'=>$phno,
-				'tfno'=>$tfno,
-				'cscd'=>$cscd,
-				'dtfm'=>$dtfm,
-				'edit'=>$edit,
-				'vrno'=>$vrno,
-				'mepf'=>$mepf,
-				'cfi1'=>$cfi1,
-				'cfi2'=>$cfi2,
-				'cfi3'=>$cfi3 	  ));
-			 
-			$result = $stmt->rowCount();
-			 
-			if ($result == 0) {
-				$erreurs["CRS620"] = "Fournisseur non inséré";
-			}
-			else {
-				$erreurs["SUCCES"]['CIDMAS'] = "Fournisseur en CRS620";
-			}
-		/*} else {
-			$erreurs["form"] = "Veuillez vérifier les données fournies !" ;
-		} */
-			
-
-
+		if ($result == 0) {
+			$erreurs["CRS620"] = "Fournisseur non inséré";
+		}
+		else {
+			$erreurs["SUCCES"]['CIDMAS'] = "Fournisseur".$suno." en CRS620";
+		}
+ 
 			// cidven
 			$cobi =	$post['groupeAppartenance'];
 			$orty =	$post['natureFournisseur'];
