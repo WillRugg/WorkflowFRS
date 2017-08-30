@@ -103,6 +103,8 @@ class IndexController extends Controller {
 	}
 		
 	public function fenetreConfirmationAction() {
+
+require '/lib/libphp-phpmailer/PHPMailerAutoload.php';
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
@@ -117,47 +119,36 @@ class IndexController extends Controller {
 		 	
 	 	if($this->post) 
 	 	{
-	
+		$mail = new PHPMailer;
 
-  
+		$mail->isSMTP();
+		$mail->Host = 'smtp2.comeca-group.com';
+		$mail->SMTPAuth = false;
+		$mail->SMTPDebug = true;
 
+		$mail->From = 'accueil@comeca-group.com'; 
+		$mail->FromName = 'Comeca Group';
+		$mail->addAddress('w.ruggiero@comeca-group.com');
 
-require '/usr/share/php/libphp-phpmailer/PHPMailerAutoload.php';
+		$mail->isHTML(true);
 
-$mail = new PHPMailer;
+		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
+		$mail->Body    = ' <html>
+		                      <head>
+		                       <title>COMECA</title>
+		                      </head>
+		                      <body>
+		                       <p>Lien : '.$post['Lien'].'</p>
+		                      </body>
+		                     </html>
+		                     ';
 
-$mail->isSMTP();
-$mail->Host = 'smtp2.comeca-group.com';
-$mail->SMTPAuth = false;
-$mail->SMTPDebug = false;
-
-$mail->From = 'accueil@comeca-group.com'; 
-$mail->FromName = 'Comeca Group';
-$mail->addAddress('w.ruggiero@comeca-group.com');
-
-$mail->isHTML(true);
-
-$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
-$mail->Body    = ' <html>
-                      <head>
-                       <title>COMECA</title>
-                      </head>
-                      <body>
-                       <p>Lien : '.$post['Lien'].'</p>
-                      </body>
-                     </html>
-                     ';
-
-if(!$mail->send()) {
-    echo 'Message could not be sent.';
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
- } else {
-    echo 'Message has been sent';
-}
-
-
-			
-		 
+		if(!$mail->send()) {
+		    echo 'Message could not be sent.';
+		    echo 'Mailer Error: ' . $mail->ErrorInfo;
+		 } else {
+		    echo 'Message has been sent';
+		}		 
 		} 
 
 		require('View/Index/demandeFournisseur.php') ; 
