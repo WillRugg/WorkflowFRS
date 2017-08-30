@@ -118,39 +118,44 @@ class IndexController extends Controller {
 	 	if($this->post) 
 	 	{
 	
-			if(isset($post['Envoi']))
-			{
+			//if(isset($post['Envoi']))
+			//{
 				     // Plusieurs destinataires
-		     // $to  = 'aidan@example.com' . ', '; 
-		     $to = $post['emailSupplier'];
-
-		     // Sujet
-		     $subject = 'Concernant votre ajout dans la base de données Comeca';
-
-		     // message
-		     $message = '
-		     <html>
-		      <head>
-		       <title>COMECA</title>
-		      </head>
-		      <body>
-		       <p>Lien : '.$post['Lien'].'</p>
-		      </body>
-		     </html>
-		     ';
-
-		     // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-		     $headers  = 'MIME-Version: 1.0' . "\r\n";
-		     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-		     // En-têtes additionnels
-		     $headers .= 'To: Mary <mary@example.com>, Kelly <kelly@example.com>' . "\r\n";
-		     $headers .= 'From: Comeca Group <bkak@example.com>' . "\r\n";
+		    
 
 
-		     // Envoi
-		     mail($to, $subject, $message, $headers);
-			}
+require '/usr/share/php/libphp-phpmailer/PHPMailerAutoload.php';
+
+$mail = new PHPMailer;
+
+$mail->isSMTP();
+$mail->Host = 'smtp2.comeca-group.com';
+$mail->SMTPAuth = false;
+$mail->SMTPDebug = false;
+
+$mail->From = 'accueil@comeca-group.com'; 
+$mail->FromName = 'Comeca Group';
+$mail->addAddress('w.ruggiero@comeca-group.com');
+
+$mail->isHTML(true);
+
+$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
+$mail->Body    = ' <html>
+                      <head>
+                       <title>COMECA</title>
+                      </head>
+                      <body>
+                       <p>Lien : '.$post['Lien'].'</p>
+                      </body>
+                     </html>
+                     ';
+
+if(!$mail->send()) {
+    echo 'Message could not be sent.';
+    echo 'Mailer Error: ' . $mail->ErrorInfo;
+ } else {
+    echo 'Message has been sent';
+}
 
 			
 		 
