@@ -120,12 +120,12 @@ class IndexController extends Controller {
 
 		$mail->From = 'accueil@comeca-group.com'; 
 		$mail->FromName = 'Comeca Group';
-		$mail->addAddress('w.ruggiero@comeca-group.com');
+		$mail->addAddress($this->post['emailSupplier']);
 
 		$mail->isHTML(true);
 
 		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
-		$mail->Body    = ' Bla';
+		$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> </a>';
 
 				if(!$mail->send()) {
 				    echo 'Message could not be sent.';
