@@ -28,7 +28,7 @@ define('PDO_PASSWORD','Mo92Jo94');
 //sqlserver
 define('PDOS_DSN','mysql:host=localhost;dbname=fournisseurs');
 define('PDOS_USERNAME', 'root');
-define('PDOS_PASSWORD',''); 
+define('PDOS_PASSWORD','netglob'); 
 
 // démarrer la Session pour se connecter
 
