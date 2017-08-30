@@ -398,7 +398,7 @@ ob_start();
 		 </a>
 
 		 <a href="" onclick="return(confirm('Envoyer au fournisseur pour complétion'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-1 col-sm-5" name="EnvoiFour" value="Demander informations au fournisseur"/>
+			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="EnvoiFour" value="Demander informations au fournisseur"/>
 		 </a>
 	   
 	  

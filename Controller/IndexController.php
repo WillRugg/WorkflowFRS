@@ -78,7 +78,6 @@ class IndexController extends Controller {
 			 	$timeUnique='NA';
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
-				$this->redirect('','fenetreConfirmationComeca');
 			 }
 			 elseif (isset($post['EnvoiFour'])) {
 			 	$etapeSuivante='fournisseur';
