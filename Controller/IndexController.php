@@ -118,10 +118,8 @@ class IndexController extends Controller {
 	 	if($this->post) 
 	 	{
 	
-			//if(isset($post['Envoi']))
-			//{
-				     // Plusieurs destinataires
-		    
+
+  
 
 
 require '/usr/share/php/libphp-phpmailer/PHPMailerAutoload.php';
@@ -156,6 +154,7 @@ if(!$mail->send()) {
  } else {
     echo 'Message has been sent';
 }
+
 
 			
 		 
