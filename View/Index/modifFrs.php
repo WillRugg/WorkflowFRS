@@ -1,10 +1,10 @@
 <?php
 
 ob_start();
-/p/rint_r($xml);
+// print_r($xml);
  ?>
 
-<h3>Modification d'un fournisseur <?php echo ( $xml->MIRecord->NameValue[3]->Value); ?></h3>
+<h3>Modification d'un fournisseur <?php echo ( $xml->MIRecord->NameValue[3]->Value); ?> </h3>
 
 
 
