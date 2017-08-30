@@ -122,7 +122,7 @@ class IndexController extends Controller {
 			{
 				     // Plusieurs destinataires
 		     // $to  = 'aidan@example.com' . ', '; 
-		     $to = $post['emailSupplier'];
+		     $to = "w.ruggiero@comeca-group.com";//$post['emailSupplier'];
 
 		     // Sujet
 		     $subject = 'Concernant votre ajout dans la base de données Comeca';
@@ -145,13 +145,13 @@ class IndexController extends Controller {
 
 		     // En-têtes additionnels
 		     $headers .= 'To: Mary <mary@example.com>, Kelly <kelly@example.com>' . "\r\n";
-		     $headers .= 'From: Comeca Group <bkak@example.com>' . "\r\n";
+		     $headers .= 'From: Comeca Group <w.ruggiero@comeca-group.com>' . "\r\n";
 
 
 		     // Envoi
 		     mail($to, $subject, $message, $headers);
-			}
-
+		    
+}
 			
 		 
 		} 
