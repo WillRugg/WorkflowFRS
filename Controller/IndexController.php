@@ -109,6 +109,7 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;		 	
 	 
+	 	if ($this->post) {
 	 	if($this->post['Envoi']){
 		$mail = new PHPMailer;
 
@@ -126,14 +127,15 @@ class IndexController extends Controller {
 		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
 		$mail->Body    = ' Bla';
 
-		if(!$mail->send()) {
-		    echo 'Message could not be sent.';
-		    echo 'Mailer Error: ' . $mail->ErrorInfo;
-		 } else {
-		    echo 'Message has been sent';
-		}		
+				if(!$mail->send()) {
+				    echo 'Message could not be sent.';
+				    echo 'Mailer Error: ' . $mail->ErrorInfo;
+				 } else {
+				    echo 'Message has been sent';
+				}		
 		} 
 		
+	 	}
 
 		require('View/Index/demandeFournisseur.php') ; 
 	}
