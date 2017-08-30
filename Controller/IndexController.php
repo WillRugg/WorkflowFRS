@@ -201,7 +201,7 @@ class IndexController extends Controller {
 		$mail->isHTML(true);
 
 		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
-		$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> </a>';
+		$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> Cliquez ici </a>';
 
 				if(!$mail->send()) {
 				    echo 'Message could not be sent.';
