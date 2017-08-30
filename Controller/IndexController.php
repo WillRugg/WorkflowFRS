@@ -110,6 +110,52 @@ class IndexController extends Controller {
 		require_once('Model/Db2Model.php');
 		require('Model/SqlModel.php');
 
+				if($this->get) 
+		{
+			$get = $this->get;	
+		}
+		 	
+	 	if($this->post) 
+	 	{
+	
+			if(isset($post['Envoi']))
+			{
+				     // Plusieurs destinataires
+		     // $to  = 'aidan@example.com' . ', '; 
+		     $to = $post['emailSupplier'];
+
+		     // Sujet
+		     $subject = 'Concernant votre ajout dans la base de données Comeca';
+
+		     // message
+		     $message = '
+		     <html>
+		      <head>
+		       <title>COMECA</title>
+		      </head>
+		      <body>
+		       <p>Lien : '.$post['Lien'].'</p>
+		      </body>
+		     </html>
+		     ';
+
+		     // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+		     $headers  = 'MIME-Version: 1.0' . "\r\n";
+		     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+		     // En-têtes additionnels
+		     $headers .= 'To: Mary <mary@example.com>, Kelly <kelly@example.com>' . "\r\n";
+		     $headers .= 'From: Comeca Group <bkak@example.com>' . "\r\n";
+
+
+		     // Envoi
+		     mail($to, $subject, $message, $headers);
+			}
+
+			
+		 
+		} 
+
 		require('View/Index/demandeFournisseur.php') ; 
 	}
 
