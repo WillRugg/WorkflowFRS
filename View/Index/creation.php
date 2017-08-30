@@ -394,11 +394,11 @@ ob_start();
 	  	<!-- <input type="hidden" class="form-control" id="domaine" name="domaine" value="achats" placeholder="Domaine"> -->
 
 	  	 <a href="" onclick="return(confirm('Confirmer la création de la fiche fournisseur'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-4 validateCreate" name="Valider" value="Envoyer en validation - Achats"/>
+			<INPUT TYPE="submit" class="btn btn-info col-sm-5 validateCreate" name="Valider" value="Envoyer en validation - Achats"/>
 		 </a>
 
 		 <a href="" onclick="return(confirm('Envoyer au fournisseur pour complétion'));">   
-			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-4 col-sm-4" name="EnvoiFour" value="Demander informations au fournisseur"/>
+			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-1 col-sm-5" name="EnvoiFour" value="Demander informations au fournisseur"/>
 		 </a>
 	   
 	  
