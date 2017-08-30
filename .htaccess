@@ -1,0 +1,11 @@
+<Files four.php>
+order deny,allow
+deny from all
+allow from 10.20.2.10
+</Files>
+
+<Files index.php>
+order deny,allow
+deny from 10.20.2.10
+</Files>
+

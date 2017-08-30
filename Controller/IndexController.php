@@ -78,13 +78,14 @@ class IndexController extends Controller {
 			 	$timeUnique='NA';
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
+ 
 				
 			 
 				//Chargement de la class
 				 
  				if ($result) {
 					// envoi mail
-					require('Module/PHPMailer/PHPMailerAutoload.php');
+					require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
                 	//Instanciation de la class
 
 					$phpMailer = new PHPmailer();
@@ -152,6 +153,7 @@ class IndexController extends Controller {
 
 				} 	// result true  
 
+ 
 			 }
 			 elseif (isset($post['EnvoiFour'])) {
 			 	$etapeSuivante='fournisseur';
@@ -177,12 +179,39 @@ class IndexController extends Controller {
 	}
 		
 	public function fenetreConfirmationAction() {
+
+		require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
-		$app_body="body_Index" ;
+		$app_body="body_Index" ;		 	
+	 
+	 	if ($this->post) {
+	 	if($this->post['Envoi']){
+		$mail = new PHPMailer;
 
-		require_once('Model/Db2Model.php');
-		require('Model/SqlModel.php');
+		$mail->isSMTP();
+		$mail->Host = 'smtp2.comeca-group.com';
+		$mail->SMTPAuth = false;
+		$mail->SMTPDebug = false;
+
+		$mail->From = 'accueil@comeca-group.com'; 
+		$mail->FromName = 'Comeca Group';
+		$mail->addAddress($this->post['emailSupplier']);
+
+		$mail->isHTML(true);
+
+		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
+		$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> </a>';
+
+				if(!$mail->send()) {
+				    echo 'Message could not be sent.';
+				    echo 'Mailer Error: ' . $mail->ErrorInfo;
+				 } else {
+				    echo 'Message has been sent';
+				}		
+		} 
+		
+	 	}
 
 		require('View/Index/demandeFournisseur.php') ; 
 	}

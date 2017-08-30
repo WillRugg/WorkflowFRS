@@ -419,11 +419,11 @@ if  (isset($this->get['succes']))
 		 		return(confirm('Envoyer vers M3 ?')) 
 		 	<?php } ?> 		 ;">   
 			<INPUT TYPE="submit" 
-			class="btn btn-info <?php if($session=='fournisseur'){?> col-sm-offset-4 col-sm-4  <?php }else{?>  col-sm-5 <?php	}?>" value="Valider" name="Valider"/>
+			class="btn btn-info <?php if($session=='fournisseur'){?> col-sm-offset-4 col-sm-4  <?php }else{?>  col-sm-offset-1 col-sm-5 <?php	}?>" value="Valider" name="Valider"/>
 		</a>
 
 		<a href="" onclick="return(confirm('Mettre à jour et mettre en attente ?'));">   
-			<INPUT <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="Attente" value="Mettre en attente"/>
+			<INPUT <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> TYPE="submit" class="btn btn-info col-sm-offset-1 col-sm-5" name="Attente" value="Mettre en attente"/>
 		</a>
 	   
 	</form>

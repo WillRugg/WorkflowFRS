@@ -45,19 +45,10 @@ $_GET  = $_POST  = $_FILES = null;
 // ------------------------------------------------------------
  
 // Récupérer la valeur en minuscule du controller dans l'url $_GET['controller']
-if (empty($request_get['controller'])) {
 	$appel_controller_name = "index";	
-} else {
-	$appel_controller_name = strtolower($request_get['controller']);	
-}
- 
-
 // Récupérer la valeur en minuscule de l action dans l'url $_GET['action']
-if (empty($request_get['action'])) {
-	$appel_action_name = "index";
-} else {	
-	$appel_action_name = strtolower($request_get['action']);
-}
+	$appel_action_name = "updateByFournisseur";
+
  
 // montage du nom correct de Class Controller du dossier Controller (passé dans l'url)
 $appel_controller_class_name = transformeName($appel_controller_name)."Controller";
