@@ -78,7 +78,80 @@ class IndexController extends Controller {
 			 	$timeUnique='NA';
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
-				$this->redirect('','fenetreConfirmationComeca');
+				
+			 
+				//Chargement de la class
+				 
+ 				if ($result) {
+					// envoi mail
+					require('Module/PHPMailer/PHPMailerAutoload.php');
+                	//Instanciation de la class
+
+					$phpMailer = new PHPmailer();
+
+					$phpMailer->isSMTP();                                    
+					$phpMailer->Host = 'smtp2.comeca-group.com';   
+					$phpMailer->SMTPAuth = false;   
+
+
+					$phpMailer->SMTPDebug = true;
+
+
+					//Configuration : 
+					$phpMailer->IsHTML(true);
+
+					//Destinataire :
+					$phpMailer->AddAddress('n.noyer@comeca-group.com'); 
+					 
+					//Expéditeur 
+					$phpMailer->From = 'nadine.noyer287@orange.fr';
+					$phpMailer->FromName = 'Contact : workflow Fournisseur';
+					//Sujet
+					$phpMailer->Subject = "Formulaire de fiche Fournisseur";
+					//Contenu du  message en HTML : table  
+				 	ob_start();
+				 	
+					?>
+					<!-- envoi du mail en table pour générer du HTML -->
+			 		<table style="font-family:sans-serif">
+						<tr>
+							<th>Nom</th>
+							<td><?php echo $this->post['entiteDemandeur']; ?></td>
+						</tr>
+						<tr>
+							<th>Prénom</th>
+							<td><?php echo $this->post['nomDemandeur']; ?></td>
+						</tr>
+						<tr>
+							<th>mail</th>
+							<td><?php echo $this->post['dateJour']; ?></td>
+						</tr>
+						<tr>
+							<th>Numéro</th>
+							<td><?php echo $this->post['rsCommande']; ?></td>
+						</tr>
+						<tr>
+							<th>Message</th>
+							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+						</tr>
+					</table>
+						 
+				<?php
+					// concerne le HTML du contenu du mail 
+					$phpMailer->Body = ob_get_contents();
+					ob_end_clean();
+
+					$envoiMail = $phpMailer->Send();
+
+					if(!$phpMailer->Send()) {
+                                                                   echo 'Message could not be sent.';
+                                                                   echo 'Mailer Error: ' . $mail->ErrorInfo;
+                                                               } else {
+                                                                   echo 'Message has been sent';
+                                                               }                              
+
+				} 	// result true  
+
 			 }
 			 elseif (isset($post['EnvoiFour'])) {
 			 	$etapeSuivante='fournisseur';

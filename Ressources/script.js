@@ -8,11 +8,11 @@
  	/----------------------------------------------------------------------------------------*/
  	// Formulaire de connexion  */
  	/* ------------------------ */
- 	$('.formCreate.validateCreate').on('submit', function(e) {
+ 	$('.validateCreate').on('submit', function(e) {
  		// initialisation de la variable erreur
 		var erreur = false;
-		// formulaire de connection 
-		// verif le nom 
+		 
+		// verif entité sélectionnee
 		var monEntite = $('#entiteDemandeur');
 		if (monEntite.val().length == 0 ) {
 			erreur = true;
@@ -23,11 +23,13 @@
 		// s'il y au moins une erreur 
 		if (erreur) {
 			e.preventDefault();
-			$('.msgJs').text('Veuillez remplir tous les champs de saisie');
+			$('.msgJs').alert('Veuillez remplir tous les champs de saisie');
 		}
  	});
 
  	
+
+
 
 }); // FIN :  $(document).ready(function()
 

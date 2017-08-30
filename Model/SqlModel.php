@@ -296,7 +296,7 @@ class SqlModel extends Model{
 						    )'
 						    );
 		// ion execute le prépare
-		$stmt->execute(array(
+		$result = $stmt->execute(array(
 		 	'entite'=>$post['entiteDemandeur'],
 		 	'nomDemandeur'=>$post['nomDemandeur'],
 		  	'fonction'=>$post['fonctionDemandeur'],
@@ -431,7 +431,7 @@ class SqlModel extends Model{
 						    :domaineValidation
 						    )');
 		// ion execute le prépare
-		$stmt->execute(array(
+		 $stmt->execute(array(
 			'statut'=>$updateCrea,
 			'lastID'=>$lastID,
 		 	'entite'=>$post['entiteDemandeur'],
@@ -476,6 +476,7 @@ class SqlModel extends Model{
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
+		return($result);
 	}
 
 	// modifier fiche

@@ -2,6 +2,8 @@
 
 ob_start();
 
+
+
 ?>
  
 
@@ -26,7 +28,7 @@ ob_start();
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Entité</label>
 
-			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur"  placeholder="Votre entité" > 
+			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur"  placeholder="Votre entité" required> 
 						
 						<option value ="" > Sélection une entité </option>
 						<?php
@@ -42,7 +44,7 @@ ob_start();
 				</div>
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput">Nom du demandeur </label>
-				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36">
+				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36" required> 
 				</div>
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Fonction</label>
@@ -165,7 +167,7 @@ ob_start();
                 </div>
 		 		<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
-			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance" required > 
+			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"   > 
 							<option value ="" >Sélectionner une valeur</option>
 							<?php
 							foreach ($groupeAppartenance as $unGroupeAppartenance) {
@@ -191,7 +193,7 @@ ob_start();
 			   	</div>
 			    <div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
-			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
+			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  required> 
 								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
 								<?php
 								foreach ($groupeFournisseur as $unGroupe) {
@@ -223,14 +225,14 @@ ob_start();
 				<div class="form-group col-sm-12">
 				   
 				    <div class="col-sm-6">
-				    	<select name="incoterm"  class="form-control " id="incoterm" >
+				    	<select name="incoterm"  class="form-control " id="incoterm" required>  
 				    		<option value ="">Sélectionner une valeur</option> 
 							<option value="EXW"> EXW - A l'usine</option>
 							<option value="DDU"> DDU - Rendu droits acquités</option>
 						</select> 	
 					</div>
 				    <div class="col-sm-6"> 
-				   		<select name="incotermHorsGroupe"  class="form-control " id="incotermHorsGroupe"  >
+				   		<select name="incotermHorsGroupe"  class="form-control " id="incotermHorsGroupe"  required> 
 				   			<option value = "" >Sélectionner une valeur</option> 
 						<?php
 						foreach ($condition as $uneCondition) {
@@ -262,7 +264,7 @@ ob_start();
 	 	<div class="col-sm-12">
 	   		<legend class="scheduler-border">Type de produits</legend>	
 	   	   	<div class="col-sm-offset-4 col-sm-4">
-	     		<select name="typeProduit"  class="form-control " id="typeProduit" > 
+	     		<select name="typeProduit"  class="form-control " id="typeProduit" required> 
 			   		<option value = "">Biens ? Services ? Sans TVA ?</option>
 			   		<option value = "01"> Biens   </option>
 			   		<option value = "07"> Frais Généraux  </option>
@@ -332,8 +334,7 @@ ob_start();
 		   		<div class="col-sm-12">	 
 			   		 <div class="col-sm-4">
 		   		 		<select name="devise"  class="form-control " id="devise" > 
-		   		 			<option value="">Sélectionner une devise</option>
-							<option value="EUR" selected="selected" > EUR - EURO</option>
+		   		 			<option value="EUR" selected="selected" > EUR - EURO</option>
 							<option value="GBP"> GBP - LIVRE </option>
 							<option value="USD"> USD - DOLLARD </option>
 						</select>
