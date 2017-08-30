@@ -17,7 +17,7 @@
 	 		
 	 		<a href="<?php echo $this->link('Modif','');?>"><input type="submit" class="btn btn-info " value="Modification Fournisseurs" name="Demande Modification Fournisseurs"></a>
 
-	 		<a href="http://mataiva/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
+	 		<a href="http://maupiti/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
 	 			<input type="submit" class="btn btn-warning" value="Liste Fournisseurs existants" name="Liste Fournisseurs existants"> 
 	 		</a>
 	 	</div>

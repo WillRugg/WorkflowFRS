@@ -12,26 +12,33 @@ class ModifController extends Controller {
 		$app_title="Connexion " ;
 		$app_body="Body_Connecte" ;
 		$app_desc="Comeca" ;
-		// si l admin est connecté
-		$auth = $this->authModule->estConnecte();
-		// si connecté => redirection vers indexAction de CategorieController 
-		require_once('Model/Db2Model.php');
-		require_once('Model/SqlModel.php');
 		
-		/*$AttenteModel = new SqlModel();
-	
-		$ListeAttente = $AttenteModel->AfficheEnAttente();*/
+		if($this->post) {
+			$post = $this->post;
+			$files =$this->files;			
+			$suno=$post['SUNO'];
+			$this->redirect('Modif','modif',array('SUNO'=>$suno));
+			
+			}
+		require('View/Index/setSunoModif.php') ;
+}
+	public function modifAction()
+	{
+		$app_title="Connexion " ;
+		$app_body="Body_Connecte" ;
+		$app_desc="Comeca" ;
+		$fichier = 'http://dsiwilrug:w1ll14m$@tupai:32005/m3api-rest/execute/CRS620MI/GetBasicData?SUNO='.$this->get['SUNO'];
+			$xml = simplexml_load_file($fichier);
+			//print_r($xml);
+			echo ( $xml->MIRecord->NameValue[1]->Value);
+    		// var_dump( $xml->MIRecord->NameValue[1]->Value);
+    		// var_dump( $xml->MIRecord->NameValue[2]->Value);
+    		// var_dump( $xml->MIRecord->NameValue[3]->Value);
+    		// var_dump( $xml->MIRecord->NameValue[4]->Value);
+    		// var_dump( $xml->MIRecord->NameValue[5]->Value);
 
-		
-		
-
-		 $listeModel = new Db2Model($this->getBiblio());
-		 $ListeFournisseurs = $listeModel->AfficheFournisseursExistants();
-
-
-		require('View/Index/modif.php') ;
+    	require('View/Index/modifFrs.php') ;
 	}
 
-}
 
-?>
+}

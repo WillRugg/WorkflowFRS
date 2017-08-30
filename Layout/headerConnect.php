@@ -39,7 +39,7 @@
 				 	<a href="<?php echo $this->link('Connecte','seDeconnecte');?>"> <input type="submit" class="btn btn-danger" value="Se déconnecter" name="Deconnexion"> </a>
 				</div>
 				<div class="col-md-2 col-md-offset-7" >
-			 		<a href="http://mataiva/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
+			 		<a href="http://maupiti/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
 			 			<input type="submit" class="btn btn-warning" value="Recherche Fournisseur M3" name="Recherche Fournisseur M3"> 
 			 		</a>
 			 	</div>
