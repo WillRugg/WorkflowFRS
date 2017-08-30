@@ -104,7 +104,7 @@ class IndexController extends Controller {
 		
 	public function fenetreConfirmationAction() {
 
-require '/lib/libphp-phpmailer/PHPMailerAutoload.php';
+		require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
