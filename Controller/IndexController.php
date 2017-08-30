@@ -116,7 +116,7 @@ class IndexController extends Controller {
 		$mail->isSMTP();
 		$mail->Host = 'smtp2.comeca-group.com';
 		$mail->SMTPAuth = false;
-		$mail->SMTPDebug = true;
+		$mail->SMTPDebug = false;
 
 		$mail->From = 'accueil@comeca-group.com'; 
 		$mail->FromName = 'Comeca Group';
