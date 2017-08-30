@@ -109,6 +109,7 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;		 	
 	 
+	 	if($this->post['Envoi']){
 		$mail = new PHPMailer;
 
 		$mail->isSMTP();
@@ -130,7 +131,8 @@ class IndexController extends Controller {
 		    echo 'Mailer Error: ' . $mail->ErrorInfo;
 		 } else {
 		    echo 'Message has been sent';
-		}		 
+		}		
+		} 
 		
 
 		require('View/Index/demandeFournisseur.php') ; 
