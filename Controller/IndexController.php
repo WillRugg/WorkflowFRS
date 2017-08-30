@@ -107,18 +107,8 @@ class IndexController extends Controller {
 		require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
-		$app_body="body_Index" ;
-
-		require_once('Model/Db2Model.php');
-		require('Model/SqlModel.php');
-
-				if($this->get) 
-		{
-			$get = $this->get;	
-		}
-		 	
-	 	if($this->post) 
-	 	{
+		$app_body="body_Index" ;		 	
+	 
 		$mail = new PHPMailer;
 
 		$mail->isSMTP();
@@ -133,15 +123,7 @@ class IndexController extends Controller {
 		$mail->isHTML(true);
 
 		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
-		$mail->Body    = ' <html>
-		                      <head>
-		                       <title>COMECA</title>
-		                      </head>
-		                      <body>
-		                       <p>Lien : '.$post['Lien'].'</p>
-		                      </body>
-		                     </html>
-		                     ';
+		$mail->Body    = ' Bla';
 
 		if(!$mail->send()) {
 		    echo 'Message could not be sent.';
@@ -149,7 +131,7 @@ class IndexController extends Controller {
 		 } else {
 		    echo 'Message has been sent';
 		}		 
-		} 
+		
 
 		require('View/Index/demandeFournisseur.php') ; 
 	}
