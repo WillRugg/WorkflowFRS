@@ -443,7 +443,7 @@ class IndexController extends Controller {
 			 	 	$mail->SmtpClose();
 		   		 	// ferme la connexion smtp et désalloue la mémoire...
 		    		unset($mail); 
-				} 
+				} // fin achats
 			
 				elseif ($post['domaine']=='compta' ) 
 				{
@@ -468,13 +468,76 @@ class IndexController extends Controller {
 						$resultM3 = $apiModel->creerfrsM3($this->post,$numeroString);
 						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
 								
-						if(isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
-						{
+
+						if (isset($resultM3['succes']) && isset($resultAdrM3['succes']) ) {
 							$domaineSuivant = 'Movex';
 
-						}
+					// envoi mail au demandeur
+						require('Module/envoiMail.php') ;
+						$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
 
-					} 
+						$adresseMail = $post['nomDemandeur']  ;
+						$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
+
+						$mail->AddAddress($adresseMail);
+					    $mail->Subject=$sujet; 
+						 
+						//Contenu du  message en HTML : table  
+					 	ob_start();
+						
+						?>
+						<!-- envoi du mail en table pour générer du HTML -->
+						<table style="font-family:sans-serif" border="1" >
+							<tr>
+								<th colspan="6"> Fournisseur M3 créé sous le num : '<?php echo $numeroString; ?></th>
+							</tr>
+							<tr>
+								<th>Entite Demandeur</th>
+								<th>Nom Demandeur</th>
+								<th>Date creation</th>
+								<th>Nom Fournisseur</th>
+								<th>Code Fournisseur M3</th>
+								<th>Raison Demande</th>
+							</tr>
+							<tr>
+								<td><?php echo $this->post['entiteDemandeur']; ?></td>
+								<td><?php echo $this->post['nomDemandeur']; ?></td>
+								<td><?php echo $this->post['dateJour']; ?></td>
+								<td><?php echo $this->post['rsCommande']; ?></td>
+								<td><?php echo $numeroString; ?></td>
+								<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+							</tr>
+						</table>
+									 
+						<?php
+						// concerne le HTML du contenu du mail 
+						$mail->Body = ob_get_contents();
+
+						ob_end_clean();  
+			 
+
+					    // affiche une erreur => pas toujours explicite
+					    if(!$mail->Send()) {
+					        $_REQUEST['error'] = $mail->ErrorInfo; 
+					    }
+					    $mail->SmtpClose();
+					    // ferme la connexion smtp et désalloue la mémoire...
+					    unset($mail); 
+
+						// affiche accueil , liste des frs à valider pour M3
+						$this->redirect($session,'accueil',$resultM3,$post);
+					} // elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
+
+					elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) {
+						// var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
+						$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
+					}
+
+
+
+
+
+					} //if ($testPourDomaine = 'Movex') 
 
 				} 	// elseif ($post['domaine']=='compta' ) 
 
@@ -539,78 +602,13 @@ class IndexController extends Controller {
 		    		unset($mail); 
 
 			$this->redirect($session,'accueil');
-		}
+		} // elseif (isset($post['Attente']))
 
 		$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
 
 		// Lance lors de Valider la création dans Movex 
 
-   		if (is_array($result)) 
-   		{
-			$erreurs = $result;
-			
-		} 
-		elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) ) {
-
-		// envoi mail au demandeur
-			require('Module/envoiMail.php') ;
-			$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
-
-			$adresseMail = $post['nomDemandeur']  ;
-			$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
-
-			$mail->AddAddress($adresseMail);
-		    $mail->Subject=$sujet; 
-			 
-			//Contenu du  message en HTML : table  
-		 	ob_start();
-			
-			?>
-			<!-- envoi du mail en table pour générer du HTML -->
-			<table style="font-family:sans-serif" border="1" >
-				<tr>
-					<th colspan="6"> Fournisseur M3 créé sous le num : '<?php echo $numeroString; ?></th>
-				</tr>
-				<tr>
-					<th>Entite Demandeur</th>
-					<th>Nom Demandeur</th>
-					<th>Date creation</th>
-					<th>Nom Fournisseur</th>
-					<th>Code Fournisseur M3</th>
-					<th>Raison Demande</th>
-				</tr>
-				<tr>
-					<td><?php echo $this->post['entiteDemandeur']; ?></td>
-					<td><?php echo $this->post['nomDemandeur']; ?></td>
-					<td><?php echo $this->post['dateJour']; ?></td>
-					<td><?php echo $this->post['rsCommande']; ?></td>
-					<td><?php echo $numeroString; ?></td>
-					<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
-				</tr>
-			</table>
-						 
-			<?php
-			// concerne le HTML du contenu du mail 
-			$mail->Body = ob_get_contents();
-
-			ob_end_clean();  
- 
-
-		    // affiche une erreur => pas toujours explicite
-		    if(!$mail->Send()) {
-		        $_REQUEST['error'] = $mail->ErrorInfo; 
-		    }
-		    $mail->SmtpClose();
-		    // ferme la connexion smtp et désalloue la mémoire...
-		    unset($mail); 
-
-			// affiche accueil , liste des frs à valider pour M3
-			$this->redirect($session,'accueil',$resultM3,$post);
-		}
-		elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) {
-			// var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
-			$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
-		}
+   	
 	
 		 
 		} // if $this->post
