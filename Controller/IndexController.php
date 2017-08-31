@@ -92,7 +92,8 @@ class IndexController extends Controller {
 					$adresseMail = 'achats_wkf_frs@comeca-group.com'  ;
 					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
 					//Sujet
-					$mail->Subject = " A valider par les achats";
+					$mail->Subject = $sujet;
+					$mail->AddAddress($adresseMail);
 					//Contenu du  message en HTML : table  
 				 	ob_start();
 				 	
@@ -380,8 +381,9 @@ class IndexController extends Controller {
 					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
 					$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
 					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
-					//Sujet
-					$mail->Subject = " A valider par la compta";
+					
+					$mail->Subject = $sujet;
+					$mail->AddAddress($adresseMail);
 					//Contenu du  message en HTML : table  
 				 	ob_start();
 				 	
@@ -473,8 +475,9 @@ class IndexController extends Controller {
 					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
 					$adresseMail = 'achats_wkf_frs@comeca-group.com'  ;
 					$sujet = 'Workflow Fournisseur  en attente : '.$post['rsCommande'];
-					//Sujet
-					$mail->Subject = " A valider par les achats";
+					
+					$mail->Subject = $sujet;
+					$mail->AddAddress($adresseMail);
 					//Contenu du  message en HTML : table  
 				 	ob_start();
 				 	
@@ -540,6 +543,9 @@ class IndexController extends Controller {
 			$adresseMail = $post['nomDemandeur']  ;
 			$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
 
+			$mail->AddAddress($adresseMail);
+		    $mail->Subject=$sujet; 
+			 
 			//Contenu du  message en HTML : table  
 		 	ob_start();
 			
@@ -569,19 +575,10 @@ class IndexController extends Controller {
 						 
 			<?php
 			// concerne le HTML du contenu du mail 
-			$message = ob_get_contents();
+			$mail->Body = ob_get_contents();
 
 			ob_end_clean();  
-
-			$mail->AddAddress($adresseMail);
-		     // renvoi une copie de l'email au destinateur, fonctionnalité pas toujours opérationnelle
-		    // $mail->AddReplyTo('postmaster[at]monsite.e4y.fr');
-		    // l'entête = nom du sujet
-		    $mail->Subject=$sujet; 
-		    // le corps = le message en lui-même, codé en HTML si vous voulez
-		    $mail->Body=$message; 
-		    //$mail->AltBody="This is text only alternative body."; 
-		    // corps du message à afficher si le HTML n'est pas accepter par celui qui lit le message
+ 
 
 		    // affiche une erreur => pas toujours explicite
 		    if(!$mail->Send()) {
