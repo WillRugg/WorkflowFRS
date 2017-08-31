@@ -443,7 +443,8 @@ class IndexController extends Controller {
 				 	 	$mail->SmtpClose();
 			   		 	// ferme la connexion smtp et désalloue la mémoire...
 			    		unset($mail); 
-			    	$this->redirect($session,'accueil',$errorMail,$okMail);
+			    	$this->redirect($session,'accueil',array('errorMail'=>$errorMail,'okMail'=>$okMail));
+			    	
 				} // if($post['domaine']=='achats')
 			
 				elseif ($post['domaine']=='compta' ) 
