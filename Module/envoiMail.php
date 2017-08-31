@@ -2,24 +2,27 @@
 //Code PHP :
 
  //inclusion du fichier si le dossier "phpmailer" se trouve dans le même dossier que notre page web
-include_once "phpmailer/class.phpmailer.php";
+include_once 'lib/libphp-phpmailer/PHPMailerAutoload.php';
 
-function envoiMail($adresseMail, $sujet, $message) {        
+//function envoiMail($adresseMail, $sujet, $message) {     
+function envoiMail($mail) {     
+
+
     $mail = new PHPmailer();
     $mail->IsSMTP();
-    //$mail->SMTPDebug=true;   
-    //permet de voir les erreurs si ça ne fonctionne pas    
+    //$mail->SMTPDebug=true;    //permet de voir les erreurs si ça ne fonctionne pas    
+   
     
     // Connexion au serveur SMTP
-    $mail->Host='localhost'; 
+    $mail->Host= 'smtp2.comeca-group.com';   
     $mail->Port = 25;
     
     // Cette partie est optionnelle si le serveur SMTP n'a pas besoin d'authentification
-    $mail->SMTPAuth = true; 
+    $mail->SMTPAuth = false; 
     // mettre l'adresse email que founit l'hébergeur
-    $mail->Username = 'postmaster[at]monsite.e4y.fr'; 
+    //$mail->Username = 'postmaster[at]monsite.e4y.fr'; 
     // le mot de passe pour se connecter à votre boite mail sur l'hébergeur
-    $mail->Password = 'monMotDePasse'; 
+    //$mail->Password = 'monMotDePasse'; 
 
 
     // Permet d'écrire un mail en HTML (=> conversion des balises
@@ -27,13 +30,15 @@ function envoiMail($adresseMail, $sujet, $message) {
     // évite d'avoir des caractères chinois :)
     $mail->CharSet = 'UTF-8';
     // adresse mail du compte qui envoi 
-    $mail->From ='postmaster[at]monsite.e4y.fr'; 
+    $mail->From ='accueil@comeca-group.com'; 
     // remplace le nom du destinateur lors de la lecture d'un email        
-    $mail->FromName = "Data Engine Dasihaulien"; 
+    $mail->FromName = "Workflow Fournisseur"; 
+
+    /*
      // adresse du destinataire, plusieurs adresses possibles en même temps !
     $mail->AddAddress($adresseMail);
      // renvoi une copie de l'email au destinateur, fonctionnalité pas toujours opérationnelle
-    $mail->AddReplyTo('postmaster[at]monsite.e4y.fr');
+    // $mail->AddReplyTo('postmaster[at]monsite.e4y.fr');
     // l'entête = nom du sujet
     $mail->Subject=$sujet; 
     // le corps = le message en lui-même, codé en HTML si vous voulez
@@ -45,6 +50,8 @@ function envoiMail($adresseMail, $sujet, $message) {
     if(!$mail->Send()) {
         $_REQUEST['error'] = $mail->ErrorInfo; 
     }
-    $mail->SmtpClose();
+    $mail->SmtpClose(); */
     // ferme la connexion smtp et désalloue la mémoire...
-}    unset($mail); 
+    return $mail;
+}   
+// unset($mail); 
