@@ -48,7 +48,7 @@ else
 		echo $this->get['errorMail'] ;
 	}
 	elseif (isset($this->get['okMail'])) {
-		echo $this->get['errorMail'];
+		echo $this->get['okMail'];
 	}
 		
 ?>
