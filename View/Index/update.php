@@ -54,7 +54,7 @@ if  (isset($this->get['succes']))
 
 				</div>
 				<div class="form-group col-sm-4">
-				    <label for="formGroupExampleInput">Nom du demandeur </label>
+				    <label for="formGroupExampleInput"> Adresse Mail du Demandeur</label>
 				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur"  
 				    		value="<?php echo $UnFournisseur['nomDemandeur'];?>" size="36" maxlength="36" required>
 				</div>
@@ -140,12 +140,12 @@ if  (isset($this->get['succes']))
 			      </div>
 		    	<div class="form-group col-sm-4">
 		    		<label for="formGroupExampleInput2">Téléphone</label>
- 				  	<input type="text" class="form-control" id="telephone" size="12" maxlength="12" name="telephone" 
+ 				  	<input type="text" class="form-control" id="telephone" size="15" maxlength="15" name="telephone" 
  				  			value="<?php echo $UnFournisseur['telephone'];?>" >
  				</div>
  				<div class="form-group col-sm-4">
  					<label for="formGroupExampleInput2">Fax</label>
- 				  	<input type="text" class="form-control"  id="fax" name="fax" size="12" maxlength="12" value="<?php echo $UnFournisseur['fax'];?>">
+ 				  	<input type="text" class="form-control"  id="fax" name="fax" size="15" maxlength="15" value="<?php echo $UnFournisseur['fax'];?>">
  				</div>
 				<div class="form-group col-sm-4">
 					<label for="formGroupExampleInput2">Site internet</label>
@@ -194,7 +194,7 @@ if  (isset($this->get['succes']))
 		 		<div <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-4">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"  > 
-							<option value ="" >Sélectionner une valeur</option>
+							<option value ="" >Sans ou Sélectionner une valeur</option>
 							<?php
 							foreach ($groupeAppartenance as $unGroupeAppartenance) {
 							?>
@@ -289,10 +289,14 @@ if  (isset($this->get['succes']))
 	   		<legend class="scheduler-border">Type de produits</legend>	
 	   	   	<div class="col-sm-4">
 	     		<select name="typeProduit"  class="form-control " id="typeProduit" > 
-			   		<option value = "">Sélectionner une valeur</option>
-			   		<option value = "Bien" <?php  if ($UnFournisseur['BSSTypeProduit'] == "Bien" ) { ?> selected="selected" <?php } ?>>Biens</option>
-			   		<option value = "Serv" <?php  if ($UnFournisseur['BSSTypeProduit'] == "Serv" ) { ?> selected="selected" <?php } ?>> Service  </option>
-			   		<option value = "Stva" <?php  if ($UnFournisseur['BSSTypeProduit'] == "Stva" ) { ?> selected="selected" <?php } ?>> Sans TVA (ex: auto entrepreneur) </option>
+			   		<option value = "">Biens ? Services ? Sans TVA ?</option>
+			   		<option value = "01" <?php  if ($UnFournisseur['BSSTypeProduit'] == "01" ) { ?> selected="selected" <?php } ?>> Biens </option>
+			   		<option value = "07" <?php  if ($UnFournisseur['BSSTypeProduit'] == "07" ) { ?> selected="selected" <?php } ?>> Frais Generaux </option>
+			   		<option value = "08" <?php  if ($UnFournisseur['BSSTypeProduit'] == "08" ) { ?> selected="selected" <?php } ?>> Frais Généraux Européen  </option>
+			   		<option value = "17" <?php  if ($UnFournisseur['BSSTypeProduit'] == "17" ) { ?> selected="selected" <?php } ?>> Fournisseur Espagne  </option>
+			   		<option value = "??" <?php  if ($UnFournisseur['BSSTypeProduit'] == "??" ) { ?> selected="selected" <?php } ?>> Service  </option>
+			   		<option value = "12" <?php  if ($UnFournisseur['BSSTypeProduit'] == "12" ) { ?> selected="selected" <?php } ?>> Exonere  </option>
+			   		<option value = "00" <?php  if ($UnFournisseur['BSSTypeProduit'] == "00" ) { ?> selected="selected" <?php } ?>> Sans TVA (ex: auto entrepreneur) </option>
  		   	   	</select>  		
 
 	     	</div>

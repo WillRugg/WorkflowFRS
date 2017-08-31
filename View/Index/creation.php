@@ -40,7 +40,7 @@ ob_start();
 
 				</div>
 				<div class="form-group col-sm-4">
-				    <label for="formGroupExampleInput">Nom du demandeur </label>
+				    <label for="formGroupExampleInput"> Adresse Mail du Demandeur </label>
 				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36" required> 
 				</div>
 				<div class="form-group col-sm-4">
@@ -116,11 +116,11 @@ ob_start();
 			    </div>
 		    	<div class="form-group col-sm-4">
 		    		<label for="formGroupExampleInput2">Téléphone</label>
- 				  	<input type="text" class="form-control" id="telephone" size="12" maxlength="12" name="telephone" placeholder="Tel">
+ 				  	<input type="text" class="form-control" id="telephone" size="15" maxlength="15" name="telephone" placeholder="Tel">
  				</div>
  				<div class="form-group col-sm-4">
  					<label for="formGroupExampleInput2">Fax</label>
- 				  	<input type="text" class="form-control"  id="fax" name="fax" size="12" maxlength="12" placeholder="Fax">
+ 				  	<input type="text" class="form-control"  id="fax" name="fax" size="15" maxlength="15" placeholder="Fax">
  				</div>
 				<div class="form-group col-sm-4">
 					<label for="formGroupExampleInput2">Site internet</label>
@@ -152,7 +152,7 @@ ob_start();
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysPaiement"  class="form-control " id="paysPaiement"  > 
-						<option  > FR par défaut ou Sélection autre pays </option>
+						<option value ="FR" > FR par défaut ou Sélection autre pays </option>
 							<?php
 							foreach ($pays as $unPays) {
 							?>
@@ -165,7 +165,7 @@ ob_start();
 		 		<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"   > 
-							<option value ="" >Sélectionner une valeur</option>
+							<option value ="" > Sans ou Sélectionner une valeur</option>
 							<?php
 							foreach ($groupeAppartenance as $unGroupeAppartenance) {
 							?>
@@ -222,14 +222,14 @@ ob_start();
 				<div class="form-group col-sm-12">
 				   
 				    <div class="col-sm-6">
-				    	<select name="incoterm"  class="form-control " id="incoterm" required>  
-				    		<option value ="">Sélectionner une valeur</option> 
-							<option value="EXW"> EXW - A l'usine</option>
+				    	<select name="incoterm"  class="form-control " id="incoterm" >  
+				    		<option value ="EXW"> EXW - A l'usine ou Sélectionner une valeur</option> 
 							<option value="DDU"> DDU - Rendu droits acquités</option>
+							<option value="&D "> pour Frais Generaux  </option>
 						</select> 	
 					</div>
 				    <div class="col-sm-6"> 
-				   		<select name="incotermHorsGroupe"  class="form-control " id="incotermHorsGroupe"  required> 
+				   		<select name="incotermHorsGroupe"  class="form-control " id="incotermHorsGroupe"  > 
 				   			<option value = "" >Sélectionner une valeur</option> 
 						<?php
 						foreach ($condition as $uneCondition) {
@@ -257,7 +257,7 @@ ob_start();
     	 	</div>
     	</fieldset>
 
-    	<fieldset class="col-sm-12 control-label thumbnail">
+    	<fieldset class="col-sm-12 control-label thumbnai
 	 	<div class="col-sm-12">
 	   		<legend class="scheduler-border">Type de produits</legend>	
 	   	   	<div class="col-sm-offset-4 col-sm-4">
@@ -266,7 +266,9 @@ ob_start();
 			   		<option value = "01"> Biens   </option>
 			   		<option value = "07"> Frais Généraux  </option>
 			   		<option value = "08"> Frais Généraux Européen  </option>
-			   		<option value = "Serv"> Service  </option>
+			   		<option value = "17"> Fournisseur Espagne  </option>
+			   		<option value = "??"> Service  </option>
+			   		<option value = "12"> Exonere  </option>
 			   		<option value = "00"> Sans TVA (ex: auto entrepreneur) : 00</option>
  		   	   	</select>  		
 	     	</div>

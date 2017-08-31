@@ -47,7 +47,7 @@ class ApiM3Model extends ApiModel {
 	 	// connexion réussi	
 		if ($this->open('DSINADNOY','M92e93j94',"CRS620MI")) {
 	
-			var_dump($post);
+			//var_dump($post);
 			
 			$erreur = array();
 						
