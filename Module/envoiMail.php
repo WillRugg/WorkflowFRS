@@ -5,7 +5,7 @@
 include_once 'lib/libphp-phpmailer/PHPMailerAutoload.php';
 
 //function envoiMail($adresseMail, $sujet, $message) {     
-function envoiMail($mail) {     
+function envoiMail() {     
 
 
     $mail = new PHPmailer();

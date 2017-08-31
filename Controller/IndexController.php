@@ -81,19 +81,19 @@ class IndexController extends Controller {
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
  		//Chargement de la class
 
- 				if ($result) {
+ 				//if ($result) {
 					// envoi mail
-					require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
+				//	require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
                 	//Instanciation de la class
 
-					$phpMailer = new PHPmailer();
+				//	$phpMailer = new PHPmailer();
 
-					$phpMailer->isSMTP();                                    
-					$phpMailer->Host = 'smtp2.comeca-group.com';   
-					$phpMailer->SMTPAuth = false;   
+				//	$phpMailer->isSMTP();                                    
+				//	$phpMailer->Host = 'smtp2.comeca-group.com';   
+				//	$phpMailer->SMTPAuth = false;   
 
 
-					$phpMailer->SMTPDebug = false;
+				//	$phpMailer->SMTPDebug = false;
 
 
 
