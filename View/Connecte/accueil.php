@@ -44,6 +44,12 @@ else
 		echo '<SCRIPT language="Javascript">alert(\''.$this->get['connexion'].'\', \'Information !\');</SCRIPT>' ;		
 	} 
 
+	if (isset($errorMail)) {
+		echo $errorMail;
+	}
+	elseif (isset($okMail)) {
+		echo $okMail;
+	}
 		
 ?>
 		

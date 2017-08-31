@@ -392,58 +392,59 @@ class IndexController extends Controller {
 					 
 				 	// envoi mail au demandeur
 					require('Module/envoiMail.php') ;
-					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
+						$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
 
-					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-					$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
-					
-					$mail->Subject = $sujet;
-					$mail->AddAddress($adresseMail);
-					//Contenu du  message en HTML : table  
-				 	ob_start();
-				 	
-					?>
-					<!-- envoi du mail en table pour générer du HTML -->
-			 		<table style="font-family:sans-serif" border="1" >
-			 			<tr>
-							<th colspan="5">Vous avez une fiche Fournisseur à valider</th>
+						//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+						$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+						$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
+						
+						$mail->Subject = $sujet;
+						$mail->AddAddress($adresseMail);
+						//Contenu du  message en HTML : table  
+					 	ob_start();
+					 	
+						?>
+						<!-- envoi du mail en table pour générer du HTML -->
+				 		<table style="font-family:sans-serif" border="1" >
+				 			<tr>
+								<th colspan="5">Vous avez une fiche Fournisseur à valider</th>
+								 
+							</tr>
+							<tr>
+								<th>Entite Demandeur</th>
+								<th>Nom Demandeur</th>
+								<th>Date creation</th>
+								<th>Nom Fournisseur</th>
+								<th>Raison Demande</th>
+							</tr>
+							<tr>
+								<td><?php echo $this->post['entiteDemandeur']; ?></td>
+								<td><?php echo $this->post['nomDemandeur']; ?></td>
+								<td><?php echo $this->post['dateJour']; ?></td>
+								<td><?php echo $this->post['rsCommande']; ?></td>
+								<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+							</tr>
+						</table>
 							 
-						</tr>
-						<tr>
-							<th>Entite Demandeur</th>
-							<th>Nom Demandeur</th>
-							<th>Date creation</th>
-							<th>Nom Fournisseur</th>
-							<th>Raison Demande</th>
-						</tr>
-						<tr>
-							<td><?php echo $this->post['entiteDemandeur']; ?></td>
-							<td><?php echo $this->post['nomDemandeur']; ?></td>
-							<td><?php echo $this->post['dateJour']; ?></td>
-							<td><?php echo $this->post['rsCommande']; ?></td>
-							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
-						</tr>
-					</table>
-						 
-					<?php
-					// concerne le HTML du contenu du mail 
-					$mail->Body = ob_get_contents();
-					ob_end_clean();
+						<?php
+						// concerne le HTML du contenu du mail 
+						$mail->Body = ob_get_contents();
+						ob_end_clean();
 
-					$envoiMail = $mail->Send();
-					 				
-					if(!$envoiMail) {
-                           echo 'Le Message n est pas envoye';
-                           echo 'Mailer Error: ' . $mail->ErrorInfo;
-                       } else {
-                           echo 'le Message a ete envoye';
-                    }                              
+						$envoiMail = $mail->Send();
+						 				
+						if(!$envoiMail) {
+	                           $errorMail = 'Le Message n est pas envoye - Mailer Error: ' . $mail->ErrorInfo;
+	                           
+	                       } else {
+	                           $okMail= 'le Message a ete envoye';
+	                    }                              
 
-			 	 	$mail->SmtpClose();
-		   		 	// ferme la connexion smtp et désalloue la mémoire...
-		    		unset($mail); 
-				} // fin achats
+				 	 	$mail->SmtpClose();
+			   		 	// ferme la connexion smtp et désalloue la mémoire...
+			    		unset($mail); 
+			    	$this->redirect($session,'accueil',$errorMail,$okMail);
+				} // if($post['domaine']=='achats')
 			
 				elseif ($post['domaine']=='compta' ) 
 				{
