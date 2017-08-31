@@ -45,10 +45,10 @@ else
 	} 
 
 	if (isset($this->get['errorMail'])) {
-		echo $errorMail;
+		echo $this->get['errorMail'] ;
 	}
 	elseif (isset($this->get['okMail'])) {
-		echo $okMail;
+		echo $this->get['errorMail'];
 	}
 		
 ?>
