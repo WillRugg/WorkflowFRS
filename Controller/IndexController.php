@@ -95,7 +95,7 @@ class IndexController extends Controller {
 					$phpMailer->SMTPAuth = false;   
 
 
-					$phpMailer->SMTPDebug = true;
+					$phpMailer->SMTPDebug = false;
 
 
 					//Configuration : 
