@@ -79,7 +79,23 @@ class IndexController extends Controller {
 			 	$timeUnique='NA';
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
- 
+ 		//Chargement de la class
+
+ 				if ($result) {
+					// envoi mail
+					require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
+                	//Instanciation de la class
+
+					$phpMailer = new PHPmailer();
+
+					$phpMailer->isSMTP();                                    
+					$phpMailer->Host = 'smtp2.comeca-group.com';   
+					$phpMailer->SMTPAuth = false;   
+
+
+					$phpMailer->SMTPDebug = false;
+
+
 
 				// envoi mail par phpmailer
 				if ($result) {
