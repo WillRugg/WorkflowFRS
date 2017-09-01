@@ -13,13 +13,16 @@
 	 	<div>
 	 	<div class="col-md-2" style="padding-top: 1.5em;padding-bottom: 1%; text-align: left; "><a href="<?php echo $this->link('Connecte','');?>"><input type="submit" class="btn btn-default " value="Espace Validateurs" name="Espace Validateurs"></a></div>
 
-	 	<div class="col-md-5 col-md-offset-5" style="padding-top: 1.5em;padding-bottom: 1%; text-align: right; ">
+	 	<div class="col-md-6 col-md-offset-4" style="padding-top: 1.5em;padding-bottom: 1%; text-align: right; ">
 	 		
 	 		<a href="<?php echo $this->link('Modif','');?>"><input type="submit" class="btn btn-info " value="Modification Fournisseurs" name="Demande Modification Fournisseurs"></a>
-
-	 		<a href="http://maupiti/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
-	 			<input type="submit" class="btn btn-warning" value="Liste Fournisseurs existants" name="Liste Fournisseurs existants"> 
+	 		<a href="http://maupiti:8080/oracledimn/login.jsp"> 
+	 			<input type="submit" class="btn btn-primary" value="Copie V11" name="CopieV11"> 
 	 		</a>
+	 		<a href="http://maupiti/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
+	 			<input type="submit" class="btn btn-warning" value="Fournisseurs M3-V11" name="Fournisseurs M3-V11"> 
+	 		</a>
+	 		
 	 	</div>
 	 	</div>
 
