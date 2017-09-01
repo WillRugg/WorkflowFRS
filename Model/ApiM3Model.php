@@ -45,7 +45,7 @@ class ApiM3Model extends ApiModel {
 	public function creerfrsM3($post,$numeroString) {
 
 	 	// connexion réussi	
-		if ($this->open('DSINADNOY','M92e93j94',"CRS620MI")) {
+		if ($this->open('API','API',"CRS620MI")) {
 	
 			//var_dump($post);
 			
@@ -184,13 +184,13 @@ class ApiM3Model extends ApiModel {
 	public function creerAdresseM3($post,$numero) {
 
 	 	// connexion réussi	
-		if ($this->open('DSINADNOY','M92e93j94',"CRS620MI")) {
+		if ($this->open('API','API',"CRS620MI")) {
 
 			// type 01 : adresse postal
 			$suno = $numero;
 			$adte = 01;
-			if (!empty($post['rsCommande'])) {
-				$adid = $post['rsCommande'];
+			if (!empty($post['complement'])) {
+				$adid = $post['complement'];
 			}
 			else  {
 				$adid =	'AC' ;

@@ -13,7 +13,7 @@ class Db2Model extends Model{
 
 	public function rechercheDernierFrsM3() {
 	// attention changer Bib pour mise en prod 
-	$query = "SELECT max(idsuno) FROM m3edbtest.CIDMAS where idsuno between '00000' and '99999' "  ;
+	$query = "SELECT max(idsuno) FROM m3edbprod.CIDMAS where idsuno between '00000' and '99999' "  ;
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetch();
@@ -88,7 +88,7 @@ class Db2Model extends Model{
 		return $stmt->fetchAll();
 	}
 
-
+	// pas UTILISE
 	public function creerfrsM3($post,$numeroString) {
 
 
@@ -173,33 +173,6 @@ class Db2Model extends Model{
 	}	
 }
 
-		 /*
-	
-	public function updateFiche($data,$statut) {
 		 
-		$erreurs = array();
-	 
-		if (empty($erreurs)) {
-		
-						
-			$query = "UPDATE  ".$this->biblio.".ZSLEDG
-						SET ZZSTATUT ='".$statut."'
-							WHERE ZZSOURCE ='".$data[0]."' and ESDIVI ='".$data[4]."' and ESJRNO ='".$data[1]."' and ESJSNO ='".$data[2]."' and ESYEA4 =".$data[3]; 
-			 		
-			$stmt = $this->pdo->prepare($query);
-			
-				
-			if ($stmt->execute()) {
-				$result = $stmt->rowCount();
-			} else {
-				$erreurs['form'] = 'Pièce non modifiée !';
-			}
-			
-		}
-		if (isset($result)) {
-		 	return ($result);
-		} else {
-			return($erreurs);
-		} */
 
 ?>

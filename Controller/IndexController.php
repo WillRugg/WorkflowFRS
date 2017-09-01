@@ -80,23 +80,6 @@ class IndexController extends Controller {
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
  		//Chargement de la class
-
- 				//if ($result) {
-					// envoi mail
-				//	require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
-                	//Instanciation de la class
-
-				//	$phpMailer = new PHPmailer();
-
-				//	$phpMailer->isSMTP();                                    
-				//	$phpMailer->Host = 'smtp2.comeca-group.com';   
-				//	$phpMailer->SMTPAuth = false;   
-
-
-				//	$phpMailer->SMTPDebug = false;
-
-
-
 				// envoi mail par phpmailer
 				if ($result) {
 					
@@ -147,16 +130,14 @@ class IndexController extends Controller {
                            echo 'Le Message n est pas envoye';
                            echo 'Mailer Error: ' . $mail->ErrorInfo;
                        } else {
-                           echo 'le Message a ete envoye';
+                           echo 'le Message a ete envoye à ' .$adresseMail;
                     }                              
 
 			 	 	$mail->SmtpClose();
 		   		 	// ferme la connexion smtp et désalloue la mémoire...
 		    		unset($mail); 
 
-
 				} 	// if ($result) 
-
  
 			 } //if (isset($post['Valider'])) 
 			 elseif (isset($post['EnvoiFour'])) 
@@ -184,37 +165,39 @@ class IndexController extends Controller {
 		$app_body="body_Index" ;		 	
 	 
 	 	if ($this->post) {
-	 	if($this->post['Envoi']){
-		$mail = new PHPMailer;
 
-		$mail->isSMTP();
-		$mail->Host = 'smtp2.comeca-group.com';
-		$mail->SMTPAuth = false;
-		$mail->SMTPDebug = false;
+		 	if($this->post['Envoi']){
+			$mail = new PHPMailer;
 
-		$mail->From = 'accueil@comeca-group.com'; 
-		$mail->FromName = 'Comeca Group';
-		$mail->addAddress($this->post['emailSupplier']);
+			$mail->isSMTP();
+			$mail->Host = 'smtp2.comeca-group.com';
+			$mail->SMTPAuth = false;
+			$mail->SMTPDebug = false;
 
-		$mail->isHTML(true);
+			$mail->From = 'accueil@comeca-group.com'; 
+			$mail->FromName = 'Comeca Group';
+			$mail->addAddress($this->post['emailSupplier']);
 
-		$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
-		$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> Cliquez ici </a>';
+			$mail->isHTML(true);
 
-				if(!$mail->send()) {
-				    echo 'Message could not be sent.';
-				    echo 'Mailer Error: ' . $mail->ErrorInfo;
-				 } else {
-				    echo 'Message has been sent';
-				}		
-		} 
+			$mail->Subject = 'Concernant votre ajout dans la base de donnees Comeca';
+			$mail->Body    = ' Merci de remplir les informations nécessaires à la comptabilité sur ce lien : <a href="'.$this->post['Lien'].'"> Cliquez ici </a>';
+
+					if(!$mail->send()) {
+					    echo 'Message could not be sent.';
+					    echo 'Mailer Error: ' . $mail->ErrorInfo;
+					 } else {
+					    echo 'Message has been sent';
+					}		
+			} // if($this->post['Envoi'])
 		
-	 	}
+	 	} // if ($this->post)
 
 		require('View/Index/demandeFournisseur.php') ; 
 	}
 
 	public function updateByFournisseurAction() {
+
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
@@ -304,6 +287,7 @@ class IndexController extends Controller {
 
 
 	public function remerciementsAction() {
+
 		$app_title="Modification Fiche";
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
@@ -471,154 +455,149 @@ class IndexController extends Controller {
 						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
 								
 
-						if (isset($resultM3['succes']) && isset($resultAdrM3['succes']) ) {
+						if (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
+						{
 							$domaineSuivant = 'Movex';
 
-					// envoi mail au demandeur
-						require('Module/envoiMail.php') ;
-						$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
+							// envoi mail au demandeur
+							require('Module/envoiMail.php') ;
+							$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
 
-						$adresseMail = $post['nomDemandeur']  ;
-						$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
+							$adresseMail = $post['nomDemandeur']  ;
+							$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
 
-						$mail->AddAddress($adresseMail);
-					    $mail->Subject=$sujet; 
-						 
-						//Contenu du  message en HTML : table  
-					 	ob_start();
-						
-						?>
-						<!-- envoi du mail en table pour générer du HTML -->
-						<table style="font-family:sans-serif" border="1" >
-							<tr>
-								<th colspan="6"> Fournisseur M3 créé sous le num : '<?php echo $numeroString; ?></th>
-							</tr>
-							<tr>
-								<th>Entite Demandeur</th>
-								<th>Nom Demandeur</th>
-								<th>Date creation</th>
-								<th>Nom Fournisseur</th>
-								<th>Code Fournisseur M3</th>
-								<th>Raison Demande</th>
-							</tr>
-							<tr>
-								<td><?php echo $this->post['entiteDemandeur']; ?></td>
-								<td><?php echo $this->post['nomDemandeur']; ?></td>
-								<td><?php echo $this->post['dateJour']; ?></td>
-								<td><?php echo $this->post['rsCommande']; ?></td>
-								<td><?php echo $numeroString; ?></td>
-								<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
-							</tr>
-						</table>
+							$mail->AddAddress($adresseMail);
+						    $mail->Subject=$sujet; 
+							 
+							//Contenu du  message en HTML : table  
+						 	ob_start();
+							
+							?>
+							<!-- envoi du mail en table pour générer du HTML -->
+							<table style="font-family:sans-serif" border="1" >
+								<tr>
+									<th colspan="6"> Fournisseur M3 créé sous le num : '<?php echo $numeroString; ?></th>
+								</tr>
+								<tr>
+									<th>Entite Demandeur</th>
+									<th>Nom Demandeur</th>
+									<th>Date creation</th>
+									<th>Nom Fournisseur</th>
+									<th>Code Fournisseur M3</th>
+									<th>Raison Demande</th>
+								</tr>
+								<tr>
+									<td><?php echo $this->post['entiteDemandeur']; ?></td>
+									<td><?php echo $this->post['nomDemandeur']; ?></td>
+									<td><?php echo $this->post['dateJour']; ?></td>
+									<td><?php echo $this->post['rsCommande']; ?></td>
+									<td><?php echo $numeroString; ?></td>
+									<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+								</tr>
+							</table>
 									 
-						<?php
-						// concerne le HTML du contenu du mail 
-						$mail->Body = ob_get_contents();
+							<?php
+							// concerne le HTML du contenu du mail 
+							$mail->Body = ob_get_contents();
 
-						ob_end_clean();  
-			 
+							ob_end_clean();  
+				 
 
-					    // affiche une erreur => pas toujours explicite
-					    if(!$mail->Send()) {
-					        $_REQUEST['error'] = $mail->ErrorInfo; 
-					    }
-					    $mail->SmtpClose();
-					    // ferme la connexion smtp et désalloue la mémoire...
-					    unset($mail); 
+						    // affiche une erreur => pas toujours explicite
+						    if(!$mail->Send()) {
+						        $_REQUEST['error'] = $mail->ErrorInfo; 
+						    }
+						    $mail->SmtpClose();
+						    // ferme la connexion smtp et désalloue la mémoire...
+						    unset($mail); 
 
-						// affiche accueil , liste des frs à valider pour M3
-						$this->redirect($session,'accueil',$resultM3,$post);
-					} // elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
+							// affiche accueil , liste des frs à valider pour M3
+							$this->redirect($session,'accueil',$resultM3,$post);
 
-					elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) {
-						// var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
-						$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
-					}
+						} // elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
 
-
-
-
+						elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) 
+						{
+							// var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
+							$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
+						}
 
 					} //if ($testPourDomaine = 'Movex') 
 
 				} 	// elseif ($post['domaine']=='compta' ) 
 
-		} 	// if(isset($post['Valider']))
+			} 	// if(isset($post['Valider']))
 
-		elseif (isset($post['Attente'])) // si // si on clique sur le bouton valider Attente 
-		{
-			$domaineSuivant = $post['domaine'] ;
-			$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
-			// envoi mail au demandeur
-					require('Module/envoiMail.php') ;
-					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
-
-					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-					$adresseMail = 'achats_wkf_frs@comeca-group.com'  ;
-					$sujet = 'Workflow Fournisseur  en attente : '.$post['rsCommande'];
-					
-					$mail->Subject = $sujet;
-					$mail->AddAddress($adresseMail);
-					//Contenu du  message en HTML : table  
-				 	ob_start();
-				 	
-					?>
-					<!-- envoi du mail en table pour générer du HTML -->
-			 		<table style="font-family:sans-serif" border="1" >
-			 			<tr>
-							<th colspan="5">Vous avez mis une fiche Fournisseur en attente de validation </th>
-							 
-						</tr>
-						<tr>
-							<th>Entite Demandeur</th>
-							<th>Nom Demandeur</th>
-							<th>Date creation</th>
-							<th>Nom Fournisseur</th>
-							<th>Raison Demande</th>
-						</tr>
-						<tr>
-							<td><?php echo $this->post['entiteDemandeur']; ?></td>
-							<td><?php echo $this->post['nomDemandeur']; ?></td>
-							<td><?php echo $this->post['dateJour']; ?></td>
-							<td><?php echo $this->post['rsCommande']; ?></td>
-							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
-						</tr>
-					</table>
+			elseif (isset($post['Attente'])) // si // si on clique sur le bouton valider Attente 
+			{
+				$domaineSuivant = $post['domaine'] ;
+				$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+				// envoi mail au demandeur
+				require('Module/envoiMail.php') ;
+				$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
+				//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+				$adresseMail = 'achats_wkf_frs@comeca-group.com'  ;
+				$sujet = 'Workflow Fournisseur  en attente : '.$post['rsCommande'];
+						
+				$mail->Subject = $sujet;
+				$mail->AddAddress($adresseMail);
+				//Contenu du  message en HTML : table  
+			 	ob_start();
+			 	
+				?>
+				<!-- envoi du mail en table pour générer du HTML -->
+		 		<table style="font-family:sans-serif" border="1" >
+		 			<tr>
+						<th colspan="5">Vous avez mis une fiche Fournisseur en attente de validation </th>
 						 
-					<?php
-					// concerne le HTML du contenu du mail 
-					$mail->Body = ob_get_contents();
-					ob_end_clean();
+					</tr>
+					<tr>
+						<th>Entite Demandeur</th>
+						<th>Nom Demandeur</th>
+						<th>Date creation</th>
+						<th>Nom Fournisseur</th>
+						<th>Raison Demande</th>
+					</tr>
+					<tr>
+						<td><?php echo $this->post['entiteDemandeur']; ?></td>
+						<td><?php echo $this->post['nomDemandeur']; ?></td>
+						<td><?php echo $this->post['dateJour']; ?></td>
+						<td><?php echo $this->post['rsCommande']; ?></td>
+						<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+					</tr>
+				</table>
+					 
+				<?php
+				// concerne le HTML du contenu du mail 
+				$mail->Body = ob_get_contents();
+				ob_end_clean();
 
-					$envoiMail = $mail->Send();
-					 				
-					if(!$envoiMail) {
-                           echo 'Le Message n est pas envoye';
-                           echo 'Mailer Error: ' . $mail->ErrorInfo;
-                       } else {
-                           echo 'le Message a ete envoye';
-                    }                              
+				$envoiMail = $mail->Send();
+				 				
+				if(!$envoiMail) 
+				{
+	                echo 'Le Message n est pas envoye';
+	                echo 'Mailer Error: ' . $mail->ErrorInfo;
+	            } else {
+	                   echo 'le Message a ete envoye';
+	            }                              
 
-			 	 	$mail->SmtpClose();
-		   		 	// ferme la connexion smtp et désalloue la mémoire...
-		    		unset($mail); 
+				$mail->SmtpClose();
+			   	// ferme la connexion smtp et désalloue la mémoire...
+			    unset($mail); 
 
-			$this->redirect($session,'accueil');
-		} // elseif (isset($post['Attente']))
+				$this->redirect($session,'accueil');
 
-		$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+			} // elseif (isset($post['Attente']))
 
-		// Lance lors de Valider la création dans Movex 
+			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
 
-   	
-	
 		 
 		} // if $this->post
 
 		require('View/Index/update.php') ; 	
-
 		 
-	}
+	} // fin fonction update
 
 	
 	

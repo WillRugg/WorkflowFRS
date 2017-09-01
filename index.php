@@ -23,12 +23,12 @@ session_start();
 define('VERSION','Création Fournisseur V.1');
 //maiao
 define('PDO_DSN','odbc:M3');
-define('PDO_USERNAME', 'HOLNNOYER');
-define('PDO_PASSWORD','Mo92Jo94'); 
+define('PDO_USERNAME', 'API');
+define('PDO_PASSWORD','API'); 
 //sqlserver
 define('PDOS_DSN','mysql:host=localhost;dbname=fournisseurs');
 define('PDOS_USERNAME', 'root');
-define('PDOS_PASSWORD','netglob'); 
+define('PDOS_PASSWORD',''); 
 
 // démarrer la Session pour se connecter
 
