@@ -80,8 +80,6 @@ class IndexController extends Controller {
 			 	$FicheFournisseurModel = new SqlModel(); 
 				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
  		//Chargement de la class
-
- 			
 				// envoi mail par phpmailer
 				if ($result) {
 					
