@@ -16,7 +16,7 @@
 // -------------------------------------------------
 // -- INITIALISATION DES CONSTANTES ET DE LA PAGE --
 // -------------------------------------------------
-//
+//efef
 // Ouverture du session start
 session_start();
 // definir les constantes de connexion
