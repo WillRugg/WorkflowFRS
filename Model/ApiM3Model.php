@@ -7,7 +7,7 @@ class ApiM3Model extends ApiModel {
 	public function testFournisseurM3 () {
 
 	
-		if ($this->open('DSINADNOY','M92e93j94' ,'CRS620MI')) {
+		if ($this->open('API','4p1Comeca$' ,'CRS620MI')) {
 
 			// chmaps en entrée
 			$this->setField('CONO','100');
@@ -45,7 +45,7 @@ class ApiM3Model extends ApiModel {
 	public function creerfrsM3($post,$numeroString) {
 
 	 	// connexion réussi	
-		if ($this->open('API','API',"CRS620MI")) {
+		if ($this->open('API','4p1Comeca$',"CRS620MI")) {
 	
 			//var_dump($post);
 			
@@ -184,7 +184,7 @@ class ApiM3Model extends ApiModel {
 	public function creerAdresseM3($post,$numero) {
 
 	 	// connexion réussi	
-		if ($this->open('API','API',"CRS620MI")) {
+		if ($this->open('API','4p1Comeca$',"CRS620MI")) {
 
 			// type 01 : adresse postal
 			$suno = $numero;

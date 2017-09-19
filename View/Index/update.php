@@ -180,6 +180,7 @@ if  (isset($this->get['succes']))
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysPaiement"  class="form-control " id="paysPaiement"  > 
+			    		<option value ="" > FR par défaut ou Sélection autre pays </option>
 				    	<?php
 							foreach ($pays as $unPays) {
 						?>

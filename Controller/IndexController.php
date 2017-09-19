@@ -375,61 +375,63 @@ class IndexController extends Controller {
 				if($post['domaine']=='achats')	
 				{
 					$domaineSuivant = 'compta';
+
+					$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
 					 
 				 	// envoi mail au demandeur
 					require('Module/envoiMail.php') ;
-						$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
+					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
 
-						//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-						$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-						$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
-						
-						$mail->Subject = $sujet;
-						$mail->AddAddress($adresseMail);
-						//Contenu du  message en HTML : table  
-					 	ob_start();
-					 	
-						?>
-						<!-- envoi du mail en table pour générer du HTML -->
-				 		<table style="font-family:sans-serif" border="1" >
-				 			<tr>
-								<th colspan="5">Vous avez une fiche Fournisseur à valider</th>
-								 
-							</tr>
-							<tr>
-								<th>Entite Demandeur</th>
-								<th>Nom Demandeur</th>
-								<th>Date creation</th>
-								<th>Nom Fournisseur</th>
-								<th>Raison Demande</th>
-							</tr>
-							<tr>
-								<td><?php echo $this->post['entiteDemandeur']; ?></td>
-								<td><?php echo $this->post['nomDemandeur']; ?></td>
-								<td><?php echo $this->post['dateJour']; ?></td>
-								<td><?php echo $this->post['rsCommande']; ?></td>
-								<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
-							</tr>
-						</table>
+					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+					$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
+					
+					$mail->Subject = $sujet;
+					$mail->AddAddress($adresseMail);
+					//Contenu du  message en HTML : table  
+				 	ob_start();
+				 	
+					?>
+					<!-- envoi du mail en table pour générer du HTML -->
+			 		<table style="font-family:sans-serif" border="1" >
+			 			<tr>
+							<th colspan="5">Vous avez une fiche Fournisseur à valider</th>
 							 
-						<?php
-						// concerne le HTML du contenu du mail 
-						$mail->Body = ob_get_contents();
-						ob_end_clean();
+						</tr>
+						<tr>
+							<th>Entite Demandeur</th>
+							<th>Nom Demandeur</th>
+							<th>Date creation</th>
+							<th>Nom Fournisseur</th>
+							<th>Raison Demande</th>
+						</tr>
+						<tr>
+							<td><?php echo $this->post['entiteDemandeur']; ?></td>
+							<td><?php echo $this->post['nomDemandeur']; ?></td>
+							<td><?php echo $this->post['dateJour']; ?></td>
+							<td><?php echo $this->post['rsCommande']; ?></td>
+							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+						</tr>
+					</table>
+						 
+					<?php
+					// concerne le HTML du contenu du mail 
+					$mail->Body = ob_get_contents();
+					ob_end_clean();
 
-						$envoiMail = $mail->Send();
-						 				
-						if(!$envoiMail) {
-	                           $errorMail = 'Le Message n est pas envoye - Mailer Error: ' . $mail->ErrorInfo;
-	                           
-	                       } else {
-	                           $okMail= 'le Message a ete envoye';
-	                    }                              
+					$envoiMail = $mail->Send();
+					 				
+					if(!$envoiMail) {
+                           $errorMail = 'Le Message n est pas envoye - Mailer Error: ' . $mail->ErrorInfo;
+                           
+                       } else {
+                           $okMail= 'le Message a ete envoye';
+                    }                              
 
-				 	 	$mail->SmtpClose();
-			   		 	// ferme la connexion smtp et désalloue la mémoire...
-			    		unset($mail); 
-			    	$this->redirect($session,'accueil',array('errorMail'=>$errorMail,'okMail'=>$okMail));
+			 	 	$mail->SmtpClose();
+		   		 	// ferme la connexion smtp et désalloue la mémoire...
+		    		unset($mail); 
+		    		$this->redirect($session,'accueil',array('errorMail'=>$errorMail,'okMail'=>$okMail));
 			    	
 				} // if($post['domaine']=='achats')
 			
@@ -442,6 +444,7 @@ class IndexController extends Controller {
 
 						// rechercher le dernier Numéro et + 1 
 						require_once('Model/Db2Model.php');
+						require_once('Model/ApiM3Model.php');
 						$db2Model = new Db2Model();					 
 						$derNumero = $db2Model->rechercheDernierFrsM3();
 
@@ -449,7 +452,6 @@ class IndexController extends Controller {
 				  		$numeroString = '0'.$numero;	
 
 						// creation du FRS
-						require_once('Model/ApiM3Model.php');
 						$apiModel = new ApiM3Model();
 						
 						// return 
@@ -460,6 +462,8 @@ class IndexController extends Controller {
 						if (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
 						{
 							$domaineSuivant = 'Movex';
+							// pour user = MOVEX
+							$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
 
 							// envoi mail au demandeur
 							require('Module/envoiMail.php') ;
@@ -588,11 +592,11 @@ class IndexController extends Controller {
 			   	// ferme la connexion smtp et désalloue la mémoire...
 			    unset($mail); 
 
-				$this->redirect($session,'accueil');
+			  	$this->redirect($session,'accueil');
 
 			} // elseif (isset($post['Attente']))
 
-			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+		
 
 		 
 		} // if $this->post

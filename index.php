@@ -24,7 +24,7 @@ define('VERSION','Création Fournisseur V.1');
 //maiao
 define('PDO_DSN','odbc:M3');
 define('PDO_USERNAME', 'API');
-define('PDO_PASSWORD','API'); 
+define('PDO_PASSWORD','blabla'); 
 //sqlserver
 define('PDOS_DSN','mysql:host=localhost;dbname=fournisseurs');
 define('PDOS_USERNAME', 'root');

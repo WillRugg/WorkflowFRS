@@ -90,7 +90,7 @@ class Controller {
 	
 	// permet de récupérer la biblio
 	public function getBiblio() {
-		return ('M3EDBPROD');
+		return ('M3EDBTEST');
 		//return ('COMEDBPROD');
 	}
 
