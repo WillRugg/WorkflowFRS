@@ -17,13 +17,13 @@
 		if (monEntite.val().length == 0 ) {
 			erreur = true;
 			//alert('toto');
-			monEntite.addClass('errorJs');
+			monEntite.addClass('alert-danger');
 		}
 		 
 		// s'il y au moins une erreur 
 		if (erreur) {
 			e.preventDefault();
-			$('.msgJs').alert('Veuillez remplir tous les champs de saisie');
+			$('.alert-danger').alert('Veuillez remplir tous les champs obligatoires');
 		}
  	});
 

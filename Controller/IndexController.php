@@ -9,17 +9,18 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
 		
+	
+	$this->redirect('','creeFournisseurs');
 
-		$this->redirect('','creeFournisseurs');
 	}
 
 	public function creeFournisseursAction() {
 		$app_title="Créer Fournisseurs " ;
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
-		
-		
-		require_once('Model/Db2Model.php');
+	
+
+		require('Model/Db2Model.php');
 		require('Model/SqlModel.php');
 
 			// lister divi
@@ -59,11 +60,15 @@ class IndexController extends Controller {
 			// lister devise
 			$paysModel = new Db2Model($this->getBiblio()); 
 			$pays = $paysModel->listerCSCD();
-		 	
+
+			// lister Id Bancaire
+			$idBanqModel = new Db2Model($this->getBiblio()); 
+			$idBanq = $idBanqModel->listerBKIN();
+			 
 		 	// gestion des erreurs
 			$erreurs = array();
 		 	
-
+			$session =null;
 			$etapeSuivante=null;
 			$timeUnique=null;
 			$time=null;
@@ -75,14 +80,14 @@ class IndexController extends Controller {
 			$files =$this->files;			
 			
 			if (isset($post['Valider'])) {
+				$session ="user";
 			 	$etapeSuivante='achats';
 			 	$timeUnique='NA';
 			 	$FicheFournisseurModel = new SqlModel(); 
-				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
- 		//Chargement de la class
+				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique,$session);
+ 				 
 				// envoi mail par phpmailer
 				if ($result) {
-					
 					// envoi mail au demandeur
 					require('Module/envoiMail.php') ;
 					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
@@ -130,7 +135,7 @@ class IndexController extends Controller {
                            echo 'Le Message n est pas envoye';
                            echo 'Mailer Error: ' . $mail->ErrorInfo;
                        } else {
-                           echo 'le Message a ete envoye à ' .$adresseMail;
+                           echo 'le Message a ete envoye a ' .$adresseMail;
                     }                              
 
 			 	 	$mail->SmtpClose();
@@ -142,12 +147,12 @@ class IndexController extends Controller {
 			 } //if (isset($post['Valider'])) 
 			 elseif (isset($post['EnvoiFour'])) 
 			 {
+			 	$session = "user";
 			 	$etapeSuivante='fournisseur';
 			 	$time=time();
 			 	$timeUnique=md5($time);
 			 	$FicheFournisseurModel = new SqlModel(); 
-				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique);
-				//var_dump($timeUnique);
+				$result = $FicheFournisseurModel->createFiche($post,$files,$etapeSuivante,$timeUnique,$session);
 				$resultRetrouveID = $FicheFournisseurModel->getID($timeUnique);
 				$this->redirect('','fenetreConfirmation',array('idEnvoi'=>$timeUnique,'ID'=>$resultRetrouveID['ID']));		
 			 }
@@ -248,7 +253,7 @@ class IndexController extends Controller {
 		 	
 	 	if($this->post) 
 	 	{
-			var_dump($this->post);
+			
 			$post = $this->post;
 			$files =$this->files;
 
@@ -262,8 +267,8 @@ class IndexController extends Controller {
 			{
 				$domaineSuivant = 'achats';
 			}
-
-			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+			$frsM3 = 0;
+			$result = $FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$fsM3);
 			
 			$this->redirect('','remerciements');
 
@@ -277,7 +282,7 @@ class IndexController extends Controller {
 			} 
 			else 
 			{
-				//$this->redirect($session,'accueil',$resultM3);
+				$this->redirect($session,'accueil',$resultM3);
 			}  
 		 
 		} // if ($this->post)
@@ -314,7 +319,6 @@ class IndexController extends Controller {
 		
 		$UnFournisseur = $SqlModel->getInfos($this->get['ID']);
 
-
 		// lister groupe appartenace Fournisseur suty = 3 de cidmas
 		$groupeAppartenanceModel = new Db2Model($this->getBiblio()); 
 		$groupeAppartenance = $groupeAppartenanceModel->listerGrpAppartenance();
@@ -350,15 +354,18 @@ class IndexController extends Controller {
 		$paysModel = new Db2Model($this->getBiblio()); 
 		$pays = $paysModel->listerCSCD();
 
+		// lister Id Bancaire
+		$idBanqModel = new Db2Model($this->getBiblio()); 
+		$idBanq = $idBanqModel->listerBKIN();
+
 		if($this->get) 
 		{
 			$get = $this->get;	
 		}
-		 	
+		 
 	 	if($this->post) 
 	 	{
-			//var_dump($this->post);
-
+	
 			$post = $this->post;
 			$files =$this->files;
 
@@ -370,18 +377,29 @@ class IndexController extends Controller {
 			
 			if(isset($post['Valider'])) 	// si on clique sur le bouton valider
 			{
-				if($post['domaine']=='achats')	
+				
+				// si pas admin : soit achats soit compta
+				if($post['domaine'] !='admin')	
 				{
-					$domaineSuivant = 'compta';
-
-					$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+				
+					if($post['domaine']=='achats')	
+					{
+						$domaineSuivant = 'compta';
+						$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+						
+					} else {
+							$domaineSuivant = 'admin';
+							//$adresseMail = 'admin_wkf_frs@comeca-group.com'  ;
+							$adresseMail = 'd.lamberti@comeca-group.com'  ;
+					}
+					
+					$frsM3 = 0;
+					$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3);
 					 
-				 	// envoi mail au demandeur
+				 	// envoi mail au servu=ice suivant
 					require('Module/envoiMail.php') ;
 					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
-
-					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
-					$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
+ 
 					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
 					
 					$mail->Subject = $sujet;
@@ -419,11 +437,11 @@ class IndexController extends Controller {
 
 					$envoiMail = $mail->Send();
 					 				
-					if(!$envoiMail) {
-                           $errorMail = 'Le Message n est pas envoye - Mailer Error: ' . $mail->ErrorInfo;
-                           
-                       } else {
-                           $okMail= 'le Message a ete envoye';
+					if(!$envoiMail) 
+					{
+                        $errorMail = 'Le Message n est pas envoye - Mailer Error: ' . $mail->ErrorInfo;       
+                    } else {
+                        $okMail= 'le Message a ete envoye' .$adresseMail;
                     }                              
 
 			 	 	$mail->SmtpClose();
@@ -431,51 +449,46 @@ class IndexController extends Controller {
 		    		unset($mail); 
 		    		$this->redirect($session,'accueil',array('errorMail'=>$errorMail,'okMail'=>$okMail));
 			    	
-				} // if($post['domaine']=='achats')
-			
-				elseif ($post['domaine']=='compta' ) 
+				} // if($post['domaine']!='admin')
+				// si admin
+				elseif ($post['domaine'] =='admin')
 				{
-					$domaineSuivant = 'compta';
+					$domaineSuivant = 'admin';
 					$testPourDomaine = 'Movex';			
 
-					if ($testPourDomaine = 'Movex') {
+					// si dmaine de la fiche = admin
+					if ($testPourDomaine == 'Movex' && $UnFournisseur['domaineValidation'] == 'admin')
+					{
 
-						// rechercher le dernier Numéro et + 1 
 						require_once('Model/Db2Model.php');
 						require_once('Model/ApiM3Model.php');
-						$db2Model = new Db2Model();					 
+						$db2Model = new Db2Model();		
+						$apiModel = new ApiM3Model();
+				  
+						// rechercher le dernier Numéro et + 1 			 
 						$derNumero = $db2Model->rechercheDernierFrsM3();
-
 						$numero= intval($derNumero[0])+1;
 				  		$numeroString = '0'.$numero;	
-
-						// creation du FRS
-						$apiModel = new ApiM3Model();
-						
-						// return 
+					 	
 						$resultM3 = $apiModel->creerfrsM3($this->post,$numeroString);
 						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
-								
+						$resultRibM3 = $db2Model->creerCompteBancaireM3($this->post,$numeroString);
 
-						if (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
+						
+						if (isset($resultM3['succes']) && isset($resultAdrM3['succes'])  && isset($resultRibM3['succes']) )
 						{
 							$domaineSuivant = 'Movex';
 							// pour user = MOVEX
-							$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
-
+							$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$numeroString);
 							// envoi mail au demandeur
 							require('Module/envoiMail.php') ;
 							$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
-
 							$adresseMail = $post['nomDemandeur']  ;
 							$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
-
 							$mail->AddAddress($adresseMail);
 						    $mail->Subject=$sujet; 
-							 
 							//Contenu du  message en HTML : table  
 						 	ob_start();
-							
 							?>
 							<!-- envoi du mail en table pour générer du HTML -->
 							<table style="font-family:sans-serif" border="1" >
@@ -499,14 +512,10 @@ class IndexController extends Controller {
 									<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
 								</tr>
 							</table>
-									 
 							<?php
 							// concerne le HTML du contenu du mail 
 							$mail->Body = ob_get_contents();
-
 							ob_end_clean();  
-				 
-
 						    // affiche une erreur => pas toujours explicite
 						    if(!$mail->Send()) {
 						        $_REQUEST['error'] = $mail->ErrorInfo; 
@@ -517,25 +526,26 @@ class IndexController extends Controller {
 
 							// affiche accueil , liste des frs à valider pour M3
 							$this->redirect($session,'accueil',$resultM3,$post);
-
 						} // elseif (isset($resultM3['succes']) && isset($resultAdrM3['succes']) )
 
-						elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) ) 
+						elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) || !isset($resultRibM3['succes'])) 
+						//elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) || !isset($resultRibM3['succes'])) 
 						{
-							// var_dump($resultM3)	; 	var_dump($resultAdrM3)	; 
-							$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
+							 
+						$this->redirect('', 'update',array('ID'=>$get['ID'],'transa'=>$resultM3['transa']));
 						}
 
 					} //if ($testPourDomaine = 'Movex') 
 
-				} 	// elseif ($post['domaine']=='compta' ) 
+				} 	// elseif ($post['domaine']=='admin' ) 
 
 			} 	// if(isset($post['Valider']))
 
 			elseif (isset($post['Attente'])) // si // si on clique sur le bouton valider Attente 
 			{
 				$domaineSuivant = $post['domaine'] ;
-				$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session);
+				$frsM3 = 0;
+				$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3);
 				// envoi mail au demandeur
 				require('Module/envoiMail.php') ;
 				$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
@@ -583,20 +593,88 @@ class IndexController extends Controller {
 	                echo 'Le Message n est pas envoye';
 	                echo 'Mailer Error: ' . $mail->ErrorInfo;
 	            } else {
-	                   echo 'le Message a ete envoye';
+	                echo 'le Message a ete envoye a : ' .$adresseMail;
 	            }                              
 
 				$mail->SmtpClose();
 			   	// ferme la connexion smtp et désalloue la mémoire...
 			    unset($mail); 
 
-			  	$this->redirect($session,'accueil');
+			    // si une valeur est =/= de celle demandée par l'utilisateur alors mail à l utilisateur
+			   	$frsInitialModel = new SqlModel();
+			   	$frsInitial=$frsInitialModel->getDemandeOrigine($this->get['ID']);
+
+			   	$ecart = $this->isUpdate($frsInitial,$this->post);
+
+			   	var_dump('611 : ' , $ecart);
+			   	// si le tableau n'est pas vide => des modifs ont été faites
+			   	if (is_array($ecart) ){
+			   		// envoi mail au demandeur
+					//require('Module/envoiMail.php') ;
+					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
+					 
+					$adresseMail =  $this->post['nomDemandeur'];  
+					$sujet = 'Workflow Fournisseur : '.$post['rsCommande'].' concerne les modifications apportees';
+						
+					$mail->Subject = $sujet;
+					$mail->AddAddress($adresseMail);
+					//Contenu du  message en HTML : table  
+				 	ob_start();
+
+				   ?>
+					
+
+					<!--envoi du mail en table pour générer du HTML -->
+			 		<table style="font-family:sans-serif" border="3" >
+			 			<tr>
+							<th colspan="3">Vos donnees ci-dessous ont ete modifiees </th>
+						</tr>
+						
+						<tr>
+							<th>Intitule</th>
+							<th>Votre saisie </th>
+							<th>Modification apportee</th>
+						</tr>
+						<?php
+						foreach ($ecart  as $unEcart) {
+						?>
+							<tr>
+								<td> <?php echo $unEcart['valeur'] ?></td>
+								<td> <?php echo $unEcart['fichier'] ?></td>
+								<td> <?php echo $unEcart['post']  ?></td>
+							</tr>
+
+						<?php
+							}
+						?>
+					</table>  
+					 
+ 					<?php
+					// concerne le HTML du contenu du mail 
+					$mail->Body = ob_get_contents();
+					ob_end_clean();
+
+					$envoiMail = $mail->Send();
+					 				
+					if(!$envoiMail) 
+					{
+		                echo 'Le Message n est pas envoye';
+		                echo 'Mailer Error: ' . $mail->ErrorInfo;
+		            } else {
+		                echo 'le Message a ete envoye';
+		            }                              
+
+					$mail->SmtpClose();
+				   	// ferme la connexion smtp et désalloue la mémoire...
+				    unset($mail); 
+
+				} // if (is_array($ecart) 
+
+			  	//$this->redirect($session,'accueil');
 
 			} // elseif (isset($post['Attente']))
-
 		
 
-		 
 		} // if $this->post
 
 		require('View/Index/update.php') ; 	

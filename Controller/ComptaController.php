@@ -16,8 +16,7 @@ class ComptaController extends Controller {
 		require_once('Model/SqlModel.php');
 		$AttenteModel = new SqlModel();
 				 
-
-			$ListeAttente = $AttenteModel->AfficheEnAttente();
+		$ListeAttente = $AttenteModel->AfficheEnAttente();
 
 		require('View/Connecte/accueil.php') ;
 	}

@@ -34,11 +34,11 @@
  		<link rel="stylesheet" href="Ressources/bootstrap/css/bootstrap-theme.min.css"> 
 		<link rel="stylesheet" href="Ressources/bootstrap/css/bootstrap.min.css">
 	
-	  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="Ressources/jquery-ui.js"></script>
-	  <!--  <script src="Ressources/script.js"> </script> -->
-  		
+	  	<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+	  	<script src="Ressources/jquery-ui.js></script>
+	   	<script type="text/javascript" src="Ressources/bootstrap/js/bootstrap.min.js"></script>
+		<script src="Ressources/script.js"> </script>   
+		 
 	</head>
 
 	<body id="<?php echo  $app_body;?>">
@@ -53,8 +53,11 @@
 			</div>
 	 
 		
-		<!-- script JS si le fichier est chargé -->
+		<!-- script JS si le fichier est chargé  
 		<script type="text/javascript" src="Ressources/bootstrap/js/bootstrap.min.js"></script>
+		 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="Ressources/jquery-ui.js"></script>
+	    <script src="Ressources/script.js"> </script>    -->
 		 
 		</div>
 		 

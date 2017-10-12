@@ -13,7 +13,7 @@ class Db2Model extends Model{
 
 	public function rechercheDernierFrsM3() {
 	// attention changer Bib pour mise en prod 
-	$query = "SELECT max(idsuno) FROM m3edbprod.CIDMAS where idsuno between '00000' and '99999' "  ;
+	$query = "SELECT max(idsuno) FROM m3edbtest.CIDMAS where idsuno between '00000' and '99999' "  ;
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetch();
@@ -88,91 +88,299 @@ class Db2Model extends Model{
 		return $stmt->fetchAll();
 	}
 
-	// pas UTILISE
-	public function creerfrsM3($post,$numeroString) {
+	public function listerBKIN() {
+	 
+		$query 	= "SELECT trim(BIBKIN) AS CODE,trim(BITX40) AS TXT40,trim(BITX15) AS TXT15 FROM ".$this->biblio.".FBANID where bicono =100  order by BITX40 "	;
+		$stmt = $this->pdo->query($query);
+		 			 
+		return $stmt->fetchAll();
+	}
 
+
+		public function creerCompteBancaireM3($post,$numeroString) {
 
 		$erreur = array();
-  		
-		// alimenter champ en dur ===> ne fonctionne pas avec le poste CIDMAS
-		 
-		$suno = $numeroString;
-		$sunm = $post['rsCommande'];
-		$alsu = $post['rsCommande'];
-		$cscd =	$post['paysCommande'];
-		$phno =	$post['telephone'];
-		$tfno =	$post['fax'];
-		$corg =	$post['siret'];
-		$cor2 =	$post['complement'];
-		$vrno =	$post['tvaIntra'];
-	 	 
 
- 		$query = "INSERT INTO " .$this->biblio.".cidmas(
-					IDCONO,IDSUNO,IDSUTY,IDSUNM,IDALSU,IDCORG,IDCOR2,IDLNCD,IDPHNO,IDTFNO,IDCSCD,IDDTFM,IDEDIT,IDVRNO,IDMEPF,IDCFI1,IDCFI3,IDCFI5,IDSTAT ) 
-			VALUES (100,:suno,0,:sunm,:alsu,:corg,:cor2,'FR',:phno,:tfno,:cscd,'DMY','\',:vrno, 41,'&D ','&D ','& ',  10)";
+		$acho = $numeroString;
+		$bana = $post['nomBanq'];
+		$bkin = $post['idBanq'];
+		$baf1 =	$post['codeBanq'];
+		$baf2 =	$post['etabBanq'];
+		$baf3 =	$post['numCompte'];
+		$baf4 =	$post['cleCompte'];
+		$bkag =	$post['swift'];
+		$iban = $post['iban'];
+		$today = date("Ymd");
+		$todayU = date("Ymd");
 
- 		$stmt=$this->pdo-> prepare($query);
-		$stmt->bindParam(':suno',$suno,PDO::PARAM_STR);
-		$stmt->bindParam(':sunm',$sunm,PDO::PARAM_STR);
-		$stmt->bindParam(':alsu',$alsu,PDO::PARAM_STR);
-		$stmt->bindParam(':corg',$corg,PDO::PARAM_STR);
-		$stmt->bindParam(':cor2',$cor2,PDO::PARAM_STR);
-		$stmt->bindParam(':phno',$phno,PDO::PARAM_STR);
-		$stmt->bindParam(':tfno',$tfno,PDO::PARAM_STR);
-		$stmt->bindParam(':cscd',$cscd,PDO::PARAM_STR);
-		$stmt->bindParam(':vrno',$vrno,PDO::PARAM_STR);
-
-		$stmt->execute();
+		if ($post['deviseHG'] != "" )
+		{
+			$cucd=$post['deviseHG'];
+		} 
+		
+		$lncd = 'FR';
+		if ($post['paysCommande'] != "FR" )
+		{
+			$lncd= "GB";
+		}
+		$query = "INSERT INTO M3EDBTEST.cbanac(BCCONO,
+				 				BCDIVI,
+								BCBKID, 
+								BCBKTP,
+								BCACHO,
+								BCBKNO,
+								BCBBRN,
+								BCSTAT,
+								BCBANA,
+								BCAIT1,
+								BCAIT2,
+								BCAIT3,
+								BCAIT4,
+								BCAIT5,
+								BCAIT6,
+								BCAIT7,
+								BCCUCD,
+								BCBKIN,
+								BCBAF1,
+								BCBAF2,
+								BCBAF3,
+								BCBAF4,
+								BCBAF5,
+								BCBKPL,
+								BCARTP,
+								BCBMDA,
+								BCBMCA,
+								BCFCDC,
+								BCBIDC,
+								BCBMDI,
+								BCFCCO,
+								BCDNOV,
+								BCCNOV,
+								BCBKAG,
+								BCFINC,
+								BCC1QF,
+								BCC1RA,
+								BCFIAN,
+								BCBRNO,
+								BCC2QF,
+								BCC2RA,
+								BCFICU,
+								BCNCHL,
+								BCCBPY,
+								BCPYCD,
+								BCLNCD,
+								BCNODY,
+								BCEBAT,
+								BCPYTK,
+								BCCSTC,
+								BCIBAN,
+								BCACGR,
+								BCTXID,
+								BCRGDT,
+								BCRGTM,
+								BCLMDT,
+								BCCHNO,
+								BCCHID,
+								BCLMTS)
+								VALUES 
+								(100,
+				 				'',
+								'SWIFT', 
+								3,
+								:acho,
+								'',
+								'',
+								'10',
+								:bana,
+								'',
+								'',
+								'',
+								'',
+								'',
+								'',
+								'',
+								:cucd,
+								:bkin,
+								:baf1,
+								:baf2,
+								:baf3,
+								:baf4,
+								'',
+								'',
+								0,
+								0,
+								0,
+								0,
+								0,
+								0,
+								0,
+								0,
+								0,
+								:bkag,
+								'',
+								'',
+								'',
+								'',
+								'',
+								'',
+								'',
+								'',
+								0,
+								1,
+								'',
+								:lncd,
+								0,
+								'',
+								0,
+								0,
+								:iban,
+								'',
+								0,
+								:today,
+								0,
+								:todayU,
+								0,
+								'DSINADNOY',
+								0) ";
+ 
+		$stmt=$this->pdo->prepare($query) ;
+		$stmt->execute(array(
+							'acho'=>$acho,
+							'bana'=>$bana,
+							'cucd'=>$cucd,
+							'bkin'=>$bkin,
+							'baf1'=>$baf1,
+							'baf2'=>$baf2,
+							'baf3'=>$baf3,
+							'baf4'=>$baf4,
+							'bkag'=>$bkag,
+							'lncd'=>$lncd,
+							'iban'=>$iban,
+							'today'=>$today,
+							'todayU'=>$todayU
+							));
 					 
 		$result = $stmt->rowCount();
 		 
+
 		if ($result == 0) {
-			$erreurs["CRS620"] = "Fournisseur non inséré";
+			$erreur["CBANAC"] = "Compte bancaire non inséré";
 		}
 		else {
-			$erreurs["SUCCES"]['CIDMAS'] = "Fournisseur".$suno." en CRS620";
+			$erreur["succes"] = "Fournisseur".$acho." crée en CRS692";
 		}
+
+		return($erreur);
+	}
+	
+
+
+	
+	public function  creerCompteBancaireM3Old($post,$numeroString) {
+
+		$erreur = array();
+
+		$acho = $numeroString;
+		$bana = $post['nomBanq'];
+		$bkin = $post['idBanq'];
+		$baf1 =	$post['codeBanq'];
+		$baf2 =	$post['etabBanq'];
+		$baf3 =	$post['numCompte'];
+		$baf4 =	$post['cleCompte'];
+		$bkag =	$post['swift'];
+		$iban = $post['iban'];
+		$today = date("Ymd");
+
+		if ($post['deviseHG'] != "" )
+		{
+			$cucd=$post['deviseHG'];
+		} 
+		else 
+		{
+			$cucd=$post['devise'];
+		}
+
+		if ($post['paysCommande'] == "FR" )
+		{
+			$lncd= "FR";
+		} 
+		else 
+		{
+			$lncd= "GB";
+		}
+	  
+ 		$query = "INSERT INTO " .$this->biblio.".cbanac(
+				(BCCONO,BCDIVI,BCBKID,BCBKTP,BCACHO,BCBKNO,BCBBRN,BCSTAT,BCBANA,BCAIT1,BCAIT2,BCAIT3,BCAIT4,BCAIT5,BCAIT6,BCAIT7,BCCUCD,BCBKIN,BCBAF1,BCBAF2,BCBAF3,BCBAF4,BCBAF5,BCBKPL,
+				BCARTP,BCBMDA,BCBMCA,BCFCDC,BCBIDC,BCBMDI,BCFCCO,BCDNOV,BCCNOV,BCBKAG,BCFINC,BCC1QF,BCC1RA,BCFIAN,BCBRNO,BCC2QF,BCC2RA,BCFICU,BCNCHL,BCCBPY,BCPYCD,BCLNCD,BCNODY,BCEBAT,
+				BCPYTK,BCCSTC,BCIBAN,BCACGR,BCTXID,BCRGDT,BCRGTM,BCLMDT,BCCHNO,BCCHID,BCLMTS)
+				VALUES 
+				(100 ,''   ,:'SWIFT',03 ,:acho,'','','10',:bana,'','','','','','','',:cucd,:bkin,:baf1,:baf2,:baf3,:baf4,'','',
+				0,0,0,0,0,0,0,0,0,:bkag,'','','','','','','','',0,1,'',:lncd,0,'',
+				0,0,:iban,'',0,:date,0,:date,0,'DAVLAM',0)";  
+
  
-			// cidven
-			$cobi =	$post['groupeAppartenance'];
-			$orty =	$post['natureFournisseur'];
-			$sucl =	$post['groupeFournisseur'];
-			$edit = '/';
-			$tedl =	$post['incotermGroupe'];
-			$modl =	 '&D ';
-			$teaf =	'1';
-			$dt4d =	'1';
-			$dtcd =	'1'; 
-			$cucd =	$post['deviseHG'];
-			$crtp=	1;
-			$tepy =	$post['conditionReglementHG'];
-			$pyme =	$post['modeReglement'];
-			$atpr =	'2';
-			$acrf =	'HG';	
-			$vtcd =	'01';
-			$txap =	'1';
-			$tepa = '&D ';
-			$absk = '1';
-			$absm = 1;
-			$buye = 'MOVEX';
-			$shst =	0;
-			$sust = 1;
-			$susy = 2;
-			$shac = 2;
-			$tame = 1;
-			$iatp = 2;
-			$iapc = 1;
-			$iape = 1;
-			$iapf = 3;
-			$qucl = '';
-			$ecar = '';
-			$iapf = '';
-
-		return ($erreur) ;
-
-	}	
-}
-
+		$stmt=$this->pdo->prepare($query);
+		$stmt->bindParam(":acho",$acho,PDO::PARAM_STR);
+		$stmt->bindParam(":bana",$bana,PDO::PARAM_STR);
+		$stmt->bindParam(":cucd",$cucd,PDO::PARAM_STR);
+		$stmt->bindParam(":bkin",$bkin,PDO::PARAM_STR);
+		$stmt->bindParam(":bfa1",$bfa1,PDO::PARAM_STR);
+		$stmt->bindParam(":bfa2",$bfa2,PDO::PARAM_STR);
+		$stmt->bindParam(":bfa3",$bfa3,PDO::PARAM_STR);
+		$stmt->bindParam(":bfa4",$bfa4,PDO::PARAM_STR);
+		$stmt->bindParam(":bkag",$bkag,PDO::PARAM_STR);
+		$stmt->bindParam(":lncd",$lncd,PDO::PARAM_STR);
+		$stmt->bindParam(":iban",$iban,PDO::PARAM_STR);
+		$stmt->bindParam(":date",$today,PDO::PARAM_INT);  
+		$stmt->execute($query);
+					 
+		$result = $stmt->rowCount();
 		 
 
+		if ($result == 0) {
+			$erreur["CBANAC"] = "Compte bancaire non inséré";
+		}
+		else {
+			$erreur["SUCCES"]['CBANAC'] = "Fournisseur".$acho." crée en CRS692";
+		}
+
+		return($erreur);
+
+	}
+
+	// pas UTILISE  => test
+	public function majFrsM3 ($post,$numeroString) {
+
+ 
+		$erreurs = array();
+	 
+		if (empty($erreurs)) {
+		
+						
+			$query = "UPDATE  M3EDBTEST.CIDMAS
+									SET  IDSUNM ='TEST SQL'
+									WHERE IDSUNO='09110'"; 
+			var_dump($query)	;	 		
+			$stmt = $this->pdo->prepare($query);
+			
+				
+			if ($stmt->execute()) {
+				$result = $stmt->rowCount();
+			} else {
+				$erreurs['form'] = 'FRS non modifie !';
+			}
+			
+		}
+		if (isset($result)) {
+		 	return ($result);
+		} else {
+			return($erreurs);
+		}
+	}
+
+	
+
+	
+}
+	 
 ?>

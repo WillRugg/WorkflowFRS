@@ -85,8 +85,9 @@ class Controller {
 
 	// permet de récupérer la version
 	public function getVersion() {
-		return ('Workflow Fournisseur V-1');
+		return ('Workflow Fournisseur V-2');
 	}
+	
 	
 	// permet de récupérer la biblio
 	public function getBiblio() {
@@ -94,6 +95,144 @@ class Controller {
 		//return ('COMEDBPROD');
 	}
 
+
+	// vérifie si une fiche fournisseur a été modifiée 
+	protected function isUpdate($fournisseur,$post) {
+
+		// générer la table des modifictatons 
+		$valeurs = array();
+
+		if ($fournisseur['siret'] !=  $post['siret']) {
+			$valeurs['siret']['valeur']  = 'Siret' ;
+			$valeurs['siret']['fichier']  = $fournisseur['siret'] ;
+			$valeurs['siret']['post'] = $post['siret'] ;
+		}	
+
+		if ($fournisseur['complementSiret'] !=  $post['complement']) {
+			$valeurs['complementSiret']['valeur']  = 'Complement Siret' ;
+			$valeurs['complementSiret']['fichier']  = $fournisseur['complementSiret'] ;
+			$valeurs['complementSiret']['post'] = $post['complement'] ;
+		}	
+
+		if ($fournisseur['tva'] !=  $post['tvaIntra']) {
+			$valeurs['tva']['valeur']  = 'Tva' ;
+			$valeurs['tva']['fichier']  = $fournisseur['tva'] ;
+			$valeurs['tva']['post'] = $post['tvaIntra'] ;
+		}	
+
+		if ($fournisseur['raisonSociale'] !=  $post['rsCommande']) {
+			$valeurs['raisonSociale']['valeur']  = 'Raison Sociale' ;
+			$valeurs['raisonSociale']['fichier']  = $fournisseur['raisonSociale'] ;
+			$valeurs['raisonSociale']['post'] = $post['rsCommande'] ;
+		}	
+
+		if ($fournisseur['siteInternet'] !=  $post['site']) {
+			$valeurs['siteInternet']['valeur']  = 'Site Internet' ;
+			$valeurs['siteInternet']['fichier']  = $fournisseur['siteInternet'] ;
+			$valeurs['siteInternet']['post'] = $post['site'] ;
+		}	
+
+		if ($fournisseur['groupeAppartenance'] !=  $post['groupeAppartenance']) {
+			$valeurs['groupeAppartenance']['valeur']  =  'Groupe Appartenance' ;
+			$valeurs['groupeAppartenance']['fichier']  = $fournisseur['groupeAppartenance'] ;
+			$valeurs['groupeAppartenance']['post'] = $post['groupeAppartenance'] ;
+		}
+
+		if ($fournisseur['natureFournisseur'] !=  $post['natureFournisseur']) {
+			$valeurs['natureFournisseur']['valeur']  =  'Nature Fournisseur' ;
+			$valeurs['natureFournisseur']['fichier']  = $fournisseur['natureFournisseur'] ;
+			$valeurs['natureFournisseur']['post'] = $post['natureFournisseur'] ;
+		}
+
+		if ($fournisseur['groupeFournisseur'] !=  $post['groupeFournisseur']) {
+			$valeurs['groupeFournisseur']['valeur']  =  'Groupe Fournisseur';
+			$valeurs['groupeFournisseur']['fichier']  = $fournisseur['groupeFournisseur'] ;
+			$valeurs['groupeFournisseur']['post'] = $post['groupeFournisseur'] ;
+		}
+
+		if ($fournisseur['incoterm'] !=  $post['incotermGroupe']) {
+			$valeurs['incoterm']['valeur']  = 'Incoterm' ;
+			$valeurs['incoterm']['fichier']  = $fournisseur['incoterm'] ;
+			$valeurs['incoterm']['post'] = $post['incotermGroupe'] ;
+		}
+
+ 
+		if ($fournisseur['BSSTypeProduit'] !=  $post['typeProduit']) {
+			$valeurs['BSSTypeProduit']['valeur']  = 'Type Produit' ;
+			$valeurs['BSSTypeProduit']['fichier']  = $fournisseur['BSSTypeProduit'] ;
+			$valeurs['BSSTypeProduit']['post'] = $post['typeProduit'] ;
+		}
+
+
+		if ($fournisseur['devise'] !=  $post['deviseHG']) {
+			$valeurs['devise']['valeur']  =  'Devise' ;
+			$valeurs['devise']['fichier']  = $fournisseur['devise'] ;
+			$valeurs['devise']['post'] = $post['deviseHG'] ;
+		}
+
+		if ($fournisseur['modeReglement'] !=  $post['modeReglement']) {
+			$valeurs['modeReglement']['valeur']  = 'Mode Reglement' ;
+			$valeurs['modeReglement']['fichier']  = $fournisseur['modeReglement'] ;
+			$valeurs['modeReglement']['post'] = $post['modeReglement'] ;
+		}
+
+		if ($fournisseur['conditionReglement'] !=  $post['conditionReglementHG']) {
+			$valeurs['conditionReglement']['valeur']  =  'Condition Reglement' ;
+			$valeurs['conditionReglement']['fichier']  = $fournisseur['conditionReglement'] ;
+			$valeurs['conditionReglement']['post'] = $post['conditionReglementHG'] ;
+		}
+
+		if ($fournisseur['identiteBanquePays'] !=  $post['idBanq']) {
+			$valeurs['identiteBanquePays']['valeur']  =  'Identite Bancaire' ;
+			$valeurs['identiteBanquePays']['fichier']  = $fournisseur['identiteBanquePays'] ;
+			$valeurs['identiteBanquePays']['post'] = $post['idBanq'] ;
+		}
+
+		if ($fournisseur['nomBanque'] !=  $post['nomBanq']) {
+			$valeurs['nomBanque']['valeur']  = 'Nom Banque' ;
+			$valeurs['nomBanque']['fichier']  = $fournisseur['nomBanque'] ;
+			$valeurs['nomBanque']['post'] = $post['nomBanq'] ;
+		}
+
+		if ($fournisseur['codeBanque'] !=  $post['codeBanq']) {
+			$valeurs['codeBanque']['valeur']  = 'codeBanque' ;
+			$valeurs['codeBanque']['fichier']  = $fournisseur['codeBanque'] ;
+			$valeurs['codeBanque']['post'] = $post['codeBanq'] ;
+		}
+
+		if ($fournisseur['etablissementBanque'] !=  $post['etabBanq']) {
+			$valeurs['etablissementBanque']['valeur']  = 'Etablissement Banque' ;
+			$valeurs['etablissementBanque']['fichier']  = $fournisseur['etablissementBanque'] ;
+			$valeurs['etablissementBanque']['post'] = $post['etabBanq'] ;
+		}
+
+		if ($fournisseur['numeroCompteBanque'] !=  $post['numCompte']) {
+			$valeurs['numeroCompteBanque']['valeur']  = 'Numero CompteBanque' ;
+			$valeurs['numeroCompteBanque']['fichier']  = $fournisseur['numeroCompteBanque'] ;
+			$valeurs['numeroCompteBanque']['post'] = $post['numCompte'] ;
+		}
+
+		if ($fournisseur['cleCompteBanque'] !=  $post['cleCompte']) {
+			$valeurs['cleCompteBanque']['valeur']  = 'Cle Compte Banque' ;
+			$valeurs['cleCompteBanque']['fichier']  = $fournisseur['cleCompteBanque'] ;
+			$valeurs['cleCompteBanque']['post'] = $post['cleCompte'] ;
+		}
+
+		if ($fournisseur['iban'] !=  $post['iban']) {
+			$valeurs['iban']['valeur']  = 'Iban' ;
+			$valeurs['iban']['fichier']  = $fournisseur['iban'] ;
+			$valeurs['iban']['post'] = $post['iban'] ;
+		}
+
+		if ($fournisseur['swift'] !=  $post['swift']) {
+			$valeurs['swift']['valeur']  =  'Swift' ;
+			$valeurs['swift']['fichier']  = $fournisseur['swift'] ;
+			$valeurs['swift']['post'] = $post['swift'] ;
+		}
+
+ 
+		return $valeurs;
+	}	
 }
  
 ?>

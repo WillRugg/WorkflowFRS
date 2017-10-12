@@ -1,10 +1,11 @@
 <?php
 
 ob_start();
+
 ?>
  
 
-<div id="container">
+ 	<div id="container">
 	 	<div class="col-md-12" style="text-align: center;"><u>Bienvenue sur la plateforme de demande de création de fournisseurs </u></br><i> Afin de créer un fournisseur, remplir la fiche fournisseur ci-dessous en étant le plus complet possible. Dès la finalisation de votre formulaire, votre demande devra être validée par le service Achats ainsi que la Comptabilité.</br> Pour toute question relative au remplissage du questionnaire et au renseignement d'un formulaire contactez <b>xxxxxx@comeca-group.com</b> Si vous rencontrez toute difficulté durant le remplissage du formulaire merci de prendre contact avec la DSI de Comeca Group en faisant un GLPI ou en envoyant un mail à <b>helpdesk@comeca-group.com</b> </br> </br></i>
 	 	<b>Note Importante :</b></br>
 	 	<i>Avant toute demande de création de formulaire nous vous demandons de vérifier en cliquant sur le bouton "Liste Fournisseurs existants" si le fournisseur n'est pas déjà présent dans la base de données de Comeca.</br></br></i>
@@ -25,7 +26,7 @@ ob_start();
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Entité</label>
 
-			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur"  placeholder="Votre entité" required> 
+			     	<select name="entiteDemandeur"  class="form-control " id="entiteDemandeur" data-toggle="tooltip" title="saisie obligation d'une entité du groupe" placeholder="Votre entité" > 
 						
 						<option value ="" > Sélection une entité </option>
 						<?php
@@ -36,13 +37,14 @@ ob_start();
 						<?php 
 						}
 						?>
-                    </select> 
-
-				</div>
+                    </select>  
+                </div>
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput"> Adresse Mail du Demandeur </label>
-				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre Nom"  size="36" maxlength="36" required> 
+				    <input type="text" name="nomDemandeur" class="form-control" id="nomDemandeur" placeholder="Votre adresse mail" data-toggle="tooltip" 
+				    		title="saisie obligatoire de votre adresse mail" size="36" maxlength="36" required > 
 				</div>
+
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Fonction</label>
 				    <input type="text"  name ="fonctionDemandeur" class="form-control" id="fonctionDemandeur" size="36" maxlength="36" placeholder="Votre fonction">
@@ -67,8 +69,8 @@ ob_start();
  			<div class="col-sm-12">	<legend class="scheduler-border">Identification - Informations Fournisseur</legend>
 	   			<div class="form-group col-sm-12">
 			   		<div class="form-group col-sm-4">
-					    <label for="formGroupExampleInput2" >Siret</label>
-					    <input type="text" class="form-control" id="siret" name ="siret"  size="9" maxlength="9" placeholder="Siret" >
+					    <label for="formGroupExampleInput2" >Siren</label>
+					    <input type="text" class="form-control" id="siret" name ="siret"  size="9" maxlength="9" placeholder="Siren" >
 					</div>
 					<div class="form-group col-sm-4">
 					    <label for="formGroupExampleInput"> Complément Siret </label>
@@ -80,55 +82,59 @@ ob_start();
 			    	</div> 
 		    	</div>
  		
-   			<div class="col-sm-12 "><legend class="scheduler-border">Adresse de commande</legend>
-	   		 	<div class="form-group col-sm-10">
-			    	<label for="formGroupExampleInput2">Raison Sociale</label>
-			    	<input type="text" class="form-control" id="rsCommande" name ="rsCommande" size="36" maxlength="36" placeholder="Raison sociale"  required>
-		    	</div>
+	   			<div class="col-sm-12 "><legend class="scheduler-border">Adresse de commande</legend>
+		   		 	<div class="form-group col-sm-10">
+				    	<label for="formGroupExampleInput2">Raison Sociale</label>
+				    	<input type="text" class="form-control" id="rsCommande" name ="rsCommande" size="36" maxlength="36" placeholder="Raison sociale" 
+				    		data-toggle="tooltip"  title="saisie obligatoire du Nom de la société" required>
+			    	</div>
 
-		   		<div class="form-group col-sm-10">
-			    	<label for="formGroupExampleInput2">Voie/Rue</label>
-			    	<input type="text" class="form-control" id="rueCommande" name="rueCommande" size="36" maxlength="36" placeholder="Voie rue" required>
-		    	</div>
-	    	
-		        <div class="form-group col-sm-3">
-			    	<label for="formGroupExampleInput2">Code Postal</label>
-			    	<input type="text" class="form-control" id="codePostal" name="codePostal" size="5" maxlength="5" placeholder="Code Postal" required>
-		    	</div>
-		    	<div class="form-group col-sm-6">
-			    	<label for="formGroupExampleInput2">Ville</label>
-			    	<input type="text" class="form-control" id="villeCommande" name="villeCommande" size="36" maxlength="36" placeholder="Ville"  required>
-		    	</div>
-		    			    
-		  		<div class="form-group col-sm-3">
-			    	<label for="formGroupExampleInput2">Pays</label>
-			    	<select name="paysCommande"  class="form-control " id="paysCommande"  required> 
-						<option value ="FR" > FR ou Sélection autre pays </option>
-							<?php
-							foreach ($pays as $unPays) {
-							?>
-								<option value=<?php  echo $unPays["CODE"];?>><?php echo $unPays["CODE"].'- '.$unPays["TXT15"];?></option> 
-							<?php 
-							}
-							?>
-                    </select> 
-			    	<!--<input type="text" class="form-control" id="paysCommande" name="paysCommande" placeholder="Pays"  required> -->
-			    </div>
-		    	<div class="form-group col-sm-4">
-		    		<label for="formGroupExampleInput2">Téléphone</label>
- 				  	<input type="text" class="form-control" id="telephone" size="15" maxlength="15" name="telephone" placeholder="Tel">
- 				</div>
- 				<div class="form-group col-sm-4">
- 					<label for="formGroupExampleInput2">Fax</label>
- 				  	<input type="text" class="form-control"  id="fax" name="fax" size="15" maxlength="15" placeholder="Fax">
- 				</div>
-				<div class="form-group col-sm-4">
-					<label for="formGroupExampleInput2">Site internet</label>
- 				  	<input type="text" class="form-control"  id="site" name="site"  size="36" maxlength="36" placeholder="Site internet">
- 				</div>
- 				 				
+			   		<div class="form-group col-sm-10">
+				    	<label for="formGroupExampleInput2">Voie/Rue</label>
+				    	<input type="text" class="form-control" id="rueCommande" name="rueCommande" size="36" maxlength="36" placeholder="Voie rue"	
+				    		data-toggle="tooltip"  title="saisie obligatoire de la rue" required>
+			    	</div>
+		    	
+			        <div class="form-group col-sm-3">
+				    	<label for="formGroupExampleInput2">Code Postal</label>
+				    	<input type="text" class="form-control" id="codePostal" name="codePostal" size="5" maxlength="5" placeholder="Code Postal" 
+				    			data-toggle="tooltip"  title="saisie obligatoire du code postal" required>
+			    	</div>
+			    	<div class="form-group col-sm-6">
+				    	<label for="formGroupExampleInput2">Ville</label>
+				    	<input type="text" class="form-control" id="villeCommande" name="villeCommande" size="36" maxlength="36" placeholder="Ville" 
+				    		data-toggle="tooltip"  title="saisie obligatoire de la ville" required>
+			    	</div>
+			    			    
+			  		<div class="form-group col-sm-3">
+				    	<label for="formGroupExampleInput2">Pays</label>
+				    	<select name="paysCommande"  class="form-control " id="paysCommande"  data-toggle="tooltip"  title="saisie obligatoire du pays"  required> 
+							<option value ="FR" > FR ou Sélection autre pays </option>
+								<?php
+								foreach ($pays as $unPays) {
+								?>
+									<option value=<?php  echo $unPays["CODE"];?>><?php echo $unPays["CODE"].'- '.$unPays["TXT15"];?></option> 
+								<?php 
+								}
+								?>
+	                    </select> 
+				    	<!--<input type="text" class="form-control" id="paysCommande" name="paysCommande" placeholder="Pays"  required> -->
+				    </div>
+			    	<div class="form-group col-sm-4">
+			    		<label for="formGroupExampleInput2">Téléphone</label>
+	 				  	<input type="text" class="form-control" id="telephone" size="15" maxlength="15" name="telephone" placeholder="Tel">
+	 				</div>
+	 				<div class="form-group col-sm-4">
+	 					<label for="formGroupExampleInput2">Fax</label>
+	 				  	<input type="text" class="form-control"  id="fax" name="fax" size="15" maxlength="15" placeholder="Fax">
+	 				</div>
+					<div class="form-group col-sm-4">
+						<label for="formGroupExampleInput2">Site internet</label>
+	 				  	<input type="text" class="form-control"  id="site" name="site"  size="36" maxlength="36" placeholder="Site internet" 
+	 				  		data-toggle="tooltip"  title="saisie obligatoire de l'url" required>
+	 				</div>
 
-			</div>
+				</div>
  			</div>
 	 		<div class="col-sm-12 ">
 	   		<legend class="scheduler-border">Adresse de Paiement</legend> 
@@ -152,7 +158,7 @@ ob_start();
 		  		<div class="form-group col-sm-3">
 			    	<label for="formGroupExampleInput2">Pays</label>
 			    	<select name="paysPaiement"  class="form-control " id="paysPaiement"  > 
-						<option value ="" > FR par défaut ou Sélection autre pays </option>
+						<option value ="" > SANS par défaut ou Sélection autre pays </option>
 							<?php
 							foreach ($pays as $unPays) {
 							?>
@@ -162,6 +168,8 @@ ob_start();
 							?>
                     </select> 
                 </div>
+                <div class="col-sm-12">&nbsp;</div>
+                <div class="col-sm-12">&nbsp;</div>
 		 		<div class="col-sm-6">
 			    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 			    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"   > 
@@ -182,7 +190,7 @@ ob_start();
 		  		<div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
 			    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
-			    			<option value ="">Sélectionner une valeur</option>
+			    			<option value ="">Sans ou Sélectionner une valeur</option>
 			    			<option value ="100">Achats de Production</option>
 			    			<option value ="200">Achat sur projet</option>
 			    			<option value ="300">Achat de frais généraux</option>
@@ -190,7 +198,7 @@ ob_start();
 			   	</div>
 			    <div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
-			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  required> 
+			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" required> 
 								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
 								<?php
 								foreach ($groupeFournisseur as $unGroupe) {
@@ -201,6 +209,7 @@ ob_start();
 							?>
                     	</select>		    	
 			   	</div>
+			   	<div class="col-sm-12">&nbsp;</div>
  		 </div>
 
  		</fieldset>
@@ -246,7 +255,7 @@ ob_start();
 		     	<div class="col-sm-12">
 		    	 	<div class="form-group col-sm-6">
 					    <label for="formGroupExampleInput2" >Lieu(ville) </label>	
-			   		    <input type="text"  class="form-control" id="lieu" name="lieu" size="36" maxlength="36" placeholder="Lieu"> 
+			   		   	<input type="text"  class="form-control" id="lieu" name="lieu" size="36" maxlength="36" placeholder="Lieu"> 
 					    <label for="formGroupExampleInput2" >Franco de Port (à partir de) </label>	
 			   		    <input type="text"  class="form-control" id="montant" name="montant" size="15" maxlength="15" placeholder="Montant"> 
 		    		</div>
@@ -257,7 +266,7 @@ ob_start();
     	 	</div>
     	</fieldset>
 
-    	<fieldset class="col-sm-12 control-label thumbnai
+    	<fieldset class="col-sm-12 control-label thumbnail">
 	 	<div class="col-sm-12">
 	   		<legend class="scheduler-border">Type de produits</legend>	
 	   	   	<div class="col-sm-offset-4 col-sm-4">
@@ -354,13 +363,80 @@ ob_start();
 			   		     </div>
 	    	 		 </div>
 		    		<div class="form-group col-sm-12">	
-		    		   	<p class="col-sm-4"><i> * Joindre un RIB pour les fornisseurs étrangers  </i></p>	
+		    		   	<p class="col-sm-4"><i> * Joindre un RIB pour les fournisseurs étrangers  </i></p>	
 		    		   	
 		    		</div>	
 		   		</div>
 		     	 
     	 	</div>
     	</fieldset>
+
+    
+    	<!-- ajout RIB -->
+    	<fieldset class="col-sm-12 control-label thumbnail">
+	 		<div class="col-sm-12">
+		   		<legend class="scheduler-border"> R I B </legend>	
+	   			<div class="col-sm-12">
+		   			
+
+		   	   	 	<div class="col-sm-5 "> 
+		   	   	 		<label for="form-control">Identite Bancaire par pays</label>	
+				   		<select class="form-control" name="idBanq"  id="idBanq"  > 
+				   			<option value = "" >Sélectionner une valeur</option> 
+						<?php
+						foreach ($idBanq as $uneIdBanq) {
+						?>
+							<option value=<?php  echo $uneIdBanq["CODE"];?>><?php echo $uneIdBanq["CODE"].'- '.$uneIdBanq["TXT40"];?>
+							</option> 
+						<?php 
+						}
+						?>
+		   		    	</select>
+		   		    </div>
+		   		    <div  class="col-sm-6" style="text-align: center;">
+			   			<label for="formGroupExampleInput2"> Nom de la Banque </label>	
+			   			<input type="text"  class="form-control" id="nomBanq" name="nomBanq"  size="36" maxlength="36"  placeholder="Nom Banque" > 
+			   		</div>
+	   	   	 
+     		 	</div>
+ 		 		<div class="col-sm-6 "> &nbsp;    	   	 	</div>
+
+				<div class="col-sm-12">
+			   		<div class="form-group  col-sm-2" style="text-align: center;">
+			   			<label for="formGroupExampleInput2"> Code Banque </label>	
+			   			<input type="text"  class="form-control" id="codeBanq" name="codeBanq"  size="5" maxlength="5"  placeholder="Code Banque" > 
+			   		</div>
+					<div class="form-group col-sm-3" style="text-align: center;">
+			     	 	<label for="formGroupExampleInput2" >  Code Etablissement </label>	
+		    			<input type="text"  class="form-control" id="etabBanq" name="etabBanq"  size="5" maxlength="5"  placeholder="Etablissement Banque" > 
+		    		</div>
+	    			<div class="form-group col-sm-4" style="text-align: center;">
+	    				<label for="formGroupExampleInput2" > N° Compte </label>
+	    				<input type="text"  class="form-control" id="numCompte" name="numCompte"  size="11" maxlength="11"  placeholder="Numero de Compte" > 
+	    			</div>
+			   		<div class="form-group  col-sm-2" style="text-align: center;">
+			   			<label for="formGroupExampleInput2" > Clé </label>	
+			   			<input type="text"  class="form-control" id="cleCompte" name="cleCompte"  size="2" maxlength="2"  placeholder="Clé" > 
+			   		</div>
+		   		</div>
+
+		   		<div class="col-sm-6 "> &nbsp;		   	</div>
+
+			   	<div class="col-sm-12">
+			   		<div class="form-group col-sm-7" style="text-align: center;">
+			     	 	<label for="formGroupExampleInput2" > IBAN </label>	
+		    			<input type="text"  class="form-control" id="iban" name="iban"  size="27" maxlength="27"  placeholder="code IBAN" > 
+		    		</div>
+				   	<div class="form-group  col-sm-4" style="text-align: center;">
+			   			<label for="formGroupExampleInput2"> SWIFT </label>	
+			   			<input type="text"  class="form-control" id="swift" name="swift"  size="11" maxlength="11"  placeholder="Swift" > 
+			   		</div>
+					
+				</div>
+		     	 
+    	 	</div>
+    	</fieldset>
+
     	<fieldset class="col-sm-12 control-label thumbnail">
 	 		<div class="form-group col-sm-12">
 		   		<legend class="scheduler-border">Informations Suplémentaires</legend>
@@ -372,10 +448,10 @@ ob_start();
 			    </div>	
 		   		<div class="form-group col-sm-4">
 		   			<select name="iso"  class="form-control " id="iso" > 
-		   		 			<option value ="">ISO ?</option>
-							<option value="oui"> ISO </option>
-							<option value="non"> Pas ISO </option>
-						</select>		     		   
+		   		 		<option value ="">ISO ?</option>
+						<option value="oui"> ISO </option>
+						<option value="non"> Pas ISO </option>
+					</select>		     		   
 		     	</div>		
 		     	</div>   
 		  	 	<div class="form-group  col-sm-12">
@@ -401,9 +477,7 @@ ob_start();
 			<INPUT TYPE="submit" class="btn btn-info col-sm-offset-2 col-sm-5" name="EnvoiFour" value="Demander informations au fournisseur"/>
 		 </a>
 	   
-	  
-	    
-	  
+  
 	</form>
    		 	
 	<div class="col-md-8">&nbsp; </div>

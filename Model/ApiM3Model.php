@@ -54,8 +54,12 @@ class ApiM3Model extends ApiModel {
 			$suno = $numeroString;  
  			$sunm = $post['rsCommande'];
  			$alsu = substr($post['rsCommande'],0,10);  
- 			$cscd =	$post['paysCommande'];  
- 			$lncd =	'FR';  
+ 			$cscd =	$post['paysCommande']; 
+ 			if ($post['paysCommande'] == 'FR') {
+ 				$lncd =	'FR';  
+ 			} else {
+ 				$lncd =	'GB'; 
+ 			}  
  			$dtfm =	'DMY';  
  			$mepf =	41;  
  			$sucl = $post['groupeFournisseur']; 
@@ -100,6 +104,7 @@ class ApiM3Model extends ApiModel {
 			$qucl = '';
 			$ecar = '';
 			$stat = '10';
+			$sucm = substr($post['rsCommande'],0,20);  
 		
 
 			//var_dump($this->setField('SUTY',$suty));
@@ -155,6 +160,9 @@ class ApiM3Model extends ApiModel {
 			$this->setField('CFI3',$cfi3);
 			$this->setField('CFI5',$cfi5);  
 			$this->setField('STAT',$stat); 
+			$this->setField('SUCM',$sucm); 
+			
+
 			 				 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddSupplier')) 
@@ -219,8 +227,7 @@ class ApiM3Model extends ApiModel {
 				//echo "<script type='text/javascript'>alert('le founisseur a bien été créé dans M3');</script>";
 			}
 
-		// type 10 : adresse banque
-
+			// type 10 : adresse banque
 			$adte = 10;
 			$adid = '';
 			if (!empty($post['rsPaiement'])) {
@@ -262,7 +269,6 @@ class ApiM3Model extends ApiModel {
 			$this->setField('TOWN',$town);
 	 		$this->setField('CSCD',$cscd);  
 			$this->setField('PRIA',0);  
- 
 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddAddress')) 
@@ -276,7 +282,6 @@ class ApiM3Model extends ApiModel {
 				//echo "<script type='text/javascript'>alert('le founisseur a bien été créé dans M3');</script>";
 			}
 
-
 		}	// / si open échoué
 		else 
 		{
@@ -284,9 +289,7 @@ class ApiM3Model extends ApiModel {
 		    //echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 		}
 
-
 		$this->close();
-
 
 		return ($erreur) ;	  	
 	} 

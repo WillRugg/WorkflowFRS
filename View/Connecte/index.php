@@ -1,8 +1,15 @@
 <?php
 
 ob_start();
-?>
 
+// si pas connecté on affiche l'erreur
+if(isset($boolConf['idConnecte'])) {
+	if  (!$boolConf['idConnecte']) 
+	{ 
+		echo '<SCRIPT language="Javascript">alert(\''.$boolConf['0'].'\', \'Information !\');</SCRIPT>' ;	
+	}		
+}
+?>
 
 <form class="formAdmin adminConnecte col-sm-offset-3 col-sm-6" style="margin-top: 10%" method="post" action="">
 	<fieldset class="fieldAdmin">
@@ -25,7 +32,7 @@ ob_start();
 $app_html = ob_get_contents();
 ob_end_clean();
 
-	require('Layout/mainConnect.php') ;
+require('Layout/mainConnect.php') ;
 
 
 

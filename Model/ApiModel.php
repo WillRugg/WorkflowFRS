@@ -20,8 +20,8 @@ Class ApiModel  {
 	// constructeur appelé automatiquement lors de la création de l instance
 	public function __construct( ) {
 	 		$this->serveur = '10.20.21.105';
-	 		//$this->port =26800;	// TEST 
-	 		$this->port =6800;   // PROD
+	 		$this->port =26800;	// TEST 
+	 		//$this->port =6800;   // PROD
 	}
 
 
