@@ -34,8 +34,7 @@
 	  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   		<script src="Ressources/jquery-ui.js"></script>
-  		<!--<script src="Ressources/script.js"> </script> -->
-  		
+  		<script src="Ressources/script.js"> </script>  
 	</head>
 
 	<body id="<?php echo  $app_body;?>">

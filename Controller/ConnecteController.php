@@ -28,6 +28,8 @@ class ConnecteController extends Controller {
 			 
 			$boolConf = $userModel->connecter($this->post) ;
 
+			var_dump($boolConf);
+
 			// si connecté  / on passe l'identifiant
 		  	if ($boolConf['idConnecte']) 
 		  	{
@@ -58,10 +60,12 @@ class ConnecteController extends Controller {
 	}
 	
 	public function seDeconnecteAction() {
+		
 		if(!$this->authModule->estConnecte()) {
-			  $this->redirect("","creeFournisseurs");
-			  $this->authModule->seDeconnecter();
+			$this->redirect("","creeFournisseurs");
+			$this->authModule->seDeconnecter();
 		}
+
 		$this->authModule->seDeconnecter();
 		$this->redirect("","creeFournisseurs");
 	}

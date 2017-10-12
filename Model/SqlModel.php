@@ -25,6 +25,7 @@ class SqlModel extends Model{
         else
         {
             $erreurs['ident'] = 'L\'identifiant ne peut être vide';
+            return array('idConnecte'=> false,$erreurs['ident']);
         } 
         
         // identifiant obligatoire
@@ -34,6 +35,7 @@ class SqlModel extends Model{
         else 
         {
             $erreurs['password'] = 'Le mot de passe ne peut être vide';
+            return array('idConnecte'=> false,$erreurs['password']);
         }
        
         if(!count($erreurs)) {
@@ -41,26 +43,29 @@ class SqlModel extends Model{
             // recherche identifiant
             $query = "SELECT * FROM `users` where USER_IDENTIFIANT='".$post['ident']."'";
             $stmt = $this->pdoSql->query($query);
+
             if ($user = $stmt->fetch()) {
                 $userBdd = $user['USER_IDENTIFIANT'];
                 $environnementBdd = $user['USER_IDENT'];
             }
             else
             {
-                return array('idConnecte'=> false);
+            	$erreurs['ident'] = 'Le user est incorrect';
+                return array('idConnecte'=> false,$erreurs['ident'] );
             }
 
             // recherche password
             $query = "SELECT * FROM `users` where USER_IDENTIFIANT='".$post['ident']."'";
             $stmt = $this->pdoSql->query($query);
+
             if ($user = $stmt->fetch()) {
                 $passwordBdd = $user['USER_PASSWORD'];
                 $environnementBdd = $user['USER_IDENT'];
             } 
             else 
             {
-                $erreurs['ident'] = 'Le mdp est incorrect';
-                return array('idConnecte'=> false);
+                $erreurs['ident'] = 'Le user est inexistant';
+                return array('idConnecte'=> false,$erreurs['user']);
             }
                     
             // si ident et mdp ok => on retourne true et le user connecté
@@ -70,7 +75,7 @@ class SqlModel extends Model{
             else
             {
                 $erreurs['password'] = 'Le mot de passe est incorrect';
-                return array('idConnecte'=> false);
+                return array('idConnecte'=> false,$erreurs['password'] );
             }
        }  
    }
@@ -82,7 +87,7 @@ class SqlModel extends Model{
 			$query = "SELECT ID FROM `tablefrs` where idEnvoi='".$timeUnique."'";
 			$stmt = $this->pdoSql->query($query);
       		return $stmt->fetch();
-    	}
+    }
 	
 
 
@@ -117,27 +122,33 @@ class SqlModel extends Model{
        
 	}
 
+	public function getDemandeOrigine($id) {
+     
+	    $query = "SELECT * FROM `tablefrshisto` where  domaineInitial = 'user' and ID='".$id."'";
+    	$stmt = $this->pdoSql->query($query);
+
+     	return $stmt->fetch();       
+	} 
+
 	public function getInfos($id) {
      
 	    $query = "SELECT * FROM `tablefrs` where ID='".$id."'";
     	$stmt = $this->pdoSql->query($query);
 
-     	return $stmt->fetch();
-       
+     	return $stmt->fetch();       
 	}  
 
-		public function getInfosForFournisseur($idEnvoi,$ID) {
+	public function getInfosForFournisseur($idEnvoi,$ID) {
      
 	    $query = "SELECT * FROM `tablefrs` where idEnvoi='".$idEnvoi."' and  ID='".$ID."' and domaineValidation='fournisseur'";
     	$stmt = $this->pdoSql->query($query);
 
-     	return $stmt->fetch();
-       
+     	return $stmt->fetch();     
 	}  
 
 
 	// insert du poste dans BDD
-	public function createFiche($post,$files,$etapeSuivante,$timeUnique) {
+	public function createFiche($post,$files,$etapeSuivante,$timeUnique,$session) {
 
 		// connexion à sqlserver
 		$updateCrea=1;
@@ -172,7 +183,7 @@ class SqlModel extends Model{
 		{
 			$modeReglement= $post['reglementGroupe'];
 		}
-
+ 
 		if ($post['conditionReglementHG'] != "" )
 		{
 			$conditionReglement=$post['conditionReglementHG'];
@@ -181,8 +192,8 @@ class SqlModel extends Model{
 		{
 			$conditionReglement= $post['conditionReglementG'];
 		}
-		
 		// Devise : 2 champs possible si HG est <> "" alors hg sinon val defaut
+
 		if ($post['deviseHG'] != "" )
 		{
 			$devise=$post['deviseHG'];
@@ -211,6 +222,7 @@ class SqlModel extends Model{
 			$bilanName=$post['dateJour'].$files['bilan']['name']  ;
 		}
 
+		 
 		// on prépare l insert avec pdo (bindparam ne fonctionne pas)
 		$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrs(
 		 					entite ,
@@ -251,7 +263,16 @@ class SqlModel extends Model{
 						    bilan ,
 						    kbis,
 						    domaineValidation,
-						    idEnvoi
+						    idEnvoi,
+						    codeM3,
+						    identiteBanquePays,
+						    nomBanque,
+						    codeBanque,
+						    etablissementBanque,
+						    numeroCompteBanque,
+						    cleCompteBanque,
+						    iban,
+						    swift
 						 ) 
 						    VALUES (
 						    :entite,
@@ -292,10 +313,19 @@ class SqlModel extends Model{
 						    :bilan  ,
 						    :kbis,
 						    :domaineValidation,
-						    :idEnvoi
+						    :idEnvoi,
+						    :codeM3,
+						    :identiteBanquePays,
+						    :nomBanque,
+						    :codeBanque,
+						    :etablissementBanque,
+						    :numeroCompteBanque,
+						    :cleCompteBanque,
+						    :iban,
+						    :swift
 						    )'
 						    );
-		// ion execute le prépare
+		// on execute le prépare
 		$result = $stmt->execute(array(
 		 	'entite'=>$post['entiteDemandeur'],
 		 	'nomDemandeur'=>$post['nomDemandeur'],
@@ -335,17 +365,25 @@ class SqlModel extends Model{
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName,
 		    'domaineValidation'=>$etapeSuivante,
-		    'idEnvoi'=>$timeUnique
+		    'idEnvoi'=>$timeUnique,
+		    'codeM3'=>0,
+		    'identiteBanquePays'=>$post['idBanq'] ,
+		    'nomBanque' =>$post['nomBanq'],
+		    'codeBanque' =>$post['codeBanq'],
+		    'etablissementBanque'=>$post['etabBanq'],
+			'numeroCompteBanque'=>$post['numCompte'],
+			'cleCompteBanque'=>$post['cleCompte'],
+			'iban'=>$post['iban'],
+			'swift'=>$post['swift']
 		 	));
 			$lastID= $this->pdoSql->lastInsertId();
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
+		
 	
-		
-		
-		// on prépare l insert avec pdo (bindparam ne fonctionne pas)
+		// historique => tablefrsHisto toujours insert
 		$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
 							statut,
 							ID,
@@ -386,7 +424,18 @@ class SqlModel extends Model{
 						    iso  ,
 						    bilan ,
 						    kbis,
-						    domaineValidation
+						    domaineValidation,
+						    domaineInitial,
+						    lastModif,
+						    codeM3,
+						    identiteBanquePays,
+						    nomBanque,
+						    codeBanque,
+						    etablissementBanque,
+						    numeroCompteBanque,
+						    cleCompteBanque,
+						    iban,
+						    swift
 						 ) 
 						    VALUES (
 						    :statut,
@@ -428,7 +477,18 @@ class SqlModel extends Model{
 						    :iso  ,
 						    :bilan  ,
 						    :kbis,
-						    :domaineValidation
+						    :domaineValidation,
+						    :domaineInitial,
+						    :lastModif,
+						    :codeM3,
+						    :identiteBanquePays,
+						    :nomBanque,
+						    :codeBanque,
+						    :etablissementBanque,
+						    :numeroCompteBanque,
+						    :cleCompteBanque,
+						    :iban,
+						    :swift
 						    )');
 		// ion execute le prépare
 		 $stmt->execute(array(
@@ -471,7 +531,19 @@ class SqlModel extends Model{
 		    'iso'=>$post['iso']  ,
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName  ,
-		    'domaineValidation'=>$etapeSuivante));
+		    'domaineValidation'=>$etapeSuivante,
+		    'domaineInitial'=> $session,	// à la création le domaine = 'user' vide pour comparer et envoyer les modifs par rapport à la demande initiale
+		    'lastModif'=>$timeUnique,
+		    'codeM3'=>0,
+		    'identiteBanquePays'=>$post['idBanq'] ,
+			'nomBanque' =>$post['nomBanq'],
+		    'codeBanque' =>$post['codeBanq'],
+		    'etablissementBanque'=>$post['etabBanq'],
+			'numeroCompteBanque'=>$post['numCompte'],
+			'cleCompteBanque'=>$post['cleCompte'],
+			'iban'=>$post['iban'],
+			'swift'=>$post['swift']
+		    ));
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
@@ -480,10 +552,8 @@ class SqlModel extends Model{
 	}
 
 	// modifier fiche
-	public function updateFiche($post,$files,$get,$domaineSuivant,$session) {
-		
-
-
+	public function updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3) {
+		 
 		$updateCrea=2;
 		$erreurs = array();
 		$query = "UPDATE `tablefrs`
@@ -521,7 +591,16 @@ class SqlModel extends Model{
   						    	ca  = ?, 
 						    	nbEmployes  = ?, 
 						    	iso  = ?, 
-							    domaineValidation = ?
+							    domaineValidation = ?,
+							    codeM3 = ?,
+							    identiteBanquePays = ?,
+							    nomBanque = ? ,
+						    	codeBanque = ? ,
+						    	etablissementBanque = ?,
+						    	numeroCompteBanque = ?,
+						    	cleCompteBanque = ?,
+						    	iban = ?,
+						    	swift = ?
 								WHERE `ID`= ? "; 
 		$stmt =  $this->pdoSql->prepare($query);
 		$stmt->execute(array(	$post['entiteDemandeur'],
@@ -559,7 +638,16 @@ class SqlModel extends Model{
 								$post['nbreEmployes'],
 								$post['iso'],
 								$domaineSuivant,
-								$get['ID'],
+								$frsM3,
+								$post['idBanq'],
+								$post['nomBanq'],
+								$post['codeBanq'],
+								$post['etabBanq'],
+								$post['numCompte'],
+								$post['cleCompte'],
+								$post['iban'],
+								$post['swift'],
+								$get['ID']
 								));
 	
 
@@ -602,8 +690,17 @@ class SqlModel extends Model{
 						    nbEmployes  ,
 						    iso  ,
 						    domaineValidation,
-						    domaineInitial
-						 ) 
+						    domaineInitial,
+						    codeM3,
+						    identiteBanquePays ,
+						    nomBanque ,
+						    codeBanque ,
+						    etablissementBanque ,
+						    numeroCompteBanque ,
+						    cleCompteBanque ,
+						    iban ,
+						    swift
+						    ) 
 						    VALUES (
 						    :statut,
 						    :ID,
@@ -643,7 +740,16 @@ class SqlModel extends Model{
 						    :nbEmployes  ,
 						    :iso  ,
 						    :domaineValidation,
-						    :domaineInitial
+						    :domaineInitial,
+						    :codeM3,
+						    :identiteBanquePays ,
+						    :nomBanque ,
+						    :codeBanque ,
+						    :etablissementBanque ,
+						    :numeroCompteBanque ,
+						    :cleCompteBanque ,
+						    :iban ,
+						    :swift
 						    )'
 						    );
 		// ion execute le prépare
@@ -686,11 +792,17 @@ class SqlModel extends Model{
 		    'nbEmployes'=>$post['nbreEmployes']  ,
 		    'iso'=>$post['iso']  ,
 		    'domaineValidation'=>$domaineSuivant,
-		    'domaineInitial'=>$session
-
+		    'domaineInitial'=>$session,
+		    'codeM3'=>$frsM3,
+		    'identiteBanquePays'=> $post['idBanq'],
+		    'nomBanque' => $post['nomBanq'],
+			'codeBanque' => $post['codeBanq'],
+			'etablissementBanque' => $post['etabBanq'],
+			'numeroCompteBanque'=> 	$post['numCompte'],
+			'cleCompteBanque' => $post['cleCompte'],
+			'iban' => $post['iban'],
+			'swift'=> $post['swift']
 		 	));
-
-	
 
 
 
@@ -704,8 +816,19 @@ class SqlModel extends Model{
 /*header('location:index.php?action=update&id='.$get['id']);
 */		} 
 
-
+// modifier fiche
+	public function updatecodeM3Fiche($get,$numeroStringM3) {
+		
+		$updateCrea=3;  // création dans M3
+		$erreurs = array();
+		$query = "UPDATE `tablefrs`
+							SET codeM3= ? 
+							WHERE `ID`= ? "; 
 	
+		$stmt =  $this->pdoSql->prepare($query);
+		$stmt->execute(array($numeroStringM3, $get['ID']));
+	
+	}
 
 }
 

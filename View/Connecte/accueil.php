@@ -53,55 +53,60 @@ else
 		
 ?>
 		
-	
 
 
 <div class='bootstrap-table' style="margin-top: 3%;" id="">
 	<div class="fixed-table-container">
 		<form method="get"> 
-			<table id="monGrandLivre"  class=" table table-bordered table-hover" >
-				<thead> 
-					
-						 <tr>
-							
-							<th> Id </th>	
-							<th> Entité</th>
-							<th> Nom du demandeur </th>
-							<th> Fonction </th>
-							<th> Date Demande </th>
-							<th> Raison Sociale </th>
-							<th> Ville</th>
-							<!--<th> Prendre en validation </th> -->
-							<?php if($_SESSION['ident']=='admin'){ ?> <th> Stade : </th> <?php } ?>
-						</tr>
-				 </thead> 
+			<table id="mesFichesFrs"  class=" table table-bordered table-hover" >
+				<thead> 					
+					<tr>
+						<th> Id </th>	
+						<th> Entité</th>
+						<th> Nom du demandeur </th>
+						<th> Fonction </th>
+						<th> Date Demande </th>
+						<th> Raison Sociale </th>
+						<th> Code M3 </th>
+						<th> Ville</th>
+						<!--<th> Prendre en validation </th> -->
+						<?php if($_SESSION['ident']=='admin'){ ?> <th> à Valider par </th> <?php } ?>
+					</tr>
+				</thead> 
 				
-				 	<?php 
+				 		<?php 
 				 		 foreach ($ListeAttente as $uneListe) {	
-				 ?> 
-			<tbody>
-			<?php 
-			// array('id'=> )
-			$idMd5=$uneListe['ID']; ?>
+						 ?> 
+						<tbody>
+						<?php 
+							// array('id'=> )
+							$idMd5=$uneListe['ID']; ?>
 
-			<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('ID'=>$idMd5));?>'>
-			 		<td class="text-center Id"><?php echo $uneListe['ID'];?></td>
-			 	<td class="text-center Entite"><?php echo $uneListe['entite'];?></td> 
-			 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
-			 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
-			 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
-			 	<td class="text-center raisonSociale"><?php echo $uneListe['raisonSociale'];?></td> 
-			 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
-			 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
-			 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
-			 </tr>
+							<!-- si  domaien Validation de la fiche = Movex alors pas possiblilité de cliquer -->
+							<?php if($uneListe['domaineValidation'] != 'Movex'){ ?> 
+							<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('ID'=>$idMd5));?>'>
+							<?php	 } else { ?> 
+							<tr>
+							<?php	} ?> 
+							 	<td class="text-center Id"><?php echo $uneListe['ID'];?></td>
+							 	<td class="text-center Entite"><?php echo $uneListe['entite'];?></td> 
+							 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
+							 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
+							 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
+							 	<td class="text-center raisonSociale"><?php echo $uneListe['raisonSociale'];?></td> 
+							 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
+							 	<td class="text-center codeM3"><?php echo $uneListe['codeM3'];?></td> 
+							 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
+							 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
+							 </tr>
 
-				<script type="text/javascript">jQuery(document).ready(function($) {
-  				$(".clickable-row").click(function() {
-        		window.location = $(this).data("href");
-				});
-				});</script>
- 			 </tbody>
+							<script type="text/javascript">jQuery(document).ready(function($) {
+				  				$(".clickable-row").click(function() {
+				        		window.location = $(this).data("href");
+								});
+								});
+							</script>
+			 			</tbody>
 
 	<?php } ;?>
 				 </table>
