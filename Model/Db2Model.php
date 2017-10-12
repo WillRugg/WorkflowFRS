@@ -13,7 +13,7 @@ class Db2Model extends Model{
 
 	public function rechercheDernierFrsM3() {
 	// attention changer Bib pour mise en prod 
-	$query = "SELECT max(idsuno) FROM m3edbtest.CIDMAS where idsuno between '00000' and '99999' "  ;
+	$query = "SELECT max(idsuno) FROM M3EDBPROD.CIDMAS where idsuno between '00000' and '99999' "  ;
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetch();
@@ -123,7 +123,7 @@ class Db2Model extends Model{
 		{
 			$lncd= "GB";
 		}
-		$query = "INSERT INTO M3EDBTEST.cbanac(BCCONO,
+		$query = "INSERT INTO M3EDBPROD.cbanac(BCCONO,
 				 				BCDIVI,
 								BCBKID, 
 								BCBKTP,
@@ -357,7 +357,7 @@ class Db2Model extends Model{
 		if (empty($erreurs)) {
 		
 						
-			$query = "UPDATE  M3EDBTEST.CIDMAS
+			$query = "UPDATE  M3EDBPROD.CIDMAS
 									SET  IDSUNM ='TEST SQL'
 									WHERE IDSUNO='09110'"; 
 			var_dump($query)	;	 		
