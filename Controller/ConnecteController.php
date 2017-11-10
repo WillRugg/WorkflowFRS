@@ -62,12 +62,12 @@ class ConnecteController extends Controller {
 	public function seDeconnecteAction() {
 		
 		if(!$this->authModule->estConnecte()) {
-			$this->redirect("","creeFournisseurs");
+			$this->redirect("","choixFournisseur");
 			$this->authModule->seDeconnecter();
 		}
 
 		$this->authModule->seDeconnecter();
-		$this->redirect("","creeFournisseurs");
+		$this->redirect("","choixFournisseur");
 	}
 
 }

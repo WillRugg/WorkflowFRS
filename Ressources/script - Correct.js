@@ -8,19 +8,19 @@
  	/----------------------------------------------------------------------------------------*/
  	// Formulaire de connexion  */
  	/* ------------------------ */
-  
-
+ 	 
  	$('form.formCreate').on('submit', function(e) {
  		// initialisation de la variable erreur
 		var erreur = false;
-	 
- 	 	// verif nomDemandeur
+
+		// verif nomDemandeur
 		var monNomDemandeur = $('#nomDemandeur');
 		if (monNomDemandeur.val().length == 0 ) {
 			erreur = true;
 			monNomDemandeur.addClass('alert-danger');
 		}  else {
 			erreur = false;
+			//alert('toto');
 			monNomDemandeur.removeClass('alert-danger');
 		}
 
@@ -28,9 +28,11 @@
 		var maRsCommande = $('#rsCommande');
 		if (maRsCommande.val().length == 0 ) {
 			erreur = true;
+			//alert('toto');
 			maRsCommande.addClass('alert-danger');
 		}  else {
 			erreur = false;
+			//alert('toto');
 			maRsCommande.removeClass('alert-danger');
 		}
 
@@ -41,6 +43,7 @@
 			maRueCommande.addClass('alert-danger');
 		}  else {
 			erreur = false;
+			//alert('toto');
 			maRueCommande.removeClass('alert-danger');
 		}
 
@@ -51,6 +54,7 @@
 			monCPCommande.addClass('alert-danger');
 		} else {
 			erreur = false;
+			//alert('toto');
 			monCPCommande.removeClass('alert-danger');
 		} 
 
@@ -61,6 +65,7 @@
 			maVilleCommande.addClass('alert-danger');
 		}  else {
 			erreur = false;
+			//alert('toto');
 			maVilleCommande.removeClass('alert-danger');
 		} 
 		 
@@ -71,6 +76,7 @@
 			$('#paysCommande').addClass('alert-danger');
 		}  else {
 			erreur = false;
+			//alert('toto');
 			$('#paysCommande').removeClass('alert-danger');
 		} 
 
@@ -111,7 +117,11 @@
 		
  	});
 
- 
+ 	 
+
+		
+
+
 
 }); // FIN :  $(document).ready(function()
 

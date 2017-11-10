@@ -3,17 +3,20 @@
 ob_start();
  ?>
 
-<h3>Modification d'un fournisseur</h3>
-<h4>1 - Trouver votre fournisseur grâce à ce lien : </h4>
-<a href="http://maupiti/ReportServer/Pages/ReportViewer.aspx?%2fDirections%2fIndustrielle%2fAchats%2fRecherche+Fournisseurs&rs:Command=Render"> 
-			 			<input type="submit" class="btn btn-warning" value="Recherche Fournisseur M3" name="Recherche Fournisseur M3"> 
-			 		</a>
-<h4>2 - Coller le numéro de votre fournisseur ici : </h4>
-
 <form method="post">
-	<input type="text" name="SUNO">
 
-<h4>3 - Validez </h4>
+	<legend class="scheduler-border">
+		<div class="well" >
+			<h3> Modification d'un fournisseur M3 </h3>
+		</div>
+	</legend>	 
+	
+
+	<h4>1 - Saisir le numéro du fournisseur ici : </h4>
+
+	<input type="text" name="SUNO">
+	
+	<h4>2 - Validez </h4>
 	<input type="submit" name="Valider">	
 
 </form>

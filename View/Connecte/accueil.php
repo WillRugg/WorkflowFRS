@@ -66,9 +66,11 @@ else
 						<th> Nom du demandeur </th>
 						<th> Fonction </th>
 						<th> Date Demande </th>
+						<th> Genre Fournisseur </th>
 						<th> Raison Sociale </th>
-						<th> Code M3 </th>
 						<th> Ville</th>
+						<th> Type Demande </th>
+						<th> Code M3 </th>
 						<!--<th> Prendre en validation </th> -->
 						<?php if($_SESSION['ident']=='admin'){ ?> <th> à Valider par </th> <?php } ?>
 					</tr>
@@ -84,7 +86,8 @@ else
 
 							<!-- si  domaien Validation de la fiche = Movex alors pas possiblilité de cliquer -->
 							<?php if($uneListe['domaineValidation'] != 'Movex'){ ?> 
-							<tr class='clickable-row' style="cursor: pointer;" data-href='<?php echo $this->link('','update',array('ID'=>$idMd5));?>'>
+							<tr class='clickable-row' style="cursor: pointer;" 
+							    data-href='<?php echo $this->link('','update',array('ID'=>$idMd5,'genre'=>$uneListe['genreFournisseur'],'typeDde'=>$uneListe['typeDemande']));?>'>
 							<?php	 } else { ?> 
 							<tr>
 							<?php	} ?> 
@@ -93,10 +96,16 @@ else
 							 	<td class="text-center nomDemandeur"><?php echo $uneListe['nomDemandeur'];?></td> 
 							 	<td class="text-center Fonction"><?php echo $uneListe['fonction'];?></td> 
 							 	<td class="text-center dateDemande"><?php echo $uneListe['dateDemande'];?></td> 
+							 	<td class="text-center genreFournisseur"><?php if ($uneListe['genreFournisseur'] == 'G') {echo "Frs Frais Généraux"; } 
+							 												   elseif ($uneListe['genreFournisseur'] == 'I') { echo "Fournisseur Industriel"; } ?></td> 
 							 	<td class="text-center raisonSociale"><?php echo $uneListe['raisonSociale'];?></td> 
-							 	<td class="text-center Pays"><?php echo $uneListe['ville'];?></td> 
+							 	<td class="text-center Ville"><?php echo $uneListe['ville'];?></td> 
+							 	<td class="text-center typeDemande"><?php if ($uneListe['typeDemande'] == 'C') {echo "Création";} 
+							 												   elseif ($uneListe['typeDemande'] == 'M') { echo "Modification"; } ?></td> 
+							 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID'],
+							 																							   'genre'=>$uneListe['genreFournisseur'],
+							 																							   'typeDde'=>$uneListe['typeDemande']));?>">aze </a></td> -->
 							 	<td class="text-center codeM3"><?php echo $uneListe['codeM3'];?></td> 
-							 	<!-- <td class="text-center Validation"> <a href="<?php echo $this->link('','update',array('id'=> $uneListe['ID']));?>">aze </a></td> -->
 							 	<?php if($_SESSION['ident']=='admin'){ ?> <td class="text-center Domaine"> <?php echo $uneListe['domaineValidation'];?> </td> <?php } ?>
 							 </tr>
 

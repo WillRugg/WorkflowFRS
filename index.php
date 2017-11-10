@@ -20,7 +20,7 @@
 // Ouverture du session start
 session_start();
 // definir les constantes de connexion
-define('VERSION','Création Fournisseur V.1');
+define('VERSION','Creation Fournisseur V.3');
 //maiao
 define('PDO_DSN','odbc:M3');
 define('PDO_USERNAME', 'API');

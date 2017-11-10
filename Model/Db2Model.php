@@ -4,7 +4,7 @@ require_once('Model/Model.php') ;
 class Db2Model extends Model{
 
 	public function AfficheFournisseursExistants(){
-		$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN M3EDBPROD.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
+		$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN m3edbprod.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetchAll();
@@ -13,17 +13,17 @@ class Db2Model extends Model{
 
 	public function rechercheDernierFrsM3() {
 	// attention changer Bib pour mise en prod 
-	$query = "SELECT max(idsuno) FROM M3EDBPROD.CIDMAS where idsuno between '00000' and '99999' "  ;
+	$query = "SELECT max(idsuno) FROM m3edbprod.CIDMAS where idsuno between '00000' and '99999' "  ;
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetch();
 	}
 
-	
+	 
 
 	public function listerEntite() {
 			
-		$query = "SELECT * FROM ".$this->biblio.".CMNDIV as princ
+		$query = "SELECT trim(princ.CCDIVI) as code , trim(princ.CCCONM) as TXT40  FROM ".$this->biblio.".CMNDIV as princ
 					join   COMEDBPROD.CZNDIV as sec on princ.cccono = sec.cccono and princ.ccdivi = sec.ccdivi
 					where princ.CCCONO = '100'   order by princ.CCDIVI,princ.CCCONM";
 		$stmt = $this->pdo->query($query);
@@ -112,18 +112,16 @@ class Db2Model extends Model{
 		$iban = $post['iban'];
 		$today = date("Ymd");
 		$todayU = date("Ymd");
+		$lncd= $post['langue'] ;
 
 		if ($post['deviseHG'] != "" )
 		{
 			$cucd=$post['deviseHG'];
 		} 
 		
-		$lncd = 'FR';
-		if ($post['paysCommande'] != "FR" )
-		{
-			$lncd= "GB";
-		}
-		$query = "INSERT INTO M3EDBPROD.cbanac(BCCONO,
+		
+		
+		$query = "INSERT INTO m3edbprod.cbanac(BCCONO,
 				 				BCDIVI,
 								BCBKID, 
 								BCBKTP,
@@ -357,7 +355,7 @@ class Db2Model extends Model{
 		if (empty($erreurs)) {
 		
 						
-			$query = "UPDATE  M3EDBPROD.CIDMAS
+			$query = "UPDATE  m3edbtest.CIDMAS
 									SET  IDSUNM ='TEST SQL'
 									WHERE IDSUNO='09110'"; 
 			var_dump($query)	;	 		

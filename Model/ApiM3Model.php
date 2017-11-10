@@ -42,69 +42,72 @@ class ApiM3Model extends ApiModel {
 	}
 
 	
-	public function creerfrsM3($post,$numeroString) {
+	public function creerfrsM3($post,$get,$numeroString) {
 
 	 	// connexion réussi	
 		if ($this->open('API','4p1Comeca$',"CRS620MI")) {
 	
 			//var_dump($post);
-			
 			$erreur = array();
-						
+			// valeur suivant fournisseur Industriel ou de frais généraux 
+		
+			
 			$suno = $numeroString;  
  			$sunm = $post['rsCommande'];
+ 			$suty =	'0'; 
  			$alsu = substr($post['rsCommande'],0,10);  
  			$cscd =	$post['paysCommande']; 
- 			if ($post['paysCommande'] == 'FR') {
- 				$lncd =	'FR';  
- 			} else {
- 				$lncd =	'GB'; 
- 			}  
+ 			$ecar = '';
+ 			$lncd =	$post['langue'] ;
  			$dtfm =	'DMY';  
- 			$mepf =	41;  
+ 			$mepf =	'41';  
+ 			$hafe =	'&D'; 
  			$sucl = $post['groupeFournisseur']; 
- 			$cobi =	$post['groupeAppartenance']; 
- 			$orty =	$post['natureFournisseur'];
- 			$tedl =	$post['incotermGroupe'];
- 			$modl =	'300';	  
+ 			$qucl = '';
+			$orty =	$post['natureFournisseur'];
+			if ($get['genre'] == 'G') {
+ 				$tedl =	'&D ';
+ 				$cobi =	$post['groupeAppartenance'];
+ 				$vtcd = 07;
+ 			} else {
+ 				$tedl =	$post['incotermGroupe'];
+ 				$cobi =	$post['groupeAppartenance'];
+ 				$vtcd =	int($post['typeProduit']); 
+ 			}
+ 			$modl =	'&D ';	  
  			$teaf =	'1';  
  			$dt4d =	'1';	  
  			$dtcd =	'1';  
+ 			$txap =	1; 
  			$cucd =	$post['deviseHG'];  
  			$crtp=	1;  
  			$tepy =	$post['conditionReglementHG'];
 			$pyme =	$post['modeReglement'];		  
  			$atpr =	'2';  
+ 			$acrf =	$post['objetComptable'] ;
  			$phno =	$post['telephone'];
-			$tfno =	$post['fax'];
+			//$tfno =	null;
 			$corg =	$post['siret'];
 			$cor2 =	$post['complement'];
 			$vrno =	$post['tvaIntra'];
- 			$suty =	'0';  
- 			$acrf =	'HG';	  
- 			$vtcd =	01;  
- 			$txap =	1; 
- 		 	$hafe =	'&D ';
-			$cfi1 =	'&D ';   
-			$cfi3 =	'&D '  ; 
-			$cfi5 =	'&';   
-			$tepa ='&D ';
-			$absk = 'A';
-			$absm = 1;
 			$buye = 'MOVEX';
-			$shst =	0;
+ 			$absk = 'A';
+			$absm = 1; 
+ 		 	$hafe =	'&D ';
+ 		 	$tepa = '&D ';
+ 		 	$shst =	0;
 			$sust = 1;
+			$tame = 1;
 			$susy = 2;
 			$shac = 2;
-			$tame = 1;
 			$iapt = 2;
 			$iapc = 1;
 			$iape = 1;
-			$iapf = 3; 
-			$qucl = '';
-			$ecar = '';
+			$iapf = 3;
+			$cfi1 =	'&D ';   
+			$cfi3 =	'&D '  ; 
+			$cfi5 =	'&';   
 			$stat = '10';
-			$sucm = substr($post['rsCommande'],0,20);  
 		
 
 			//var_dump($this->setField('SUTY',$suty));
@@ -120,6 +123,7 @@ class ApiM3Model extends ApiModel {
 		    $this->setField('LNCD',$lncd);
 			$this->setField('DTFM',$dtfm);
 			$this->setField('MEPF',$mepf);
+			$this->setField('HAFE',$hafe);
 			$this->setField('SUCL',$sucl);
 			$this->setField('QUCL',$qucl);
 			$this->setField('ORTY',$orty);
@@ -129,15 +133,14 @@ class ApiM3Model extends ApiModel {
 			$this->setField('DT4T',$dt4d);
 			$this->setField('DTCD',$dtcd);
 			$this->setField('VTCD',$vtcd);  // a tester suivant pays frs
-			$this->setField('TXAP',$txap);	// a tester suivant pays frs	
+			$this->setField('TXAP',$txap);	// a tester suivant pays frs
 			$this->setField('CUCD',$cucd);
 			$this->setField('CRTP',$crtp);
 			$this->setField('TEPY',$tepy);
 			$this->setField('PYME',$pyme);
 			$this->setField('ATPR',$atpr);	
-			$this->setField('ACRF',$acrf);	// a tester suivant pays frs
+			$this->setField('ACRF',$acrf);	 
 			$this->setField('PHNO',$phno);	
-			$this->setField('TFNO',$tfno);	
 			$this->setField('CORG',$corg);		  
 			$this->setField('COR2',$cor2);	
 			$this->setField('VRNO',$vrno);
@@ -160,10 +163,7 @@ class ApiM3Model extends ApiModel {
 			$this->setField('CFI3',$cfi3);
 			$this->setField('CFI5',$cfi5);  
 			$this->setField('STAT',$stat); 
-			$this->setField('SUCM',$sucm); 
 			
-
-			 				 
 			//transaction à appeler
 			if(!$this->mvxAccess('AddSupplier')) 
 			{
@@ -184,8 +184,7 @@ class ApiM3Model extends ApiModel {
 		}
 		$this->close();
 
-
-		return ($erreur) ;	  	
+		return ($erreur);	  	
 	} 
 
 
@@ -195,20 +194,24 @@ class ApiM3Model extends ApiModel {
 		if ($this->open('API','4p1Comeca$',"CRS620MI")) {
 
 			// type 01 : adresse postal
+			var_dump('$numero :', $numero);
+			var_dump('post :' , $post)  ;
+
 			$suno = $numero;
-			$adte = 01;
+			$adte = '01';
 			if (!empty($post['complement'])) {
 				$adid = $post['complement'];
 			}
 			else  {
 				$adid =	'AC' ;
 			}			
-						 
+			  
 			$this->setField('SUNO',$suno);	
 			$this->setField('ADTE',$adte);	
 			$this->setField('ADID',$adid);	
 			$this->setField('SUNM',$post['rsCommande']);	 
 	  		$this->setField('ADR1',$post['rueCommande']);
+	  		$this->setField('ADR2',$post['rue2Commande']);
 			$this->setField('PONO',$post['codePostal']);
 			$this->setField('TOWN',$post['villeCommande']);
 	 		$this->setField('CSCD',$post['paysCommande']);  
@@ -232,32 +235,32 @@ class ApiM3Model extends ApiModel {
 			$adid = '';
 			if (!empty($post['rsPaiement'])) {
 				$sunm= $post['rsPaiement'];
-			}
-			else  {
+			} else  {
 				$sunm =	$post['rsCommande'] ;
 			}	
 			if (!empty($post['ruePaiement'])) {
 				$adr1 = $post['ruePaiement'];
-			}
-			else  {
+			} else  {
 				$adr1 =	$post['rueCommande'] ;
+			}	
+			if (!empty($post['rue2Paiement'])) {
+				$adr2 = $post['rue2Paiement'];
+			} else  {
+				$adr2 =	$post['rue2Commande'] ;
 			}	
 			if (!empty($post['cpPaiement'])) {
 				$pono= $post['cpPaiement'];
-			}
-			else  {
+			} else  {
 				$pono =	$post['codePostal'] ;
 			}	
 			if (!empty($post['villePaiement'])) {
 				$town= $post['villePaiement'];
-			}
-			else  {
+			} else  {
 				$town =	$post['villeCommande'] ;
-			}	
+			} 	
 			if (!empty($post['paysPaiement'])) {
 				$cscd= $post['paysPaiement'];
-			}
-			else  {
+			} else  {
 				$cscd =	$post['paysCommande'] ;
 			}	
 			$this->setField('SUNO',$suno);	
@@ -265,6 +268,7 @@ class ApiM3Model extends ApiModel {
 			$this->setField('ADID',$adid);	
 			$this->setField('SUNM',$sunm);	 
 	  		$this->setField('ADR1',$adr1);
+	  		$this->setField('ADR2',$adr2);
 			$this->setField('PONO',$pono);
 			$this->setField('TOWN',$town);
 	 		$this->setField('CSCD',$cscd);  
@@ -293,6 +297,12 @@ class ApiM3Model extends ApiModel {
 
 		return ($erreur) ;	  	
 	} 
+
+	public function updatefrsM3($post,$get,$numeroString) {
+	}
+
+	public function updateAdresseM3($post,$numero) {
+	}
 
 }
 ?>

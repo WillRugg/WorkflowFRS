@@ -148,81 +148,97 @@ class SqlModel extends Model{
 
 
 	// insert du poste dans BDD
-	public function createFiche($post,$files,$etapeSuivante,$timeUnique,$session) {
+	public function createFiche($post,$get,$files,$etapeSuivante,$timeUnique,$session) {
 
 		// connexion à sqlserver
 		$updateCrea=1;
 		//$domaineSuivant='nonRenseigne';
-
-		// 2 champs du poste pour groupe appartenance : si autre est renseigné on prend valeur de autre
-		if ($post['autreGroupeFournisseur'] != "" )
-		{
-			$groupeAppartenance=$post['autreGroupeFournisseur'];
-		} 
-		else 
-		{
-			$groupeAppartenance=$post['groupeAppartenance'];
-		}
-
-		// 2 champs du poste pour incoterm : si autre est renseigné on prend valeur de autre
-		if ($post['incotermHorsGroupe'] != "" )
-		{
-			$incoterm=$post['incotermHorsGroupe'];
-		} 
-		else 
-		{
-			$incoterm=$post['incoterm'];
-		}
-
-		// 2 champs du post pour mode Réglement : si autre est renseigné on prend valeur de autre
-		if ($post['modeReglementHG'] != "" )
-		{
+				
+		// suppression des 2 champs => on les passe à null
+		$fax = null;
+		$site = null;
+		
+		$typeDemande = 'C';
+	   // 2 champs du post pour mode Réglement : si autre est renseigné on prend valeur de autre
+		if ($post['modeReglementHG'] != "" ) 			{
 			$modeReglement =$post['modeReglementHG'];
-		} 
-		else 
-		{
+		} else 	{
 			$modeReglement= $post['reglementGroupe'];
 		}
- 
-		if ($post['conditionReglementHG'] != "" )
-		{
+
+ 		// 2 champs du post pour condition Réglement : si autre est renseigné on prend valeur de autre
+		if ($post['conditionReglementHG'] != "" ) {
 			$conditionReglement=$post['conditionReglementHG'];
-		} 
-		else 
-		{
+		} else {
 			$conditionReglement= $post['conditionReglementG'];
 		}
-		// Devise : 2 champs possible si HG est <> "" alors hg sinon val defaut
 
-		if ($post['deviseHG'] != "" )
-		{
+		// Devise : 2 champs possible si HG est <> "" alors hg sinon val defaut
+		if ($post['deviseHG'] != "" ) {
 			$devise=$post['deviseHG'];
-		} 
-		else 
-		{
+		} else {
 			$devise=$post['devise'];
 		}
 
-		// si file  kbis sélectionné
-		if(empty($files['kbis']['name']))
-		{
-			$kbisName=null;
-		}
-		else
-		{
-			$kbisName=$post['dateJour'].$files['kbis']['name'] ;
-		}
-		
-		// si file  bilan sélectionné
-		if(empty($files['bilan']['name']))	{
+		if ($get['FRS'] == 'gen') {
+			
+			$natureFournisseur = "300" ;
+			$groupeAppartenance = null;
+			$genreFournisseur = 'G';
+			$typeProduit= '07';
+			$incoterm = '&D';
+			$lieu=null;
+			$montant=null;
+			$motifDerog = null;
+			$ca=null;
+			$nbreEmployes = null;
+			$iso = null;
+			$kbisName = null;
+			$ribName=null;
 			$bilanName=null;
-		}
-		else
-		{
-			$bilanName=$post['dateJour'].$files['bilan']['name']  ;
-		}
+			
+		} elseif  ($get['FRS'] == 'ind') {
+			$genreFournisseur = 'I';
+			$natureFournisseur = $post['natureFournisseur'] ;
+			$typeProduit= $post['typeProduit']  ;
+			$lieu= $post['lieu'] ;
+			$montant=$post['montant'] ;
+			$motifDerog = $post['motifDerog'] ;
+			$ca=$post['ca'] ;
+			$nbreEmployes = $post['nbreEmployes'] ;
+			$iso = $post['iso'] ;
+			
+			// 2 champs du poste pour groupe appartenance : si autre est renseigné on prend valeur de autre  => VIDE si FRAIS GENERAUX
+			if ($post['autreGroupeFournisseur'] != "" )  {
+				$groupeAppartenance=$post['autreGroupeFournisseur'];
+			} 	else {
+				$groupeAppartenance=$post['groupeAppartenance'];
+			}
 
-		 
+			// 2 champs du poste pour incoterm : si autre est renseigné on prend valeur de autre 			=> VIDE si FRAIS GENERAUX
+			if ($post['incotermHorsGroupe'] != "" ) {
+				$incoterm=$post['incotermHorsGroupe'];
+			} else  {
+				$incoterm=$post['incoterm'];
+			}
+
+			// si file  kbis sélectionné
+			if(!empty($files['kbis']['name'])) 	{
+				$kbisName=$post['dateJour'].$files['kbis']['name'] ;
+			}
+		
+			// si file  ibsélectionné
+			if(!empty($files['fileRib']['name'])) 	{
+				$ribName=$post['dateJour'].$files['fileRib']['name'] ;
+			}
+		
+			// si file  bilan sélectionné
+			if(!empty($files['bilan']['name']))	{ 			
+				$bilanName=$post['dateJour'].$files['bilan']['name']  ;
+			}
+		} // if ($get['FRS'] == 'ind')
+		
+
 		// on prépare l insert avec pdo (bindparam ne fonctionne pas)
 		$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrs(
 		 					entite ,
@@ -272,7 +288,14 @@ class SqlModel extends Model{
 						    numeroCompteBanque,
 						    cleCompteBanque,
 						    iban,
-						    swift
+						    swift,
+						    voieRueComplement,
+						    voieRuePaiementComplement,
+						    objetComptable,
+                            fileRib,
+                            genreFournisseur,
+                            typeDemande,
+                            langue
 						 ) 
 						    VALUES (
 						    :entite,
@@ -322,7 +345,14 @@ class SqlModel extends Model{
 						    :numeroCompteBanque,
 						    :cleCompteBanque,
 						    :iban,
-						    :swift
+						    :swift,
+						    :voieRueComplement,
+						    :voieRuePaiementComplement,
+						    :objetComptable,
+                            :fileRib,
+                            :genreFournisseur,
+                            :typeDemande,
+                            :langue
 						    )'
 						    );
 		// on execute le prépare
@@ -341,27 +371,27 @@ class SqlModel extends Model{
 			'ville'=>$post['villeCommande'] ,
 			'pays'=>$post['paysCommande'] , 
 			'telephone'=>$post['telephone'] , 
-			'fax'=>$post['fax'] ,  
-			'siteInternet'=>$post['site'],
+			'fax'=>$fax ,  
+			'siteInternet'=>$site,
 			'raisonSocialePaiement'=>$post['rsPaiement'] ,
 			'voieRuePaiement'=>$post['ruePaiement'] ,
 			'codePostalPaiement'=>$post['cpPaiement'] ,
 		    'villePaiement'=>$post['villePaiement']   ,
 		    'paysPaiement'=>$post['paysPaiement'] ,
 		    'groupeAppartenance'=>$groupeAppartenance  ,
-		    'natureFournisseur'=>$post['natureFournisseur']  ,
+		    'natureFournisseur'=>$natureFournisseur  ,
 		    'groupeFournisseur'=>$post['groupeFournisseur']  ,
 		    'incoterm'=>$incoterm  ,
-		    'lieuVilleRegleGroupe'=>$post['lieu'] ,
-		    'francoDePortRegleGroupe'=>$post['montant']  ,
-		    'motifDerogationHorsGroupe'=>$post['motifDero'] ,
-		    'BSSTypeProduit'=>$post['typeProduit'] ,
+		    'lieuVilleRegleGroupe'=>$lieu ,
+		    'francoDePortRegleGroupe'=>$montant ,
+		    'motifDerogationHorsGroupe'=>$motifDerog ,
+		    'BSSTypeProduit'=>$typeProduit,
 		    'devise'=>$devise ,
 		    'modeReglement'=>$modeReglement,
 		    'conditionReglement'=>$conditionReglement,
-			'ca'=>$post['ca'],
-		    'nbEmployes'=>$post['nbreEmployes']  ,
-		    'iso'=>$post['iso']  ,
+			'ca'=>$ca,
+		    'nbEmployes'=>$nbreEmployes  ,
+		    'iso'=>$iso  ,
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName,
 		    'domaineValidation'=>$etapeSuivante,
@@ -374,13 +404,21 @@ class SqlModel extends Model{
 			'numeroCompteBanque'=>$post['numCompte'],
 			'cleCompteBanque'=>$post['cleCompte'],
 			'iban'=>$post['iban'],
-			'swift'=>$post['swift']
+			'swift'=>$post['swift'],
+			'voieRueComplement'=>$post['rue2Commande'],
+			'voieRuePaiementComplement'=>$post['rue2Paiement'],
+			'objetComptable'=>$post['objetComptable'],
+            'fileRib'=>$ribName,
+            'genreFournisseur'=>$genreFournisseur,
+            'typeDemande'=>$typeDemande,
+            'langue'=>$post['langue']
 		 	));
 			$lastID= $this->pdoSql->lastInsertId();
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
+		move_uploaded_file($files['rib']['tmp_name'],'Ressources/files/'.$ribName);
 		
 	
 		// historique => tablefrsHisto toujours insert
@@ -435,7 +473,14 @@ class SqlModel extends Model{
 						    numeroCompteBanque,
 						    cleCompteBanque,
 						    iban,
-						    swift
+						    swift,
+						    voieRueComplement,
+						    voieRuePaiementComplement,
+						    objetComptable,
+                            fileRib,
+                            genreFournisseur,
+                            typeDemande,
+                            langue
 						 ) 
 						    VALUES (
 						    :statut,
@@ -475,7 +520,7 @@ class SqlModel extends Model{
   					 	    :ca,
 						    :nbEmployes  ,
 						    :iso  ,
-						    :bilan  ,
+						    :bilan ,
 						    :kbis,
 						    :domaineValidation,
 						    :domaineInitial,
@@ -488,7 +533,14 @@ class SqlModel extends Model{
 						    :numeroCompteBanque,
 						    :cleCompteBanque,
 						    :iban,
-						    :swift
+						    :swift,
+						    :voieRueComplement,
+						    :voieRuePaiementComplement,
+                            :objetComptable,
+                            :fileRib,
+                            :genreFournisseur,
+                            :typeDemande,
+                            :langue						   
 						    )');
 		// ion execute le prépare
 		 $stmt->execute(array(
@@ -508,27 +560,27 @@ class SqlModel extends Model{
 			'ville'=>$post['villeCommande'] ,
 			'pays'=>$post['paysCommande'] , 
 			'telephone'=>$post['telephone'] , 
-			'fax'=>$post['fax'] ,  
-			'siteInternet'=>$post['site'],
+			'fax'=>$fax ,  
+			'siteInternet'=>$site,
 			'raisonSocialePaiement'=>$post['rsPaiement'] ,
 			'voieRuePaiement'=>$post['ruePaiement'] ,
 			'codePostalPaiement'=>$post['cpPaiement'] ,
 		    'villePaiement'=>$post['villePaiement']   ,
 		    'paysPaiement'=>$post['paysPaiement'] ,
 		    'groupeAppartenance'=>$groupeAppartenance  ,
-		    'natureFournisseur'=>$post['natureFournisseur']  ,
+		    'natureFournisseur'=>$natureFournisseur  ,
 		    'groupeFournisseur'=>$post['groupeFournisseur']  ,
 		    'incoterm'=>$incoterm  ,
 		    'lieuVilleRegleGroupe'=>$post['lieu'] ,
 		    'francoDePortRegleGroupe'=>$post['montant']  ,
 		    'motifDerogationHorsGroupe'=>$post['motifDero'] ,
-		    'BSSTypeProduit'=>$post['typeProduit'] ,
+		    'BSSTypeProduit'=>$typeProduit,
 		    'devise'=>$devise ,
 		    'modeReglement'=>$modeReglement,
 		    'conditionReglement'=>$conditionReglement,
-			'ca'=>$post['ca'],
-		    'nbEmployes'=>$post['nbreEmployes']  ,
-		    'iso'=>$post['iso']  ,
+			'ca'=>$ca,
+		    'nbEmployes'=>$nbreEmployes ,
+		    'iso'=>$iso  ,
 		    'bilan'=>$bilanName  ,
 		    'kbis'=>$kbisName  ,
 		    'domaineValidation'=>$etapeSuivante,
@@ -542,26 +594,57 @@ class SqlModel extends Model{
 			'numeroCompteBanque'=>$post['numCompte'],
 			'cleCompteBanque'=>$post['cleCompte'],
 			'iban'=>$post['iban'],
-			'swift'=>$post['swift']
+			'swift'=>$post['swift'],
+			'voieRueComplement'=>$post['rue2Commande'],
+			'voieRuePaiementComplement'=>$post['rue2Paiement'],
+			'objetComptable'=>$post['objetComptable'],
+            'fileRib'=>$ribName,
+            'genreFournisseur'=>$genreFournisseur,
+            'typeDemande'=>$typeDemande,
+            'langue'=>$post['langue']
 		    ));
 
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
+		move_uploaded_file($files['rib']['tmp_name'],'Ressources/files/'.$ribName);
 		return($result);
 	}
 
 	// modifier fiche
 	public function updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3) {
-		 
-		$updateCrea=2;
-		$erreurs = array();
+
+ 		$erreurs = array();
+
+ 		$fax = null;
+ 		$siteInternet=null;
+		$updateCrea= 2 ;
+		
+
+		if ($get['genre'] == 'G' ) {
+			$incoterm = null;
+			$groupeAppartenance= null;
+			$lieu = null ;
+			$montant = null;
+			$motifDero= null;
+			$ca = null;
+			$nbreEmployes = null;
+			$iso = null; 
+			$typeProduit = '07';
+
+		} elseif ($get['genre'] == 'I' ) {
+			$incoterm = $post['incotermGroupe'];
+			$groupeAppartenance= $post['groupeAppartenance'];
+			$lieu = $post['lieu'];
+			$montant = $post['montant'];
+			$motifDero = $post['motifDero'];
+			$ca = $post['ca'];
+			$nbreEmployes = $post['nbreEmployes'];
+			$typeProduit = $post['typeProduit'] ; 
+		}
+
 		$query = "UPDATE `tablefrs`
-							SET entite= ?,
-								nomDemandeur  = ?,
-								fonction = ?,
-								raisonDemande = ?,
-								siret = ? ,
+							SET siret = ? ,
 								complementSiret = ?,
 								tva = ? ,
 								raisonSociale = ? , 
@@ -570,8 +653,6 @@ class SqlModel extends Model{
     							ville = ?,
     			 				pays = ?, 
     			 				telephone = ?, 
-    							fax = ?, 
-    							siteInternet = ?, 
     							raisonSocialePaiement = ?, 
     							voieRuePaiement = ?, 
     							codePostalPaiement = ?, 
@@ -600,14 +681,14 @@ class SqlModel extends Model{
 						    	numeroCompteBanque = ?,
 						    	cleCompteBanque = ?,
 						    	iban = ?,
-						    	swift = ?
+						    	swift = ?,
+						    	voieRueComplement = ?,
+						    	voieRuePaiementComplement = ?,
+                            	objetComptable = ?,
+                            	langue = ?
 								WHERE `ID`= ? "; 
 		$stmt =  $this->pdoSql->prepare($query);
-		$stmt->execute(array(	$post['entiteDemandeur'],
-								$post['nomDemandeur'],
-								$post['fonctionDemandeur'],
-								$post['raisonDemande'],
-								$post['siret'],
+		$stmt->execute(array(	$post['siret'],
 								$post['complement'],
 								$post['tvaIntra'],
 								$post['rsCommande'],
@@ -615,28 +696,26 @@ class SqlModel extends Model{
 								$post['codePostal'],
 								$post['villeCommande'],
 								$post['paysCommande'],
-								$post['telephone'],
-								$post['fax'],
-								$post['site'],
+								$post['telephone'],						
 								$post['rsPaiement'],
 								$post['ruePaiement'],
 								$post['cpPaiement'],
 								$post['villePaiement'],
 								$post['paysPaiement'],
-								$post['groupeAppartenance'],
+								$groupeAppartenance,
 								$post['natureFournisseur'],
 								$post['groupeFournisseur'],
-								$post['incotermGroupe'],
-								$post['lieu'],
-								$post['montant'],
-								$post['motifDero'],
-								$post['typeProduit'],
+								$incoterm,
+								$lieu,
+								$montant,
+								$motifDero,
+								$typeProduit,
 								$post['deviseHG'],
 								$post['modeReglement'],
 								$post['conditionReglementHG'],
-								$post['ca'],
-								$post['nbreEmployes'],
-								$post['iso'],
+								$ca,
+								$nbreEmployes,
+								$iso,
 								$domaineSuivant,
 								$frsM3,
 								$post['idBanq'],
@@ -647,8 +726,13 @@ class SqlModel extends Model{
 								$post['cleCompte'],
 								$post['iban'],
 								$post['swift'],
+								$post['rue2Commande'],
+			 					$post['rue2Paiement'],
+			 					$post['objetComptable'],
+            					$post['langue'],
 								$get['ID']
 								));
+
 	
 
 			$stmt=$this->pdoSql-> prepare('INSERT INTO tablefrsHisto(
@@ -699,7 +783,13 @@ class SqlModel extends Model{
 						    numeroCompteBanque ,
 						    cleCompteBanque ,
 						    iban ,
-						    swift
+						    swift,
+						    voieRueComplement ,
+						    voieRuePaiementComplement ,
+                            objetComptable ,
+                            genreFournisseur ,
+                            typeDemande ,
+                            langue 
 						    ) 
 						    VALUES (
 						    :statut,
@@ -717,8 +807,8 @@ class SqlModel extends Model{
     				 		:codePostal ,
     						:ville ,
     						:pays , 
-    						:telephone , 
-    						:fax ,  
+    						:telephone ,
+    						:fax ,
     						:siteInternet,
     						:raisonSocialePaiement ,
     						:voieRuePaiement ,
@@ -736,7 +826,7 @@ class SqlModel extends Model{
 						    :devise ,
 						    :modeReglement,
 						    :conditionReglement,
-  					 	    :ca,
+  					 	    :ca ,
 						    :nbEmployes  ,
 						    :iso  ,
 						    :domaineValidation,
@@ -749,7 +839,13 @@ class SqlModel extends Model{
 						    :numeroCompteBanque ,
 						    :cleCompteBanque ,
 						    :iban ,
-						    :swift
+						    :swift,
+						    :voieRueComplement,
+						    :voieRuePaiementComplement ,
+                            :objetComptable ,
+                            :genreFournisseur ,
+                            :typeDemande, 
+                            :langue 
 						    )'
 						    );
 		// ion execute le prépare
@@ -770,27 +866,27 @@ class SqlModel extends Model{
 			'ville'=>$post['villeCommande'] ,
 			'pays'=>$post['paysCommande'] , 
 			'telephone'=>$post['telephone'] , 
-			'fax'=>$post['fax'] ,  
-			'siteInternet'=>$post['site'],
+			'fax'=>$fax ,  
+			'siteInternet'=>$siteInternet,
 			'raisonSocialePaiement'=>$post['rsPaiement'] ,
 			'voieRuePaiement'=>$post['ruePaiement'] ,
 			'codePostalPaiement'=>$post['cpPaiement'] ,
 		    'villePaiement'=>$post['villePaiement']   ,
 		    'paysPaiement'=>$post['paysPaiement'] ,
-		    'groupeAppartenance'=> $post['groupeAppartenance'], 
+		    'groupeAppartenance'=> $groupeAppartenance, 
 		    'natureFournisseur'=>$post['natureFournisseur']  ,
 		    'groupeFournisseur'=>$post['groupeFournisseur']  ,
-		    'incoterm'=>$post['incotermGroupe']  ,
-		    'lieuVilleRegleGroupe'=>$post['lieu'] ,
-		    'francoDePortRegleGroupe'=>$post['montant']  ,
-		    'motifDerogationHorsGroupe'=>$post['motifDero'] ,
-		    'BSSTypeProduit'=>$post['typeProduit'] ,
+		    'incoterm'=>$incoterm  ,
+		    'lieuVilleRegleGroupe'=>$lieu ,
+		    'francoDePortRegleGroupe'=>$montant ,
+		    'motifDerogationHorsGroupe'=>$motifDero ,
+		    'BSSTypeProduit'=>$typeProduit ,
 		    'devise'=> $post['deviseHG'],
 		    'modeReglement'=>$post['modeReglement'],
 		    'conditionReglement'=>$post['conditionReglementHG'],
-			'ca'=>$post['ca'],
-		    'nbEmployes'=>$post['nbreEmployes']  ,
-		    'iso'=>$post['iso']  ,
+			'ca'=>$ca,
+		    'nbEmployes'=>$nbreEmployes  ,
+		    'iso'=>$iso  ,
 		    'domaineValidation'=>$domaineSuivant,
 		    'domaineInitial'=>$session,
 		    'codeM3'=>$frsM3,
@@ -801,8 +897,13 @@ class SqlModel extends Model{
 			'numeroCompteBanque'=> 	$post['numCompte'],
 			'cleCompteBanque' => $post['cleCompte'],
 			'iban' => $post['iban'],
-			'swift'=> $post['swift']
-		 	));
+			'swift'=> $post['swift'],
+	    	'voieRueComplement'=>$post['rue2Commande'],
+			'voieRuePaiementComplement'=> $post['rue2Paiement'] ,
+            'objetComptable' => $post['objetComptable'] ,
+            'genreFournisseur' => $post['genreFrs'] ,
+            'typeDemande' => $post['typeDemande'], 
+            'langue' => $post['langue'] 	));
 
 
 

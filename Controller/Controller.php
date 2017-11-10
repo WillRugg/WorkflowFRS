@@ -85,12 +85,13 @@ class Controller {
 
 	// permet de récupérer la version
 	public function getVersion() {
-		return ('Workflow Fournisseur V-2');
+		return ('Workflow Fournisseur V-3');
 	}
 	
 	
 	// permet de récupérer la biblio
 	public function getBiblio() {
+		//return ('m3edbtest');
 		return ('M3EDBPROD');
 		//return ('COMEDBPROD');
 	}
@@ -126,11 +127,6 @@ class Controller {
 			$valeurs['raisonSociale']['post'] = $post['rsCommande'] ;
 		}	
 
-		if ($fournisseur['siteInternet'] !=  $post['site']) {
-			$valeurs['siteInternet']['valeur']  = 'Site Internet' ;
-			$valeurs['siteInternet']['fichier']  = $fournisseur['siteInternet'] ;
-			$valeurs['siteInternet']['post'] = $post['site'] ;
-		}	
 
 		if ($fournisseur['groupeAppartenance'] !=  $post['groupeAppartenance']) {
 			$valeurs['groupeAppartenance']['valeur']  =  'Groupe Appartenance' ;
