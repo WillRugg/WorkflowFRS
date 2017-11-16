@@ -64,15 +64,17 @@ class ApiM3Model extends ApiModel {
  			$hafe =	'&D'; 
  			$sucl = $post['groupeFournisseur']; 
  			$qucl = '';
-			$orty =	$post['natureFournisseur'];
+			
 			if ($get['genre'] == 'G') {
  				$tedl =	'&D ';
  				$cobi =	$post['groupeAppartenance'];
  				$vtcd = 07;
+ 				$orty = "300";
  			} else {
  				$tedl =	$post['incotermGroupe'];
  				$cobi =	$post['groupeAppartenance'];
  				$vtcd =	int($post['typeProduit']); 
+ 				$orty =	$post['natureFournisseur'];
  			}
  			$modl =	'&D ';	  
  			$teaf =	'1';  

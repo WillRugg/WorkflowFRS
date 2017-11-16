@@ -90,7 +90,7 @@ class Db2Model extends Model{
 
 	public function listerBKIN() {
 	 
-		$query 	= "SELECT trim(BIBKIN) AS CODE,trim(BITX40) AS TXT40,trim(BITX15) AS TXT15 FROM ".$this->biblio.".FBANID where bicono =100  order by BITX40 "	;
+		$query 	= "SELECT trim(BIBKIN) AS CODE,trim(BITX40) AS TXT40,trim(BITX15) AS TXT15 FROM ".$this->biblio.".FBANID where bicono =100 and BIBKIN <> 'IBFR' order by BITX40 "	;
 		$stmt = $this->pdo->query($query);
 		 			 
 		return $stmt->fetchAll();

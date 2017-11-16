@@ -457,7 +457,7 @@ if (isset($this->get['FRS'])) {
 		   	   	 	<div class="col-sm-5 "> 
 		   	   	 		<label for="form-control">Identite Bancaire par pays</label>	
 				   		<select class="form-control" name="idBanq"  id="idBanq"  > 
-				   			<option value = "" >Sélectionner une valeur</option> 
+				   			<option value = "-1" > Sélectionner une valeur </option> 
 						<?php
 						foreach ($array['idBanq'] as $uneIdBanq) {
 						?>

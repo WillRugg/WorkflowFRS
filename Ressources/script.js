@@ -24,6 +24,8 @@
 			monNomDemandeur.removeClass('alert-danger');
 		}
 
+		//-------------  ADRESSE COMMANDE  -----------------------//
+
 		// verif Rs commande
 		var maRsCommande = $('#rsCommande');
 		if (maRsCommande.val().length == 0 ) {
@@ -44,7 +46,17 @@
 			maRueCommande.removeClass('alert-danger');
 		}
 
-		// verifcp commande
+			// verif rue commande
+		var maRue2Commande = $('#rue2Commande');		 
+		if (maRue2Commande.val().length == 0 ) {
+			erreur = true;
+			maRue2Commande.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			maRue2Commande.removeClass('alert-danger');
+		}
+
+		// verifc p commande
 		var monCPCommande = $('#codePostal');
 		if (monCPCommande.val().length == 0 ) {
 			erreur = true;
@@ -73,6 +85,88 @@
 			erreur = false;
 			$('#paysCommande').removeClass('alert-danger');
 		} 
+
+		//-------------  RIB ---------------------------//
+		// Identité Bancaire
+		var monIdBanq = $('#idBanq option:selected');
+		if (monIdBanq.val() == -1 ) {
+			erreur = true;
+			$('#idBanq').addClass('alert-danger');
+		}  else {
+			erreur = false;
+			$('#idBanq').removeClass('alert-danger');
+		} 
+
+		// verif code Banque
+		var monCodeBanq = $('#codeBanq');
+		if (monCodeBanq.val().length == 0 ) {
+			erreur = true;
+			monCodeBanq.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monCodeBanq.removeClass('alert-danger');
+		} 
+
+		// verif nom Banque
+		var monNomBanq = $('#nomBanq');
+		if (monNomBanq.val().length == 0 ) {
+			erreur = true;
+			monNomBanq.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monNomBanq.removeClass('alert-danger');
+		} 
+		
+		// verif etab Banque
+		var monEtabBanq= $('#etabBanq');
+		if (monEtabBanq.val().length == 0 ) {
+			erreur = true;
+			monEtabBanq.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monEtabBanq.removeClass('alert-danger');
+		} 
+
+		// verif numero compte
+		var monNumCompte= $('#numCompte');
+		if (monNumCompte.val().length == 0 ) {
+			erreur = true;
+			monNumCompte.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monNumCompte.removeClass('alert-danger');
+		} 
+
+		// verif clé compte
+		var maCleCompte= $('#cleCompte');
+		if (maCleCompte.val().length == 0 ) {
+			erreur = true;
+			maCleCompte.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			maCleCompte.removeClass('alert-danger');
+		} 
+
+		// verif iban
+		var monIban= $('#iban');
+		if (monIban.val().length == 0 ) {
+			erreur = true;
+			monIban.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monIban.removeClass('alert-danger');
+		} 
+
+		// verif clé compte
+		var monSwift= $('#swift');
+		if (monSwift.val().length == 0 ) {
+			erreur = true;
+			monSwift.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monSwift.removeClass('alert-danger');
+		} 
+
 
 		// si frs indust => verif supplémentaire		
 		/*var monOrigine = $('#origineHidden'); 
