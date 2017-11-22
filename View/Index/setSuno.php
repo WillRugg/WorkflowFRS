@@ -14,7 +14,7 @@ ob_start();
 
 	<h4>1 - Saisir le numéro du fournisseur ici : </h4>
 
-	<input type="text" name="SUNO">
+	<input type="text" id="sunoM3" name="sunoM3">
 	
 	<h4>2 - Validez </h4>
 	<input type="submit" name="Valider">	

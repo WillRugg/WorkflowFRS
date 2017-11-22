@@ -46,15 +46,6 @@
 			maRueCommande.removeClass('alert-danger');
 		}
 
-			// verif rue commande
-		var maRue2Commande = $('#rue2Commande');		 
-		if (maRue2Commande.val().length == 0 ) {
-			erreur = true;
-			maRue2Commande.addClass('alert-danger');
-		}  else {
-			erreur = false;
-			maRue2Commande.removeClass('alert-danger');
-		}
 
 		// verifc p commande
 		var monCPCommande = $('#codePostal');
@@ -97,16 +88,7 @@
 			$('#idBanq').removeClass('alert-danger');
 		} 
 
-		// verif code Banque
-		var monCodeBanq = $('#codeBanq');
-		if (monCodeBanq.val().length == 0 ) {
-			erreur = true;
-			monCodeBanq.addClass('alert-danger');
-		}  else {
-			erreur = false;
-			monCodeBanq.removeClass('alert-danger');
-		} 
-
+		
 		// verif nom Banque
 		var monNomBanq = $('#nomBanq');
 		if (monNomBanq.val().length == 0 ) {
@@ -117,36 +99,7 @@
 			monNomBanq.removeClass('alert-danger');
 		} 
 		
-		// verif etab Banque
-		var monEtabBanq= $('#etabBanq');
-		if (monEtabBanq.val().length == 0 ) {
-			erreur = true;
-			monEtabBanq.addClass('alert-danger');
-		}  else {
-			erreur = false;
-			monEtabBanq.removeClass('alert-danger');
-		} 
-
-		// verif numero compte
-		var monNumCompte= $('#numCompte');
-		if (monNumCompte.val().length == 0 ) {
-			erreur = true;
-			monNumCompte.addClass('alert-danger');
-		}  else {
-			erreur = false;
-			monNumCompte.removeClass('alert-danger');
-		} 
-
-		// verif clé compte
-		var maCleCompte= $('#cleCompte');
-		if (maCleCompte.val().length == 0 ) {
-			erreur = true;
-			maCleCompte.addClass('alert-danger');
-		}  else {
-			erreur = false;
-			maCleCompte.removeClass('alert-danger');
-		} 
-
+	
 		// verif iban
 		var monIban= $('#iban');
 		if (monIban.val().length == 0 ) {

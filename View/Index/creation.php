@@ -171,7 +171,7 @@ if (isset($this->get['FRS'])) {
 
  		<!-- Adresse Paiement --> 
 	 	<div class="col-sm-12 ">
-	   		<legend class="scheduler-border">Adresse de Paiement</legend> 
+	   		<legend class="scheduler-border">Adresse de Paiement ( à saisir si différente de l adresse de commande)</legend> 
 	   			<!-- RS Paiement -->
 	   		 	<div class="form-group col-sm-10">
 			    	<label for="formGroupExampleInput2">Raison Sociale</label>
@@ -250,7 +250,7 @@ if (isset($this->get['FRS'])) {
 			   	<!-- Groupe --> 
 			    <div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
-			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" required> 
+			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" > 
 								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
 								<?php
 								foreach ($array['groupeFournisseur'] as $unGroupe) {
@@ -265,7 +265,7 @@ if (isset($this->get['FRS'])) {
 			   	<div class="col-sm-6">
 		  		    <label for="formGroupExampleInput2">Langue (Fr ou Gb ) </label>
 			    		<select name="langue"  class="form-control " id="langue" data-toggle="tooltip"  
-			    		        title="saisie obligatoire du groupe Frs" required> 
+			    		        title="saisie obligatoire du groupe Frs" > 
 							<option value ="FR" > FR- Français par Défaut</option>
 							<option value ="GB" > GB- Anglais</option> 
                     	</select>		    	
@@ -334,7 +334,7 @@ if (isset($this->get['FRS'])) {
 			<!-- Type de produits -->
 	   	   	<div class="col-sm-6" >
 	   	   		<label class="scheduler-border">Type de produit </label>
-	     		<select name="typeProduit"  class="form-control " id="typeProduit" required <?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> > 
+	     		<select name="typeProduit"  class="form-control " id="typeProduit"  <?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> > 
 			   		<option  >Biens ? Services ? Sans TVA ?</option>
 			   		<option value = "01 "> Biens   </option>
 			   		<option value = "08 "> Frais Généraux Européen  </option>
@@ -349,7 +349,7 @@ if (isset($this->get['FRS'])) {
 	     	<!-- Objet Comptable -->
 	     	<div class="form-group col-sm-6">
 	     		<label class="scheduler-border">Objet Comptable </label>
-	     		<select name="objetComptable"  class="form-control " id="objetComptable" required> 
+	     		<select name="objetComptable"  class="form-control " id="objetComptable" > 
 			   		<option value = "HG " selected="selected" >  HG - Frs France ou Frs Etranger Succursale </option>
 			   		<option value = "HGE">  HGE- Frs Européen hors France </option>
 			   		<option value = "HGX">  HGX- Frs hors Europe </option>		 

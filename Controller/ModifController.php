@@ -7,22 +7,10 @@ require('Controller.php') ;
 class ModifController extends Controller {
 
  	// action=index => affiche le formulaire de connexion et permettre la connexion
-	public function indexAction () {
-		//$session = $_SESSION['ident'];
-		$app_title="Connexion " ;
-		$app_body="Body_Connecte" ;
-		$app_desc="Comeca" ;
-		
-		if($this->post) {
-			$post = $this->post;
-			$files =$this->files;			
-			$suno=$post['SUNO'];
-			$this->redirect('Modif','modif',array('SUNO'=>$suno));
-			
-			}
-		require('View/Index/setSunoModif.php') ;
-	}
+	 
 
+	
+	// ne ramène pas tous les champs et toutes les adresses
 	public function modifAction()
 	{
 		$app_title="Connexion " ;

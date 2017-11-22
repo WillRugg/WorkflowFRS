@@ -663,6 +663,79 @@ class IndexController extends Controller {
 	} // fin fonction update
 
  
+	public function setSunoM3Action()
+	{
+		$app_title="UpdateFrsM3 " ;
+		$app_body="Body_UpdateFrsM3" ;
+		$app_desc="Comeca" ;	
+
+
+		// récupérer les listes des données M3
+		$array = array();
+		$array = $this->listesAction();
+
+		if($this->post) {
+		 
+			$post = $this->post;
+			$files =$this->files;	
+			$get=$this->get;	
+
+			if (isset($post['Valider'])) {
+				$session ="user";
+			 	$etapeSuivante='achats';
+			
+			 	$frsM3 = 
+
+				$this->redirect('','updateM3',array('suno'=>$post['sunoM3'],
+													'etapeSuivante'=>$etapeSuivante));
+
+			}
+
+
+		}
+
+		require('View/Index/setSuno.php') ;
+
+	}
+
+	public function updateM3Action()
+	
+	{
+		$app_title="UpdateFrsM3 " ;
+		$app_body="Body_UpdateFrsM3" ;
+		$app_desc="Comeca" ;	
+
+		// récupérer les listes des données M3
+		$array = array();
+		$array = $this->listesAction();
+
+		if($this->post) {
+		 
+			$post = $this->post;
+			$files =$this->files;	
+			$get=$this->get;	
+
+			if (isset($post['Valider'])) {
+				$session ="user";
+			 	$etapeSuivante='achats';
+			 	$timeUnique='NA';
+
+
+				$this->redirect('','choixFournisseur',array('envoiMail'=>$returnMail));
+
+
+			}
+
+
+
+		}
+
+		require('View/Index/update.php') ;
+
+	}
+
+
+
  	// NON Utilisé !!!!
 
 	public function creeFrsFraisGenerauxAction() {

@@ -13,12 +13,22 @@ $origine = $this->get['FRS'];
 	</div>
 	<div class="col-md-10"></div>
 	<div class="col-md-1"> 	
-  		<a href="<?php  if     ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
+  		<!--<a href="<?php  if     ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
+  						elseif ($origine == 'ind' ) { echo $this->link('','enCoursDeDeveloppement',array('FRS'=>'ind'));}
+ 						elseif ($origine == 'mvx' ) { echo $this->link('','setSunoM3',array('FRS'=>'mvx'));}  ?>">
+ 			<img src="Ressources\files\fleche_right.jpg" height="30"  data-toggle="tooltip" title="Poursuivez la création" > 
+ 		</a> -->
+ 		<a href="<?php  if     ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
   						elseif ($origine == 'ind' ) { echo $this->link('','enCoursDeDeveloppement',array('FRS'=>'ind'));}
  						elseif ($origine == 'mvx' ) { echo $this->link('','enCoursDeDeveloppement',array('FRS'=>'mvx'));}   ?>">
  			<img src="Ressources\files\fleche_right.jpg" height="30"  data-toggle="tooltip" title="Poursuivez la création" > 
- 		</a>
- 		<!--<a href="<?php  if  ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
+ 		</a>  
+ 	    <!-- <a href="<?php  if  ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
+  						elseif ($origine == 'ind' ) { echo $this->link('','creeFournisseur',array('FRS'=>'ind'));}
+ 						elseif ($origine == 'mvx' ) { echo $this->link('Modif','',array('FRS'=>'mvx'));}   ?>">
+ 			<img src="Ressources\files\fleche_right.jpg" height="30"  data-toggle="tooltip" title="Poursuivez la création" > 
+ 		</a>  
+ 		 <a href="<?php  if  ($origine == 'gen' ) { echo $this->link('','creeFournisseur',array('FRS'=>'gen'));} 
   						elseif ($origine == 'ind' ) { echo $this->link('','creeFournisseur',array('FRS'=>'ind'));}
  						elseif ($origine == 'mvx' ) { echo $this->link('Modif','',array('FRS'=>'mvx'));}   ?>">
  			<img src="Ressources\files\fleche_right.jpg" height="30"  data-toggle="tooltip" title="Poursuivez la création" > 
