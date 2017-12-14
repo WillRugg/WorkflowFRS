@@ -14,9 +14,9 @@
 		<!-- pour bootstrap -->
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!--<link rel="stylesheet" type="text/css" href="Ressources/style.css"/> 
-		<link rel="stylesheet" type="text/css" href="Ressources/connect.css"/> -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--<link rel="stylesheet" type="text/css" href="Ressources/style.css"/> -->
+		<!--<link rel="stylesheet" type="text/css" href="Ressources/connect.css"/>--> 
 		 
 		 <!-- Latest compiled and minified CSS -->
 		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
@@ -46,13 +46,19 @@
 			?>
 			<div>
 				<?php echo $app_html; ?>
-			</div>
-	 
-		
-		<!-- script JS si le fichier est chargé -->
-		<script type="text/javascript" src="Ressources/bootstrap/js/bootstrap.min.js"></script>
-			
-					
+			</div>		
+
+<!-- script JS si le fichier est chargé
+                <script type="text/javascript" src="Ressources/bootstrap/js/bootstrap.min.js"></script>
+                <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                <script src="Ressources/jquery-ui.js"></script>
+            <script src="Ressources/script.js"> </script>    -->
+
+                <script type="text/javascript" src="Ressources/jquery-2.1.3.js"></script>
+                <script type="text/javascript" src="Ressources/jquery-ui.js"> </script>
+                <script type="text/javascript" src="Ressources/bootstrap/js/bootstrap.min.js"></script>
+                <script type="text/javascript" src="Ressources/script.js"> </script>
+
 		 
 		</div>
 		 
