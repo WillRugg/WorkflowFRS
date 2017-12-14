@@ -91,9 +91,12 @@ class Controller {
 	
 	// permet de récupérer la biblio
 	public function getBiblio() {
-		//return ('m3edbtest');
-		return ('M3EDBPROD');
-		//return ('COMEDBPROD');
+		if (substr($_SERVER['DOCUMENT_ROOT'], 0, 2) == 'C:' )  {
+			return ('m3edbtest');
+		} else {
+			return ('M3EDBPROD');
+		}
+
 	}
 
 
@@ -145,14 +148,14 @@ class Controller {
 			$valeurs['groupeFournisseur']['fichier']  = $fournisseur['groupeFournisseur'] ;
 			$valeurs['groupeFournisseur']['post'] = $post['groupeFournisseur'] ;
 		}
-
-		if ($fournisseur['incoterm'] !=  $post['incotermGroupe']) {
-			$valeurs['incoterm']['valeur']  = 'Incoterm' ;
-			$valeurs['incoterm']['fichier']  = $fournisseur['incoterm'] ;
-			$valeurs['incoterm']['post'] = $post['incotermGroupe'] ;
+		if (isset($post['incotermGroupe'])) {
+			if ($fournisseur['incoterm'] !=  $post['incotermGroupe']) {
+				$valeurs['incoterm']['valeur']  = 'Incoterm' ;
+				$valeurs['incoterm']['fichier']  = $fournisseur['incoterm'] ;
+				$valeurs['incoterm']['post'] = $post['incotermGroupe'] ;
+			}
 		}
-
- 
+ 		
 		if ($fournisseur['BSSTypeProduit'] !=  $post['typeProduit']) {
 			$valeurs['BSSTypeProduit']['valeur']  = 'Type Produit' ;
 			$valeurs['BSSTypeProduit']['fichier']  = $fournisseur['BSSTypeProduit'] ;

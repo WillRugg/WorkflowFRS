@@ -11,14 +11,18 @@ ob_start();
 		</div>
 	</legend>	 
 	
-
-	<h4>1 - Saisir le numéro du fournisseur ici : </h4>
-
-	<input type="text" id="sunoM3" name="sunoM3">
+	<div class="col-sm-12 ">
+		<div class="col-sm-4 col-offset-sm-1">
+			<h4>  Saisir le numéro du fournisseur   </h4>
+		</div>
+		<div class="col-sm-2 col-offset-sm-1">
+			<input type="text" id="sunoM3" name="sunoM3">
+ 		</div>
+ 		<div class="col-sm-4">
+			<input type="submit" name="Valider" value="Valider">	
+		</div>
+	</div>
 	
-	<h4>2 - Validez </h4>
-	<input type="submit" name="Valider">	
-
 </form>
 
 <?php

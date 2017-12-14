@@ -180,6 +180,12 @@ class SqlModel extends Model{
 			$devise=$post['devise'];
 		}
 
+		// si file  rib sélectionné
+		if(!empty($files['fileRib']['name'])) 	{
+			$ribName=$post['dateJour'].'_'.$files['fileRib']['name'] ;
+		}
+		var_dump($ribName);
+		
 		if ($get['FRS'] == 'gen') {
 			
 			$natureFournisseur = "300" ;
@@ -194,7 +200,6 @@ class SqlModel extends Model{
 			$nbreEmployes = null;
 			$iso = null;
 			$kbisName = null;
-			$ribName=null;
 			$bilanName=null;
 			
 		} elseif  ($get['FRS'] == 'ind') {
@@ -224,17 +229,13 @@ class SqlModel extends Model{
 
 			// si file  kbis sélectionné
 			if(!empty($files['kbis']['name'])) 	{
-				$kbisName=$post['dateJour'].$files['kbis']['name'] ;
+				$kbisName=$post['dateJour'].'_'.$files['kbis']['name'] ;
 			}
 		
-			// si file  ibsélectionné
-			if(!empty($files['fileRib']['name'])) 	{
-				$ribName=$post['dateJour'].$files['fileRib']['name'] ;
-			}
-		
+			
 			// si file  bilan sélectionné
 			if(!empty($files['bilan']['name']))	{ 			
-				$bilanName=$post['dateJour'].$files['bilan']['name']  ;
+				$bilanName=$post['dateJour'].'_'.$files['bilan']['name']  ;
 			}
 		} // if ($get['FRS'] == 'ind')
 		
@@ -416,9 +417,10 @@ class SqlModel extends Model{
 			$lastID= $this->pdoSql->lastInsertId();
 
 		// on charge les files
+
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
-		move_uploaded_file($files['rib']['tmp_name'],'Ressources/files/'.$ribName);
+		move_uploaded_file($files['fileRib']['tmp_name'],'/Ressources/files/'.$ribName);
 		
 	
 		// historique => tablefrsHisto toujours insert
@@ -607,8 +609,10 @@ class SqlModel extends Model{
 		// on charge les files
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
-		move_uploaded_file($files['rib']['tmp_name'],'Ressources/files/'.$ribName);
-		return($result);
+		move_uploaded_file($files['fileRib']['tmp_name'],'Ressources/files/'.$ribName);
+
+		return(array('result'=>$result , 'ribName'=>$ribName, 'bilanName'=>$bilanName, 'kbisName'=>$kbisName));
+		 
 	}
 
 	// modifier fiche
@@ -901,8 +905,8 @@ class SqlModel extends Model{
 	    	'voieRueComplement'=>$post['rue2Commande'],
 			'voieRuePaiementComplement'=> $post['rue2Paiement'] ,
             'objetComptable' => $post['objetComptable'] ,
-            'genreFournisseur' => $post['genreFrs'] ,
-            'typeDemande' => $post['typeDemande'], 
+            'genreFournisseur' => $get['genre'] ,
+            'typeDemande' => $get['typeDde'], 
             'langue' => $post['langue'] 	));
 
 

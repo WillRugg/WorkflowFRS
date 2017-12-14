@@ -19,7 +19,7 @@ class AchatsController extends Controller {
 		
 		$AttenteModel = new SqlModel();
 		$ListeAttente = $AttenteModel->AfficheEnAttente();
-
+ 
 		require('View/Connecte/accueil.php') ;
 	}
 

@@ -32,17 +32,18 @@ ob_start();
 			<div class="well" >
 
        		
-       		<h2><span class="glyphicon glyphicon-pencil"></span> <?php if($session=='fournisseur'){ ?> Bonjour, veuillez remplir les informations relatives à <?php echo $UnFournisseur['raisonSociale'];?> <?php } else{ ?> &nbsp;&nbsp; 
+       		<h2><span class="glyphicon glyphicon-pencil"></span> <?php if(isset($session) && $session=='fournisseur'){ ?> Bonjour, veuillez remplir les informations relatives à <?php echo $UnFournisseur['raisonSociale'];?> <?php } else { ?> &nbsp;&nbsp; 
        				<?php if($this->get['genre'] == 'G')  { echo "Fiche Fournisseur Frais Généraux à compléter"; } 
-       				elseif ($this->get['genre'] == 'I')  { echo "Fiche Fournisseur Industriel à compléter"; } }?> </h2>
+       				elseif ($this->get['genre'] == 'I')  { echo "Fiche Fournisseur Industriel à compléter"; }  
+       				elseif ($this->get['genre'] == 'M')  {  echo "Fournisseur M3 à modifier "; } } ?> </h2>
 			</div>
 		</legend>	 
 	
-		<fieldset class = "thumbnail" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
+		<fieldset class = "thumbnail" <?php if(isset($session) && $session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 			
 		<!-- partie user non modifiable -->	
 			<div class="col-sm-12 ">
-				<input type="hidden" name="origine" id="origineHidden" value="<?php echo $origine ?>" />
+				<!--<input type="hidden" name="origine" id="origineHidden" value="<?php echo $origine ?>" /> -->
 				<div class="form-group col-sm-4">
 				    <label for="formGroupExampleInput2">Entité</label>
 				 	<!-- afficher nom entite -->
@@ -206,7 +207,7 @@ ob_start();
                     </select> 
                 </div>
                 <div cl lass="form-group col-sm-12">
-			 		<div <?php if($session == 'fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-6">
+			 		<div <?php if(isset($session) && $session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-6">
 				    	<label for="formGroupExampleInput2">Groupe d'appartenance du Fournisseur</label>
 				    	  	<select name="groupeAppartenance"  class="form-control " id="groupeAppartenance"  > 
 								<option value ="" > Sans ou Sélectionner une valeur</option>
@@ -221,7 +222,7 @@ ob_start();
 								?>
 	                    	</select> 
 			    	</div>  
-			    	<div <?php if($session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-4">
+			    	<div <?php if(isset($session) && $session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-4">
 			  			 <label for="formGroupExampleInput2">Nature du Fournisseur </label>
 				    		<select  class="form-control " id="natureFournisseur" name="natureFournisseur"  > 
 				    			<option value="100" 
@@ -233,7 +234,7 @@ ob_start();
 		   		</div>
 		   		<div class="col-sm-12">&nbsp;</div>
 		   		<div class="col-sm-12">
-			   		<div class="col-sm-6" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
+			   		<div class="col-sm-6" <?php if(isset($session) && $session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 				    	<label for="formGroupExampleInput2">Groupe Fournisseur</label>
 				    	  	<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur"  > 
 								<?php
@@ -247,7 +248,7 @@ ob_start();
 								?>
 	                    	</select> 
 			    	</div> 
-			    	<div class="col-sm-6" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
+			    	<div class="col-sm-6" <?php if(isset($session) && $session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 		  		    <label for="formGroupExampleInput2">Langue (Fr ou Gb ) </label>
 			    		<select name="langue"  class="form-control " id="langue" > 
 							<option value ="FR" <?php  if ($UnFournisseur['langue'] == "FR" ) { ?> selected="selected" <?php } ?> > FR- Français  </option>
@@ -259,7 +260,7 @@ ob_start();
 
  		</fieldset>
 
- 		<fieldset <?php if($session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-12 control-label thumbnail">
+ 		<fieldset <?php if(isset($session) && $session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?> class="col-sm-12 control-label thumbnail">
  			<div class="col-sm-12">		 
 		   		<legend class="scheduler-border">Conditions Logistiques</legend>
 		   		<div class="col-sm-12">	
@@ -307,7 +308,7 @@ ob_start();
 
 
     	<!-- Type produits -->
-    	<fieldset class="col-sm-12 control-label thumbnail" <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
+    	<fieldset class="col-sm-12 control-label thumbnail" <?php if(isset($session) && $session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?>>
 	 	<div class="col-sm-12">
 
 	   		<legend class="scheduler-border">Type de produits</legend>	
@@ -475,7 +476,7 @@ ob_start();
 
     	</fieldset>
  
-    	<fieldset class="col-sm-12 control-label thumbnail" <?php if($session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?>>
+    	<fieldset class="col-sm-12 control-label thumbnail" <?php if(isset($session) && $session=='fournisseur' || $this->get['genre'] == 'G'){ ?>style="display: none;"<?php }else{	}?>>
 	 		<div class="form-group col-sm-12">
 		   		<legend class="scheduler-border">Informations Suplémentaires</legend>
 		   		<div class="form-group col-sm-4">
@@ -519,11 +520,12 @@ ob_start();
 	    
 	  	
 		<a href="" onclick="<?php if($session=='admin') {?> return(confirm('Envoyer vers M3 ?')) <?php } else { ?> return(confirm('Confirmer la mise à jour ?')) <?php } ?>  ;">   
-			<INPUT TYPE="submit" class="btn btn-info <?php if($session=='fournisseur'){?> col-sm-offset-4 col-sm-4  <?php }else{?>  col-sm-offset-1 col-sm-5 <?php	}?>" value="Valider" name="Valider"/>
+			<INPUT TYPE="submit" class="btn btn-info <?php if(isset($session) && $session=='fournisseur'){?> col-sm-offset-4 col-sm-4  <?php }else{?>  col-sm-offset-1 col-sm-5 <?php	}?>" 
+			value="Valider" name="Valider"/>
 		</a>
 
 		<a href="" onclick="return(confirm('Mettre à jour et mettre en attente ?'));">   
-			<INPUT <?php if($session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> TYPE="submit" class="btn btn-info col-sm-offset-1 col-sm-5" name="Attente" value="Mettre en attente"/>
+			<INPUT <?php if(isset($session) && $session=='fournisseur'){ ?>style="display: none;"<?php }else{	}?> TYPE="submit" class="btn btn-info col-sm-offset-1 col-sm-5" name="Attente" value="Mettre en attente"/>
 		</a>
 	   
 	</form>

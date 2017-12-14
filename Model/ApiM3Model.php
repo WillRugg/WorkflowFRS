@@ -62,7 +62,7 @@ class ApiM3Model extends ApiModel {
  			$dtfm =	'DMY';  
  			$mepf =	'41';  
  			$hafe =	'&D'; 
- 			$sucl = $post['groupeFournisseur']; 
+ 			
  			$qucl = '';
 			
 			if ($get['genre'] == 'G') {
@@ -70,11 +70,13 @@ class ApiM3Model extends ApiModel {
  				$cobi =	$post['groupeAppartenance'];
  				$vtcd = 07;
  				$orty = "300";
+ 				$sucl = "FGX"; 
  			} else {
  				$tedl =	$post['incotermGroupe'];
  				$cobi =	$post['groupeAppartenance'];
  				$vtcd =	int($post['typeProduit']); 
  				$orty =	$post['natureFournisseur'];
+ 				$sucl = $post['groupeFournisseur']; 
  			}
  			$modl =	'&D ';	  
  			$teaf =	'1';  
@@ -174,14 +176,14 @@ class ApiM3Model extends ApiModel {
 			} 
 			else
 			{
-				$erreur['succes'] = 'Le fournisseur '.$numeroString. ' a bien été créé dans M3';
+				$erreur['succes'] = 'Le fournisseur '.$numeroString. ' a bien '.utf8_encode(é).'t'.utf8_encode(é).' cr'.utf8_encode(é).''.utf8_encode(é).' dans M3';
 				//echo "<script type='text/javascript'>alert('le founisseur a bien été créé dans M3');</script>";
 			}
 
 		}	// / si open échoué
 		else 
 		{
-		    $erreur['connexion'] = 'La connexion api a échoué';	
+		    $erreur['connexion'] = 'La connexion api a '.utf8_encode(é).'chou'.utf8_encode(é).'';	
 		    //echo "<script type='type/text/javascript'>alert('La connexion api a échoué.')</script>";
 		}
 		$this->close();

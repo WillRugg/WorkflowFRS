@@ -83,9 +83,10 @@ if (isset($this->get['FRS'])) {
  				
  				<!-- ligne 3 --> 
 	   			<div class="form-group col-sm-12">
+	   				<div class="col-sm-11 "> <p> Pour les champs Siren, Complément et Tva , ne pas saisir d'espaces , tous les caractères doivent se tenir.  </p> 	</div>
 	   				<!-- Siren -->
 			   		<div class="form-group col-sm-4">
-					    <label for="formGroupExampleInput2" >Siren</label>
+					    <label for="formGroupExampleInput2" > Siren </label>
 					    <input type="text" class="form-control" id="siret" name ="siret"  size="9" maxlength="9" placeholder="Siren" >
 					</div>
 					<!-- Complément -->
@@ -96,7 +97,7 @@ if (isset($this->get['FRS'])) {
 					</div>
 					<!-- Tva Intra -->
 					<div class="form-group col-sm-4">
-					    <label for="formGroupExampleInput2">TVA</label>
+					    <label for="formGroupExampleInput2">TVA </label>
 					    <input type="text" class="form-control" id="tvaIntra" name="tvaIntra" size="15" maxlength="15" 
 					           placeholder="Tva Intracommunautaire">
 			    	</div> 
@@ -120,7 +121,7 @@ if (isset($this->get['FRS'])) {
 		    		<div class="form-group col-sm-10">
 				    	<label for="formGroupExampleInput2"> Complément Voie/Rue </label>
 				    	<input type="text" class="form-control" id="rue2Commande" name="rue2Commande" size="36" maxlength="36"
-				    	       placeholder="Voie rue" data-toggle="tooltip"  title="saisie falcutative du complément adresse"  >
+				    	       placeholder="Complément Voie rue" data-toggle="tooltip"  title="saisie obligatoire du complément adresse"  >
 			    	</div>
 		    		<!-- C.P -->
 			        <div class="form-group col-sm-3">
@@ -250,7 +251,9 @@ if (isset($this->get['FRS'])) {
 			   	<!-- Groupe --> 
 			    <div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
-			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" > 
+			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" 
+			    			<?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> 
+			    			data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" > 
 								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
 								<?php
 								foreach ($array['groupeFournisseur'] as $unGroupe) {
@@ -259,7 +262,12 @@ if (isset($this->get['FRS'])) {
 								<?php 
 								}
 							?>
-                    	</select>		    	
+                    	</select>
+                    	<input type="text"  class="form-control" id="groupeFournisseur"  name="groupeFournisseur"  value='FGX'  
+			   			 readonly <?php  if ($origine == 'ind'){ ?> style="display: none" <?php } ?>> 	
+ 
+
+
 			   	</div>
 			   	<!-- Langue -->
 			   	<div class="col-sm-6">
@@ -474,25 +482,25 @@ if (isset($this->get['FRS'])) {
 			   		</div>
      		 	</div>
  		 		<div class="col-sm-6 "> &nbsp;   	</div>
-
+ 		 		<div class="col-sm-11 "> <p> Pour les champs du Rib , ne pas saisir d'espaces , tous les caractères doivent se tenir.  </p> 	</div>
 				<div class="col-sm-12">
 			   		<div class="form-group  col-sm-2" style="text-align: center;">
-			   			<label for="formGroupExampleInput2"> Code Banque </label>	
+			   			<label for="formGroupExampleInput2">  Code Banque    </label>	
 			   			<input type="text"  class="form-control" id="codeBanq" name="codeBanq"  size="5" maxlength="5" 
 			   			       placeholder="Code Banque" > 
 			   		</div>
 					<div class="form-group col-sm-3" style="text-align: center;">
-			     	 	<label for="formGroupExampleInput2" >  Code Etablissement </label>	
+			     	 	<label for="formGroupExampleInput2" > Code Etablissement () </label>	
 		    			<input type="text"  class="form-control" id="etabBanq" name="etabBanq"  size="5" maxlength="5"  
 		    			       placeholder="Etablissement Banque" > 
 		    		</div>
 	    			<div class="form-group col-sm-4" style="text-align: center;">
-	    				<label for="formGroupExampleInput2" > N° Compte </label>
+	    				<label for="formGroupExampleInput2" > N° Compte   </label>
 	    				<input type="text"  class="form-control" id="numCompte" name="numCompte"  size="11" maxlength="11"  
 	    				       placeholder="Numero de Compte" > 
 	    			</div>
 			   		<div class="form-group  col-sm-2" style="text-align: center;">
-			   			<label for="formGroupExampleInput2" > Clé </label>	
+			   			<label for="formGroupExampleInput2" > Clé  </label>	
 			   			<input type="text"  class="form-control" id="cleCompte" name="cleCompte"  size="2" maxlength="2"  placeholder="Clé" > 
 			   		</div>
 		   		</div>
@@ -505,10 +513,13 @@ if (isset($this->get['FRS'])) {
 		    			<input type="text"  class="form-control" id="iban" name="iban"  size="27" maxlength="27"  placeholder="code IBAN" > 
 		    		</div>
 				   	<div class="form-group  col-sm-4" style="text-align: center;">
-			   			<label for="formGroupExampleInput2"> SWIFT </label>	
+			   			<label for="formGroupExampleInput2"> BIC / SWIFT </label>	
 			   			<input type="text"  class="form-control" id="swift" name="swift"  size="11" maxlength="11"  placeholder="Swift" > 
 			   		</div>
-					
+						<div class="form-group col-sm-4">
+							<label class="control-label"> Joindre Rib </label>
+							<input id="fileRib" name="fileRib" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+						</div>
 				</div>
 		     	 
     	 	</div>
@@ -537,10 +548,7 @@ if (isset($this->get['FRS'])) {
 							<label class="control-label"> Joindre Bilan </label>
 							<input id="bilan" name="bilan" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>
-						<div class="form-group col-sm-4">
-							<label class="control-label"> Joindre Rib </label>
-							<input id="rib" name="rib" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
-						</div>
+					
 						<div class="form-group col-sm-4 ">
 							<label class="control-label"> Joindre kbis </label>
 							<input id="kbis" name="kbis" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">

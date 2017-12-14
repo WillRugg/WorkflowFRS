@@ -117,6 +117,8 @@ class IndexController extends Controller {
 		$app_title="Créer Fournisseurs " ;
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
+		
+		$path= $_SERVER['DOCUMENT_ROOT'].'/WorkflowFRS/Ressources/files/';
 	
 		// récupérer les listes des données M3
 		$array = array();
@@ -143,14 +145,16 @@ class IndexController extends Controller {
 			 	$timeUnique='NA';
 			 	require('Model/SqlModel.php');
 			 	$FicheFournisseurModel = new SqlModel(); 
+			 	$result = array();
 				$result = $FicheFournisseurModel->createFiche($post,$get,$files,$etapeSuivante,$timeUnique,$session);
  				 
 				// envoi mail par phpmailer
-				if ($result) {
+				if ($result['result']) {
+					//var_dump('ligne 151 : ' ,$result['result']);
 					// envoi mail au demandeur
 					require('Module/envoiMail.php') ;
 					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
-
+										// $chemin = 'c:/xampp/htdocs/WorkflowFRS/Ressources/files/';
 					//$adresseMail = 'compta_wkf_frs@comeca-group.com'  ;
 					$adresseMail = 'achats_wkf_frs@comeca-group.com'  ;
 					$sujet = 'Workflow Fournisseur  à valider : '.$post['rsCommande'];
@@ -164,7 +168,7 @@ class IndexController extends Controller {
 					<!-- envoi du mail en table pour générer du HTML -->
 			 		<table style="font-family:sans-serif" border="1" >
 			 			<tr>
-							<th colspan="5">Vous avez une fiche Fournisseur à valider</th>
+							<th colspan="8">Vous avez une fiche Fournisseur à valider</th>
 							 
 						</tr>
 						<tr>
@@ -173,6 +177,9 @@ class IndexController extends Controller {
 							<th>Date creation</th>
 							<th>Nom Fournisseur</th>
 							<th>Raison Demande</th>
+							<th>Fichier Rib</th>
+							<th>Fichier Kbis</th>
+							<th>Fichier Bilan </th>
 						</tr>
 						<tr>
 							<td><?php echo $this->post['entiteDemandeur']; ?></td>
@@ -180,6 +187,34 @@ class IndexController extends Controller {
 							<td><?php echo $this->post['dateJour']; ?></td>
 							<td><?php echo $this->post['rsCommande']; ?></td>
 							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+							<td>
+								<?php
+								if (isset($result['ribName']) && !empty($result['ribName']) ) {
+								?>
+									<a href="<?php echo($path.$result['ribName']); ?>" ><?php echo ($result['ribName']); ?></a>
+								<?php
+								}
+								?>
+							</td>
+							<td>
+								<?php
+								if (isset($result['bilanName']) && !empty($result['bilanName']) ) { 
+								?>
+									<a href="<?php echo($path.$result['bilanName']); ?>"><?php echo ($result['bilanName']); ?>
+									</a> 
+								<?php
+								}
+								?>
+							</td>
+							<td>
+								<?php
+								if (isset($result['kbisName']) && !empty($result['kbisName']) ) {
+								?>		
+									<a href="<?php echo($path.$result['kbisName']); ?>" ><?php echo ($result['kbisName']); ?></a>
+								<?php
+								}
+								?>
+							</td>
 						</tr>
 					</table>
 						 
@@ -203,7 +238,7 @@ class IndexController extends Controller {
 		   		 	// ferme la connexion smtp et désalloue la mémoire...
 		    		unset($mail); 
 		    		// retour ecran choix => voir commet gérér le msg
-		    		$this->redirect('','choixFournisseur',array('envoiMail'=>$returnMail));
+		    		//$this->redirect('','choixFournisseur',array('envoiMail'=>$returnMail));
 
 				} 	// if ($result) 
 
@@ -226,6 +261,7 @@ class IndexController extends Controller {
 		require('View/Index/creation.php') ; 
 	}
 		
+
 	public function fenetreConfirmationAction() {
 
 		require 'lib/libphp-phpmailer/PHPMailerAutoload.php';
@@ -443,7 +479,7 @@ class IndexController extends Controller {
 						$derNumero = $db2Model->rechercheDernierFrsM3();
 						$numero= intval($derNumero[0])+1;
 				  		$numeroString = '0'.$numero;	
-					 		$resultM3 = $apiModel->creerfrsM3($this->post,$this->get,$numeroString);
+					 	$resultM3 = $apiModel->creerfrsM3($this->post,$this->get,$numeroString);
 						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
 					    $resultRibM3 = $db2Model->creerCompteBancaireM3($this->post,$numeroString);
 						
@@ -587,7 +623,7 @@ class IndexController extends Controller {
 
 			   	$ecart = $this->isUpdate($frsInitial,$this->post);
 
-			   	var_dump('611 : ' , $ecart);
+			   	 
 			   	// si le tableau n'est pas vide => des modifs ont été faites
 			   	if (is_array($ecart) ){
 			   		// envoi mail au demandeur
@@ -665,14 +701,10 @@ class IndexController extends Controller {
  
 	public function setSunoM3Action()
 	{
+		$session=null;
 		$app_title="UpdateFrsM3 " ;
 		$app_body="Body_UpdateFrsM3" ;
 		$app_desc="Comeca" ;	
-
-
-		// récupérer les listes des données M3
-		$array = array();
-		$array = $this->listesAction();
 
 		if($this->post) {
 		 
@@ -683,14 +715,11 @@ class IndexController extends Controller {
 			if (isset($post['Valider'])) {
 				$session ="user";
 			 	$etapeSuivante='achats';
-			
-			 	$frsM3 = 
 
-				$this->redirect('','updateM3',array('suno'=>$post['sunoM3'],
-													'etapeSuivante'=>$etapeSuivante));
+			$this->redirect('','updateM3',array('genre'=>'M','suno'=>$post['sunoM3'],
+												'etapeSuivante'=>$etapeSuivante ));
 
 			}
-
 
 		}
 
@@ -704,6 +733,17 @@ class IndexController extends Controller {
 		$app_title="UpdateFrsM3 " ;
 		$app_body="Body_UpdateFrsM3" ;
 		$app_desc="Comeca" ;	
+
+		require_once('Model/Db2Model.php');
+		$db2Model = new Db2Model();		
+		$apiModel = new ApiM3Model();
+
+		// Récup infos M3
+		$UnFournisseur = $db2Model->getInfosM3($this->get['suno']);
+		$typeAdr = '01';
+		$adressesCommande = $db2Model->getAdressesM3($this->get['suno'], $typeAdr );
+		$typeAdr = '10';
+		$adressePayeur =  $db2Model->getAdressesM3($this->get['suno'],$typeAdr);
 
 		// récupérer les listes des données M3
 		$array = array();

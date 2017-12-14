@@ -4,7 +4,7 @@
 		<div class="col-md-12">
 		
 			<div class="col-md-3">
-				<a href="<?php echo $this->link('','creeFournisseurs');?>"><img id="logoTop" src="Ressources/logo.jpg" alt="logoTop" height="50"/></a>
+				<a href="<?php echo $this->link('','choixFournisseur');?>"><img id="logoTop" src="Ressources/logo.jpg" alt="logoTop" height="50"/></a>
 			</div>
 			 
 			<div class=" col-md-5">

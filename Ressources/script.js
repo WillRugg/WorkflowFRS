@@ -24,6 +24,37 @@
 			monNomDemandeur.removeClass('alert-danger');
 		}
 
+		// verif Siren
+		var monSiren = $('#siret');
+		if (monSiren.val().length == 0 ) {
+			erreur = true;
+			monSiren.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monSiren.removeClass('alert-danger');
+		}
+
+		// verif complement Siren
+		var monComplementSiren = $('#complement');
+		if (monComplementSiren.val().length == 0 ) {
+			erreur = true;
+			monComplementSiren.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			monComplementSiren.removeClass('alert-danger');
+		}
+
+		// tva
+		var maTva = $('#tvaIntra');
+		if (maTva.val().length == 0 ) {
+			erreur = true;
+			maTva.addClass('alert-danger');
+		}  else {
+			erreur = false;
+			maTva.removeClass('alert-danger');
+		}
+
+
 		//-------------  ADRESSE COMMANDE  -----------------------//
 
 		// verif Rs commande
@@ -37,15 +68,14 @@
 		}
 
 		// verif rue commande
-		var maRueCommande = $('#rueCommande');		 
-		if (maRueCommande.val().length == 0 ) {
+		var rue2Commande = $('#rueCommande');		 
+		if (rue2Commande.val().length == 0 ) {
 			erreur = true;
-			maRueCommande.addClass('alert-danger');
+			rue2Commande.addClass('alert-danger');
 		}  else {
 			erreur = false;
-			maRueCommande.removeClass('alert-danger');
+			rue2Commande.removeClass('alert-danger');
 		}
-
 
 		// verifc p commande
 		var monCPCommande = $('#codePostal');

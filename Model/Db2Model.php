@@ -4,16 +4,31 @@ require_once('Model/Model.php') ;
 class Db2Model extends Model{
 
 	public function AfficheFournisseursExistants(){
-		$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN m3edbprod.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
+		$query = "SELECT trim(IDSUNM) AS IDSUNM,trim(SAADR3) AS SAADR3  FROM ".$this->biblio.".CIDMAS INNER JOIN m3edbtest.CIDADR ON IDCONO = SACONO AND IDSUNO = SASUNO WHERE IDSTAT =20";
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetchAll();
 
 	}
 
-	public function rechercheDernierFrsM3() {
+	public function getFournisseurM3() {
 	// attention changer Bib pour mise en prod 
-	$query = "SELECT max(idsuno) FROM m3edbprod.CIDMAS where idsuno between '00000' and '99999' "  ;
+	 
+		$query = "SELECT * FROM ".$this->biblio.".CIDMAS left join  where idsuno between '00000' and '99999' "  ;
+	 
+		$stmt = $this->pdo->query($query);
+					 
+		return $stmt->fetch();
+	}
+
+	public function rechercheDernierFrsM3() {
+		if (substr($_SERVER['DOCUMENT_ROOT'], 0, 2) == 'C:' )  {
+ 			$bib = 'm3edbtest';
+ 		} else {
+ 			$bib = 'm3edbprod';
+ 		}
+		$query = "SELECT max(idsuno) FROM ".$bib.".CIDMAS where idsuno between '00000' and '99999' "  ;
+ 	
 		$stmt = $this->pdo->query($query);
 					 
 		return $stmt->fetch();
@@ -118,11 +133,13 @@ class Db2Model extends Model{
 		{
 			$cucd=$post['deviseHG'];
 		} 
-		
-		
-		
-		$query = "INSERT INTO m3edbprod.cbanac(BCCONO,
-				 				BCDIVI,
+		if (substr($_SERVER['DOCUMENT_ROOT'], 0, 2) == 'C:' )  {
+ 			$bib = 'm3edbtest';
+ 		} else {
+ 			$bib = 'm3edbprod';
+ 		}
+
+		$query = "INSERT INTO ".$bib.".CBANAC(BCCONO,BCDIVI,
 								BCBKID, 
 								BCBKTP,
 								BCACHO,
@@ -242,6 +259,7 @@ class Db2Model extends Model{
 								0) ";
  
 		$stmt=$this->pdo->prepare($query) ;
+
 		$stmt->execute(array(
 							'acho'=>$acho,
 							'bana'=>$bana,
@@ -270,8 +288,6 @@ class Db2Model extends Model{
 
 		return($erreur);
 	}
-	
-
 
 	
 	public function  creerCompteBancaireM3Old($post,$numeroString) {
@@ -355,10 +371,10 @@ class Db2Model extends Model{
 		if (empty($erreurs)) {
 		
 						
-			$query = "UPDATE  m3edbtest.CIDMAS
+			$query = "UPDATE ".$this->biblio.".CIDMAS
 									SET  IDSUNM ='TEST SQL'
 									WHERE IDSUNO='09110'"; 
-			var_dump($query)	;	 		
+			 		
 			$stmt = $this->pdo->prepare($query);
 			
 				
