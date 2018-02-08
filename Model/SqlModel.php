@@ -420,7 +420,7 @@ class SqlModel extends Model{
 
 		move_uploaded_file($files['bilan']['tmp_name'],'Ressources/files/'.$bilanName);
 		move_uploaded_file($files['kbis']['tmp_name'],'Ressources/files/'.$kbisName);
-		move_uploaded_file($files['fileRib']['tmp_name'],'/Ressources/files/'.$ribName);
+		move_uploaded_file($files['fileRib']['tmp_name'],'Ressources/files/'.$ribName);
 		
 	
 		// historique => tablefrsHisto toujours insert

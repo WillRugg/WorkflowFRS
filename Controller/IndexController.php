@@ -118,7 +118,7 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
 		
-		$path= $_SERVER['DOCUMENT_ROOT'].'/WorkflowFRS/Ressources/files/';
+		$path= 'vairao/WorkflowFRS/Ressources/files/';
 	
 		// récupérer les listes des données M3
 		$array = array();
