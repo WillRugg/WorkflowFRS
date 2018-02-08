@@ -318,16 +318,16 @@ ob_start();
 			   
 		   		<div class="col-sm-12">
 			   	   	<div class="col-sm-6"><label class="scheduler-border">Type Produit </label>
-			     		<select name="typeProduit"  class="form-control " id="typeProduit" required <?php  if ($this->get['genre'] == 'G'){ ?> style="display: none" <?php } ?> > > 
+			     		<select name="typeProduit"  class="form-control " id="typeProduit" required >
 					   		<option value = "01" <?php  if ($UnFournisseur['BSSTypeProduit'] == "01" ) { ?> selected="selected" <?php } ?> > Biens </option>
+					   		<option value = "07" <?php  if ($UnFournisseur['BSSTypeProduit'] == "07" ) { ?> selected="selected" <?php } ?> > Frais Généraux Européen  </option>
 					   		<option value = "08" <?php  if ($UnFournisseur['BSSTypeProduit'] == "08" ) { ?> selected="selected" <?php } ?> > Frais Généraux Européen  </option>
 					   		<option value = "17" <?php  if ($UnFournisseur['BSSTypeProduit'] == "17" ) { ?> selected="selected" <?php } ?>  Fournisseur Espagne  </option>
 					   		<option value = "??" <?php  if ($UnFournisseur['BSSTypeProduit'] == "??" ) { ?> selected="selected" <?php } ?> > Service  </option>
 					   		<option value = "12" <?php  if ($UnFournisseur['BSSTypeProduit'] == "12" ) { ?> selected="selected" <?php } ?> > Exonere  </option>
 					   		<option value = "00" <?php  if ($UnFournisseur['BSSTypeProduit'] == "00" ) { ?> selected="selected" <?php } ?> > Sans TVA (ex: auto entrepreneur) </option>
 		 		   	   	</select>
-		 		   	   	<input type="text"  class="form-control" id="typeProduit"  name="typeProduit"  value='07 - TVA à 20% sur encaissement'  
-			   			 readonly <?php  if  ($this->get['genre'] == 'I' ){ ?> style="display: none" <?php } ?>>   		
+		 		  		
 			     	</div>
 
 					<!-- Objet Comptable -->

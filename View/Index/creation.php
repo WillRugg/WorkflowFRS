@@ -252,8 +252,12 @@ if (isset($this->get['FRS'])) {
 			    <div class="col-sm-6">
 		  			 <label for="formGroupExampleInput2">Groupe Fournisseur </label>
 			    			<select name="groupeFournisseur"  class="form-control " id="groupeFournisseur" 
-			    			<?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> 
 			    			data-toggle="tooltip"  title="saisie obligatoire du groupe Frs" > 
+			    			<?php  if ($origine == 'gen'){ 				 ?> 
+			    				<option value ="FGX" > FGX - Frais Généraux </option>
+			    				<option value ="X34" > X34 - Transporteur </option>
+			    			<?php } else  { ?> 
+			    			
 								<option value ="F4#" > F4# par defaut ou Sélectionner une valeur</option>
 								<?php
 								foreach ($array['groupeFournisseur'] as $unGroupe) {
@@ -261,10 +265,11 @@ if (isset($this->get['FRS'])) {
 									<option value=<?php  echo $unGroupe["CODE"];?>><?php echo $unGroupe["CODE"].'- '.$unGroupe["TXT40"];?></option> 
 								<?php 
 								}
+							}
 							?>
                     	</select>
-                    	<input type="text"  class="form-control" id="groupeFournisseur"  name="groupeFournisseur"  value='FGX'  
-			   			 readonly <?php  if ($origine == 'ind'){ ?> style="display: none" <?php } ?>> 	
+                    <!--	<input type="text"  class="form-control" id="groupeFournisseur"  name="groupeFournisseur"  value='FGX'  
+			   			 readonly <?php  if ($origine == 'ind'){ ?> style="display: none" <?php } ?> > 	-->
  
 
 
@@ -340,9 +345,9 @@ if (isset($this->get['FRS'])) {
 	 	<div class="col-sm-12">
 	   		<legend class="scheduler-border">Type de produits</legend>	
 			<!-- Type de produits -->
-	   	   	<div class="col-sm-6" >
+	   	   	<div class="form-group col-sm-6" >
 	   	   		<label class="scheduler-border">Type de produit </label>
-	     		<select name="typeProduit"  class="form-control " id="typeProduit"  <?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> > 
+	     		<select name="typeProduit2"  class="form-control " id="typeProduit2"  <?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> > 
 			   		<option  >Biens ? Services ? Sans TVA ?</option>
 			   		<option value = "01 "> Biens   </option>
 			   		<option value = "08 "> Frais Généraux Européen  </option>
@@ -351,7 +356,7 @@ if (isset($this->get['FRS'])) {
 			   		<option value = "12 "> Exonere  </option>
 			   		<option value = "00 "> Sans TVA (ex: auto entrepreneur) : 00 </option>
  		   	   	</select>  		
-				<input type="text"  class="form-control" id="typeProduit"  name="typeProduit"  value='07 - TVA à 20% sur encaissement'  
+				<input type="text"  class="form-control" id="typeProduit"  name="typeProduit"  value="07 "  
 			   			 readonly <?php  if ($origine == 'ind'){ ?> style="display: none" <?php } ?>> 
 	     	</div>
 	     	<!-- Objet Comptable -->
@@ -398,8 +403,8 @@ if (isset($this->get['FRS'])) {
 		   		    </div>
 				</div>	
 				<!-- Délai Règlement --> 
-				<div class="col-sm-offset-4 col-sm-4" style="text-align: center;">
-					<label for="formGroupExampleInput2" >Délai de règlement  </label> 
+				<div class="col-sm-offset-6 col-sm-6" style="text-align: center;">
+					<label for="formGroupExampleInput2" >Délai de règlement    </label> <br>
 				 	<i style="font-size: 12px ; "> * Accord nécéssaire du DAF si mode de règlement non standard(Traite à 45JFDM) </i> 
 				</div>
 			
@@ -449,9 +454,7 @@ if (isset($this->get['FRS'])) {
 			   		    	</select> 
 			   		     </div>
 	    	 		 </div>
-		    		<div class="form-group col-sm-12">	
-		    		   	<p class="col-sm-4"><i> * Joindre un RIB pour les fournisseurs étrangers  </i></p>	
-		    		</div>	
+		    		 
 		   		</div>
     	 	</div>
     	</fieldset>
@@ -558,10 +561,10 @@ if (isset($this->get['FRS'])) {
 	    <div class="col-md-12 msgJs" style="color: red">&nbsp; </div>
 	  	<!-- champ caché pour passer la valeur du domaine => achats pour validation par achats-->
 	  	<!-- <input type="hidden" class="form-control" id="domaine" name="domaine" value="achats" placeholder="Domaine"> -->
-	  	<div   >
+	  	<div >
 	  	 	 <a href="" onclick="return(confirm('Confirmer la création de la fiche fournisseur'));" >   
 		 	
-			 	<INPUT TYPE="submit" class="btn btn-info col-sm-5 "   name="Valider" value="Envoyer en validation - Achats"/>
+			 	<INPUT TYPE="submit" class="btn btn-info col-sm-5 " name="Valider" value="Envoyer en validation - Achats"/>
 			</a>
 		</div>
 		<div <?php  if ($origine == 'gen'){ ?> style="display: none" <?php } ?> >
