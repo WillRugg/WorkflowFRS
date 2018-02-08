@@ -3,6 +3,39 @@
 / -----------------------------------------------------------------------------------*/
  $(document).ready(function() {
 
+ 	$('form.formCreate #groupeFournisseur').on('click', function(e) {
+ 		$.urlParam = function (name) {
+ 			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			return results[1] || 0;
+ 		}
+	
+ 	 	var orig = $.urlParam('FRS');
+ 		//alert(orig.text());
+
+ 		if(orig == 'gen') {
+ 			//alert ('ok == gen');
+ 			var monGrpFrs = $('#groupeFournisseur') ;
+ 			if (monGrpFrs.val() == 'X34') {
+ 			 
+ 				$("#conditionReglementG").attr("value" ,  "30J" );	
+ 		 		$("#reglementGroupe").attr("value" , "LCR" );	
+  				$("#typeProduit").attr("value" ,  "01" );	
+ 				 
+ 			} else if (monGrpFrs.val() == 'FGX') {
+
+ 				$("#conditionReglementG").attr("value" ,  "45F" );
+ 				$("#reglementGroupe").attr("value" , "BOR" );	
+ 				$("#typeProduit").attr("value" ,  "07" );		
+
+ 			}
+
+ 		}
+
+ 	}); 
+ 
+							 
+
+
  	/* ---------------------------------------------------------------------------------------/
  	/	Affichage d une boite d'erreur si champ non saisis dans formulaire lors du "submit"  /
  	/----------------------------------------------------------------------------------------*/

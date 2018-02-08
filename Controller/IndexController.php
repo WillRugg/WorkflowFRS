@@ -118,8 +118,8 @@ class IndexController extends Controller {
 		$app_desc="Comeca" ;
 		$app_body="body_Index" ;
 		
-		$path= 'vairao/WorkflowFRS/Ressources/files/';
-	
+		$path= $_SERVER['DOCUMENT_ROOT'].'/WorkflowFRS/Ressources/files/';
+		// $path= 'vairao/WorkflowFRS/Ressources/files/';	
 		// récupérer les listes des données M3
 		$array = array();
 		$array = $this->listesAction();
@@ -401,7 +401,9 @@ class IndexController extends Controller {
 			
 			if(isset($post['Valider'])) 	// si on clique sur le bouton valider
 			{	
-				// si pas admin : soit achats soit compta
+				// --------------//
+				// si PAS ADMIN : achats ou compta
+				// --------------//
 				if($post['domaine'] !='admin')	
 				{	
 					if($post['domaine']=='achats')	
@@ -415,7 +417,7 @@ class IndexController extends Controller {
 					}
 					$frsM3 = 0;
 					$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3);
-					 
+					$UnFournisseur = $SqlModel->getInfos($this->get['ID']); 
 				 	// envoi mail au servu=ice suivant
 					require('Module/envoiMail.php') ;
 					$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
@@ -436,6 +438,9 @@ class IndexController extends Controller {
 							<th>Date creation</th>
 							<th>Nom Fournisseur</th>
 							<th>Raison Demande</th>
+							<th>Fichier Rib</th>
+							<th>Fichier Kbis</th>
+							<th>Fichier Bilan </th>
 						</tr>
 						<tr>
 							<td><?php echo $this->post['entiteDemandeur']; ?></td>
@@ -443,6 +448,34 @@ class IndexController extends Controller {
 							<td><?php echo $this->post['dateJour']; ?></td>
 							<td><?php echo $this->post['rsCommande']; ?></td>
 							<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+							<td>
+								<?php
+								if (isset($UnFournisseur['fileRib']) && !empty($UnFournisseur['fileRib']) ) {
+								?>
+									<a href="<?php echo($path.$UnFournisseur['fileRib']); ?>" ><?php echo ($UnFournisseur['fileRib']); ?></a>
+								<?php
+								}
+								?>
+							</td>
+							<td>
+								<?php
+								if (isset($UnFournisseur['bilan']) && !empty($UnFournisseur['bilan']) ) { 
+								?>
+									<a href="<?php echo($path.$UnFournisseur['bilan']); ?>"><?php echo ($UnFournisseur['bilan']); ?>
+									</a> 
+								<?php
+								}
+								?>
+							</td>
+							<td>
+								<?php
+								if (isset($UnFournisseur['kbis']) && !empty($UnFournisseur['kbis']) ) {
+								?>		
+									<a href="<?php echo($path.$UnFournisseur['kbis']); ?>" ><?php echo ($UnFournisseur['kbis']); ?></a>
+								<?php
+								}
+								?>
+							</td>
 						</tr>
 					</table>
 					<?php
@@ -461,11 +494,15 @@ class IndexController extends Controller {
 		    		unset($mail); 
 		    		$this->redirect($session,'accueil',array('errorMail'=>$errorMail,'okMail'=>$okMail));
 				} // if($post['domaine']!='admin')
-				// si admin
+				
+				// --------------//
+				// si  ADMIN     //
+				// --------------//
 				elseif ($post['domaine'] =='admin')
 				{
 					$domaineSuivant = 'admin';
-					$testPourDomaine = 'Movex';			
+					$testPourDomaine = 'Movex';	
+					$adresseMailAdmin = 'd.lamberti@comeca-group.com'  ;		
 
 					// si dmaine de la fiche = admin
 					if ($testPourDomaine == 'Movex' && $UnFournisseur['domaineValidation'] == 'admin')
@@ -483,7 +520,7 @@ class IndexController extends Controller {
 						$resultAdrM3 = $apiModel->creerAdresseM3($this->post,$numeroString);
 					    $resultRibM3 = $db2Model->creerCompteBancaireM3($this->post,$numeroString);
 						
-						var_dump(' $resultAdrM3 : ', $resultAdrM3 );
+						//var_dump(' $resultAdrM3 : ', $resultAdrM3 );
 
 						
 						if (isset($resultM3['succes']) && isset($resultAdrM3['succes'])  && isset($resultRibM3['succes']) )
@@ -491,12 +528,14 @@ class IndexController extends Controller {
 							$domaineSuivant = 'Movex';
 							// pour user = MOVEX
 							$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$numeroString);
+							$UnFournisseur = $SqlModel->getInfos($this->get['ID']);
 							// envoi mail au demandeur
 							require('Module/envoiMail.php') ;
 							$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
 							$adresseMail = $post['nomDemandeur']  ;
 							$sujet = 'Workflow Fournisseur : Fournisseur M3 créé sous le num : '.$numeroString;
 							$mail->AddAddress($adresseMail);
+							$mail->AddAddress($adresseMailAdmin);
 						    $mail->Subject=$sujet; 
 							//Contenu du  message en HTML : table  
 						 	ob_start();
@@ -513,6 +552,9 @@ class IndexController extends Controller {
 									<th>Nom Fournisseur</th>
 									<th>Code Fournisseur M3</th>
 									<th>Raison Demande</th>
+									<th>Fichier Rib</th>
+									<th>Fichier Kbis</th>
+									<th>Fichier Bilan </th>
 								</tr>
 								<tr>
 									<td><?php echo $this->post['entiteDemandeur']; ?></td>
@@ -521,6 +563,34 @@ class IndexController extends Controller {
 									<td><?php echo $this->post['rsCommande']; ?></td>
 									<td><?php echo $numeroString; ?></td>
 									<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+									<td>
+										<?php
+										if (isset($UnFournisseur['fileRib']) && !empty($UnFournisseur['fileRib']) ) {
+										?>
+											<a href="<?php echo($path.$UnFournisseur['fileRib']); ?>" ><?php echo ($UnFournisseur['fileRib']); ?></a>
+										<?php
+										}
+										?>
+									</td>
+									<td>
+										<?php
+										if (isset($UnFournisseur['bilan']) && !empty($UnFournisseur['bilan']) ) { 
+										?>
+											<a href="<?php echo($path.$UnFournisseur['bilan']); ?>"><?php echo ($UnFournisseur['bilan']); ?>
+											</a> 
+										<?php
+										}
+										?>
+									</td>
+									<td>
+										<?php
+										if (isset($UnFournisseur['kbis']) && !empty($UnFournisseur['kbis']) ) {
+										?>		
+											<a href="<?php echo($path.$UnFournisseur['kbisName']); ?>" ><?php echo ($UnFournisseur['kbis']); ?></a>
+										<?php
+										}
+										?>
+									</td>
 								</tr>
 							</table>
 							<?php
@@ -543,12 +613,12 @@ class IndexController extends Controller {
 						//elseif (!isset($resultM3['succes']) || !isset($resultAdrM3['succes']) || !isset($resultRibM3['succes'])) 
 						{
 							 
-						$this->redirect('', 'update',array('ID'=>$get['ID'],
-															 'genre'=>$get['genre'],
-															 'typeDde'=>$get['typeDde'],
-														     'transa'=>$resultM3['transa'],
-															 'transaAdr'=>$resultAdrM3['transa'],
-															 'transaRib'=>$resultRibM3['transa']));
+						$this->redirect('', 'update',array(	'ID'=>$get['ID'],
+														   	'genre'=>$get['genre'],
+														   	'typeDde'=>$get['typeDde'],
+														   	'transa'=>$resultM3['transa'],
+															'transaAdr'=>$resultAdrM3['transa'],
+															'transaRib'=>$resultRibM3['transa']));
 															//'transaAdr'=>$resultAdrM3['transa']));
 						}			
 
@@ -558,11 +628,12 @@ class IndexController extends Controller {
 
 			} 	// if(isset($post['Valider']))
 
-			elseif (isset($post['Attente'])) // si // si on clique sur le bouton valider Attente 
+			elseif (isset($post['Attente']))  // si on clique sur le bouton valider Attente 
 			{
 				$domaineSuivant = $post['domaine'] ;
 				$frsM3 = 0;
 				$FicheFournisseurModel->updateFiche($post,$files,$get,$domaineSuivant,$session,$frsM3);
+				$UnFournisseur = $SqlModel->getInfos($this->get['ID']);
 				// envoi mail au demandeur
 				require('Module/envoiMail.php') ;
 				$mail = envoiMail() ;  //appel la fonction envoiMail de module pour connexion
@@ -571,7 +642,7 @@ class IndexController extends Controller {
 				$sujet = 'Workflow Fournisseur  en attente : '.$post['rsCommande'];
 						
 				$mail->Subject = $sujet;
-				$mail->AddAddress($adresseMail);
+				$mail->AddAddress($adresseMail); 
 				//Contenu du  message en HTML : table  
 			 	ob_start();
 			 	
@@ -588,6 +659,9 @@ class IndexController extends Controller {
 						<th>Date creation</th>
 						<th>Nom Fournisseur</th>
 						<th>Raison Demande</th>
+						<th>Fichier Rib</th>
+						<th>Fichier Kbis</th>
+						<th>Fichier Bilan </th>
 					</tr>
 					<tr>
 						<td><?php echo $this->post['entiteDemandeur']; ?></td>
@@ -595,6 +669,34 @@ class IndexController extends Controller {
 						<td><?php echo $this->post['dateJour']; ?></td>
 						<td><?php echo $this->post['rsCommande']; ?></td>
 						<td><?php echo nl2br($this->post['raisonDemande']); ?></td>
+						<td>
+							<?php
+							if (isset($UnFournisseur['fileRib']) && !empty($UnFournisseur['fileRib']) ) {
+							?>
+								<a href="<?php echo($path.$UnFournisseur['fileRib']); ?>" ><?php echo ($UnFournisseur['fileRib']); ?></a>
+							<?php
+							}
+							?>
+						</td>
+						<td>
+							<?php
+							if (isset($UnFournisseur['bilan']) && !empty($UnFournisseur['bilan']) ) { 
+							?>
+								<a href="<?php echo($path.$UnFournisseur['bilan']); ?>"><?php echo ($UnFournisseur['bilan']); ?>
+								</a> 
+							<?php
+							}
+							?>
+						</td>
+						<td>
+							<?php
+							if (isset($UnFournisseur['kbis']) && !empty($UnFournisseur['kbis']) ) {
+							?>		
+								<a href="<?php echo($path.$UnFournisseur['kbis']); ?>" ><?php echo ($UnFournisseur['kbis']); ?></a>
+							<?php
+							}
+							?>
+						</td>
 					</tr>
 				</table>
 					 

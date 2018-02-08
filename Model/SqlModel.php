@@ -184,8 +184,7 @@ class SqlModel extends Model{
 		if(!empty($files['fileRib']['name'])) 	{
 			$ribName=$post['dateJour'].'_'.$files['fileRib']['name'] ;
 		}
-		var_dump($ribName);
-		
+				
 		if ($get['FRS'] == 'gen') {
 			
 			$natureFournisseur = "300" ;
